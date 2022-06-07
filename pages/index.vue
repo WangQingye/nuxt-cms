@@ -1,21 +1,35 @@
 <template>
-  <div>
-    <Tutorial />
-    <p class="test">11</p>
+  <div class="main">
+    <Header />
+    <nuxt-child style="padding-top: 80px;"></nuxt-child>
+    <Footer />
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'IndexPage',
+  name: 'Main',
+  async asyncData(context) {
+    let data = await context.app.$api.banner.getWebConfig()
+    context.store.commit('config/setWebConfig', data)
+  },
 }
 </script>
+
 <style lang="scss" scoped>
-$color: red;
-.nuxt-logo {
-  height: 180px;
-}
-.test {
-  color: $--color-primary;
+.main {
+  width: 100%;
+  min-width: 1200px;
+  position: relative;
+  // 纯色
+  background: linear-gradient(to bottom, $--color-primary 390px, #fbfbfa 390px);
+
+  // 图片
+  // background: url(../assets/imgs/sucaibg.jpg) left top no-repeat,
+  //   #fbfbfa right bottom repeat;
+
+  background-size: 100%, 390px, auto;
+  height: auto;
 }
 </style>

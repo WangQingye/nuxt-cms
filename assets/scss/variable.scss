@@ -1,1 +1,35 @@
-$--color-primary: blue;
+$--color-primary: #0048FF;
+$--color-primary-light: mix(#fff, $--color-primary, 96%);
+
+
+// 公用代码
+@mixin ellipsisBasic($clamp:2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $clamp;
+}
+@mixin flex-between($alignItems: center) {
+  display: flex;
+  justify-content: space-between;
+  align-items: $alignItems;
+}
+@mixin flex-around($alignItems: 'center') {
+  display: flex;
+  justify-content: space-around;
+  align-items: $alignItems;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.7);
+  border: 3px solid transparent;
+  border-radius: 7px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.7);
+}
