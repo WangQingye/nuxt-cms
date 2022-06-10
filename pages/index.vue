@@ -13,6 +13,7 @@ export default {
   async asyncData(context) {
     let data = await context.app.$api.banner.getWebConfig()
     context.store.commit('config/setWebConfig', data)
+    console.log(data)
   },
 }
 </script>
@@ -20,10 +21,10 @@ export default {
 <style lang="scss" scoped>
 .main {
   width: 100%;
-  min-width: 1200px;
+  min-width: 1440px;
   position: relative;
   // 纯色
-  background: linear-gradient(to bottom, $--color-primary 390px, #fbfbfa 390px);
+  background: linear-gradient(to bottom, $--color-primary 760px, #fbfbfa 760px);
 
   // 图片
   // background: url(../assets/imgs/sucaibg.jpg) left top no-repeat,

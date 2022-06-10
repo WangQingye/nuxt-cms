@@ -26,6 +26,9 @@ export default {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico'
+    }, {
+      rel: 'stylesheet',
+      href: '//at.alicdn.com/t/font_3251212_cjw99x5fe1f.css'
     }],
   },
 
@@ -33,7 +36,10 @@ export default {
   css: ['@/assets/scss/reset.scss', 'element-ui/lib/theme-chalk/index.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/element-ui', '@/plugins/api', '@/plugins/filters', {src: '~/plugins/swiper.js', ssr: false},],
+  plugins: ['@/plugins/element-ui', '@/plugins/api', '@/plugins/filters', {
+    src: '~/plugins/swiper.js',
+    ssr: false
+  }, '@/plugins/utils', ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -49,7 +55,8 @@ export default {
   ],
   styleResources: {
     scss: [
-      '@/assets/scss/variable.scss'
+      '@/assets/scss/variable.scss',
+      '@/assets/scss/element-variables.scss'
     ]
   },
 
@@ -62,5 +69,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/],
+  },
+  router: {
+    middleware: ["device"],
   },
 }

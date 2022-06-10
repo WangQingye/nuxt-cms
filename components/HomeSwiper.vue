@@ -33,7 +33,7 @@ export default {
   },
   async created() {
     const { data } = await this.$api.banner.bannerList({type: 'home'})
-      this.list = data.map(o => {
+      this.list = data && data.map(o => {
         o.cover = this.$options.filters['cloudImage'](o.cover)
         return o
       })

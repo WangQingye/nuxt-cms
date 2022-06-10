@@ -1,36 +1,23 @@
 <template>
-  <div class='list-item' @click="$router.push(`/content/news-detail?id=${itemData.id}&key=${itemData.category_id}`)">
-    <div class='img-container'>
-      <img class="img" :src="itemData.cover|cloudImage" alt="logo">
-      <div class="img-cover">
-        <p>阅读全文</p>
+  <el-skeleton class='list-item' :loading="loading" animated>
+    <template slot="template">
+      <div class='img-container'>
+        <el-skeleton-item variant="image" class="img" />
       </div>
-    </div>
-    <div class="tags">
-      <el-tag class="tag" type="info" v-if="itemData.isNew">新</el-tag>
-      <el-tag class="tag" type="info" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
-      </el-tag>
-    </div>
-    <p class='title'>{{ itemData.title }}</p>
-    <p class='desc'>{{ itemData.digest }}</p>
-  </div>
+      <div class="tags">
+        <el-skeleton-item variant="text" />
+      </div>
+      <el-skeleton-item class='title' variant="text" />
+      <el-skeleton-item class='desc' variant="text" />
+    </template>
+  </el-skeleton>
 </template>
 <script>
 export default {
   props: {
-    itemData: {
-      type: Object,
-      default: () => {
-        return {
-          id: '87bc10c00baa42bb917908e89834ba83',
-          is_top: false,
-          title: '标题',
-          digest: "第七届中国国际“互联网+”大学生创新创业大赛总决赛在南昌大学举行。重庆大学的创新创业团队表现优异，7件入围总决赛答辩项目获得了5金2银的历史最好成绩。此次比赛，交大不仅金奖数量及获奖总数创历史新高，而且实现了红旅赛道历史首金的突破，并获上海市的“先进集体奖”",
-          cover: 'https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/02/03/ChMkJlbKxy-IT_laAAP1DG9eVXQAALHwQC7EpUAA_Uk494.jpg',
-          thumb: undefined,
-        }
-      },
-    },
+    loading: {
+      default: true
+    }
   },
   data() {
     return {}

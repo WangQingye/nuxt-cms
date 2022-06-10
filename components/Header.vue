@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div :class="['header', isHomePage ? '':'header-hover']">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
         <span class="link">OA入口</span>
@@ -18,7 +18,7 @@
     </div>
     <div class="header-bottom">
       <img class="header-logo" v-if="$store.state.config.webConfig.site_front_logo" :src="$store.state.config.webConfig.site_front_logo|cloudImage" alt="logo">
-      <img class="header-logo" v-else src="" alt="">
+      <img class="header-logo" v-else src="https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7" alt="">
       <div class="header-right">
         <div class="header-tabs">
           <el-popover placement="bottom" trigger="hover" v-for="(tab,index) in tabList" :key="index">
@@ -36,6 +36,7 @@
               <span class="tab">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
             </span>
           </el-popover>
+          <i class="el-icon-search search-icon" @click="showSearch = !showSearch"></i>
         </div>
         <!-- <el-tabs class="header-tabs" @tab-click="handleClick" v-model="activeName">
           <el-tab-pane name="home">
@@ -73,9 +74,19 @@
             </div>
           </el-dropdown-menu>
         </el-dropdown>
-        <p class="login-button" @click="handleUlogin" v-else>用户登录</p>
+        <el-button class="login-button" type="primary" round @click="handleUlogin" v-else>用户登录</el-button>
       </div>
     </div>
+    <transition name="search">
+      <div class="search" v-show="showSearch">
+        <div class="search-container">
+          <el-input placeholder="输入关键词进行搜索..." v-model="searchText">
+          </el-input>
+          <el-button type="primary" icon="el-icon-search" @click="clickSearch">搜索</el-button>
+        </div>
+      </div>
+    </transition>
+
   </div>
 </template>
 
@@ -100,7 +111,7 @@ export default {
               children: [
                 {
                   name: '课程体系',
-                  url: '1',
+                  url: '16',
                 },
               ],
             },
@@ -113,15 +124,15 @@ export default {
               children: [
                 {
                   name: '课程体系',
-                  url: '1',
+                  url: '11',
                 },
                 {
                   name: '课程体系1',
-                  url: '1',
+                  url: '13',
                 },
                 {
                   name: '课程体系3',
-                  url: '1',
+                  url: '15',
                 },
               ],
             },
@@ -133,11 +144,11 @@ export default {
                 },
                 {
                   name: '课程体系5',
-                  url: '1',
+                  url: '12',
                 },
                 {
                   name: '课程体系6',
-                  url: '1',
+                  url: '13',
                 },
               ],
             },
@@ -147,11 +158,29 @@ export default {
           name: '中心概况',
           children: [
             {
-              name: '教育教学',
+              name: '教育教学2',
               children: [
                 {
                   name: '课程体系',
-                  url: '1',
+                  url: '2',
+                },
+              ],
+            },
+            {
+              name: '教育教学3',
+              children: [
+                {
+                  name: '课程体系',
+                  url: '3',
+                },
+              ],
+            },
+            {
+              name: '教育教学4',
+              children: [
+                {
+                  name: '课程体系',
+                  url: '4',
                 },
               ],
             },
@@ -160,35 +189,20 @@ export default {
               children: [
                 {
                   name: '课程体系',
-                  url: '1',
-                },
-              ],
-            },
-            {
-              name: '教育教学',
-              children: [
-                {
-                  name: '课程体系',
-                  url: '1',
-                },
-              ],
-            },
-            {
-              name: '教育教学',
-              children: [
-                {
-                  name: '课程体系',
-                  url: '1',
+                  url: '21',
                 },
                 {
                   name: '课程体系1',
-                  url: '1',
+                  url: '34',
                 },
               ],
             },
           ],
         },
       ],
+      searchText: '',
+      showSearch: false,
+      isHomePage: false
     }
   },
   // computed: {
@@ -203,7 +217,7 @@ export default {
         if (window.pageYOffset > 40) {
           this.showHeaderTop = false
         } else {
-          this.showHeaderTop = true
+          if (this.isHomePage) this.showHeaderTop = true
         }
       }
     }
@@ -230,17 +244,18 @@ export default {
     close() {
       window.close()
     },
+    clickSearch() {
+      this.showSearch = false;
+      this.$router.push(`/search?text=${this.searchText}`);
+    },
   },
   watch: {
-    '$route.path': {
+    '$route.name': {
       immediate: true,
       handler: function (val) {
-        ;['home', 'news', 'models', 'production', 'user'].find((p) => {
-          if (val.indexOf(p) !== -1) {
-            this.activeName = p
-            return p
-          }
-        })
+        console.log(val)
+        this.isHomePage = val == 'index-home'
+        this.showHeaderTop = val == 'index-home'
       },
     },
   },
@@ -305,6 +320,9 @@ export default {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3px);
+    color: white;
+    position: relative;
+    z-index: 2;
     .header-logo {
       height: 50px;
       z-index: 2;
@@ -318,13 +336,20 @@ export default {
         height: 80px;
         .tab {
           width: auto;
-          padding: 0 20px;
+          // padding: 0 20px;
+          margin: 0 20px;
+          cursor: pointer;
           font-size: 15px;
           text-align: center;
-          line-height: 80px;
           display: inline-block;
-          height: 80px;
           color: white;
+        }
+        .search-icon {
+          font-size: 20px;
+          font-weight: bold;
+          cursor: pointer;
+          line-height: 80px;
+          margin-right: 20px;
         }
       }
 
@@ -341,22 +366,34 @@ export default {
         z-index: 2;
         width: 120px;
         text-align: center;
-        line-height: 40px;
         cursor: pointer;
         height: 40px;
-        color: white;
-        border: 2px solid #f1f1f1;
-        border-radius: 20px;
         margin-left: 25px;
-
-        &:hover {
-          opacity: 0.8;
-        }
       }
     }
   }
+  .search {
+    height: 150px;
+    padding: 0 5%;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+    .search-container {
+      border-top: 1px solid #e8eaed;
+      width: 100%;
+      height: 150px;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 100px;
+      box-sizing: border-box;
+      border-radius: 0 0 4px 4px;
+    }
+  }
 }
-.header:hover {
+.header:hover, .header-hover {
   .header-top,
   .header-bottom {
     background-color: white;
@@ -370,17 +407,20 @@ export default {
   .header-bottom {
     .header-tabs {
       .tab {
-        color: #4d4d4d;
+        color: #4d4d4d !important;
       }
     }
     .el-dropdown-link {
       color: #4d4d4d;
     }
-    .login-button {
-      color: #4d4d4d;
-      border: 2px solid #4d4d4d;
-    }
   }
+}
+.search-enter-active, .search-leave-active {
+  transition: all .3s ease-in-out;
+}
+.search-enter, .search-leave-to {
+  opacity: 0;
+  transform: translateY(-100px);
 }
 </style>
 <style lang="scss">

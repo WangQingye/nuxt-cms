@@ -45,13 +45,13 @@
           </div>
         </el-col>
       </el-row>
-      <div class="activity">
+      <div class="activity" :style="{backgroundImage:`url(https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7)`}">
         <div class="title">
           <p>
             第六届中国国际“互联网+”大学生创新创业大赛上海赛区 暨“青年红色筑梦之旅”活动正式启动
           </p>
         </div>
-        <img class="img" src="~/static/imgs/sucaibg.jpg" alt="link" />
+        <!-- <img class="img" src="~/static/imgs/sucaibg.jpg" alt="link" /> -->
         <i class="el-icon-arrow-right link-arrow"></i>
       </div>
       <div class="sub-news" v-for="subNew in subNews" :key="subNew.name">
@@ -236,15 +236,15 @@ export default {
           title: '常用链接',
           links: [
             {
-              name: '上海交通大学官网',
+              name: '上海交通大学官网1',
               url: '321312',
             },
             {
-              name: '上海交通大学官网',
+              name: '上海交通大学官网2',
               url: '321312',
             },
             {
-              name: '上海交通大学官网',
+              name: '上海交通大学官网3',
               url: '321312',
             },
           ],
@@ -343,21 +343,20 @@ export default {
       width: 100%;
       z-index: 3;
       position: relative;
-      margin-top: -10%;
+      margin-top: -150px;
       margin-bottom: 60px;
       .single-menu {
         cursor: pointer;
         background: white;
         border-radius: 4px;
-        height: 0;
-        padding-left: 15px;
-        padding-top: 15px;
-        padding-right: 15px;
-        padding-bottom: 80%;
+        height: 200px;
+        padding: 20px 24px;
+        box-sizing: border-box;
+        // padding-bottom: 80%;
         transition: all 0.3s linear;
         .top {
           @include flex-between;
-          margin-bottom: 20%;
+          margin-bottom: 38px;
           .menu-icon {
             width: 50px;
             height: 50px;
@@ -368,7 +367,7 @@ export default {
           font-size: 18px;
           color: #1a1a1a;
           font-weight: bold;
-          margin-bottom: 15px;
+          margin-bottom: 14px;
         }
         .desc {
           width: 100%;
@@ -463,13 +462,15 @@ export default {
       }
     }
     .activity {
-      position: relative;
       cursor: pointer;
+      position: relative;
+      width: 100%;
+      padding-bottom: 16%;
       .title {
         position: absolute;
         left: 0;
-        top: 0;
-        padding: 60px 100px;
+        top: 14%;
+        padding: 0 10%;
         p {
           text-align: left;
           font-size: 54px;
@@ -479,11 +480,11 @@ export default {
           line-height: 72px;
         }
       }
-      .img {
-        width: 100%;
-        height: 260px;
-        object-fit: cover;
-      }
+      // .img {
+      //   width: 100%;
+      //   height: 260px;
+      //   object-fit: cover;
+      // }
       .link-arrow {
         position: absolute;
         right: 20px;
