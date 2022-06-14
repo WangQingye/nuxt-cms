@@ -13,7 +13,6 @@ export default {
   async asyncData(context) {
     let data = await context.app.$api.banner.getWebConfig()
     context.store.commit('config/setWebConfig', data)
-    console.log(data)
   },
 }
 </script>
