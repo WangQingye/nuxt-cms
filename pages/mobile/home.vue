@@ -2,6 +2,7 @@
   <div class="mobile-home">
     <el-carousel :interval="3000"
       arrow="never"
+      height="3.8rem"
       indicator-position="none">
       <el-carousel-item v-for="item in bannerList"
         :key="item.id">
@@ -17,7 +18,9 @@
       </el-carousel-item>
     </el-carousel>
     <div class="menu-list">
-      <div class="single-menu" v-for="menu in menuList" :key="menu.url">
+      <div class="single-menu"
+        v-for="menu in menuList"
+        :key="menu.url">
         <div class="top">
           <img class="menu-icon"
             :src="menu.icon"
@@ -27,6 +30,23 @@
         <p class="name">{{menu.name}}</p>
         <p class="desc">{{menu.desc}}</p>
       </div>
+    </div>
+    <div class="main-container">
+      <BigTitleMobile cn-text="中心要闻"
+        en-text="SIC NEWS"
+        :moreUrl="'a'" />
+      <el-carousel :interval="3000"
+        height="1.75rem"
+        indicator-position="none">
+        <el-carousel-item v-for="item in bannerList"
+          :key="item.id">
+          <div class="carousel-item"
+            :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
+            <p class="big-text"
+              v-html="item.title">{{ item.title }}</p>
+          </div>
+        </el-carousel-item>
+      </el-carousel>
     </div>
   </div>
 </template>
@@ -94,13 +114,16 @@ export default {
 <style lang="scss" scoped>
 .mobile-home {
   font-size: 0.12rem;
+  background: #f2f4f7;
   .carousel-item {
     width: 100%;
     height: 3.8rem;
     background: $--color-primary;
     padding-top: 0.8rem;
     padding-left: 0.2rem;
+    box-sizing: border-box;
     color: white;
+    background-size: 100% 100%;
     .big-text {
       font-size: 0.28rem;
       line-height: 0.4rem;
@@ -119,43 +142,54 @@ export default {
       text-align: center;
     }
   }
-
-    .menu-list {
-      width: 100%;
-      z-index: 3;
-      position: relative;
-      margin-top: -0.45rem;
-      margin-bottom: 0.37px;
-      .single-menu {
-        cursor: pointer;
-        background: white;
-        border-radius: 4px;
-        height: 1.14rem;
-        width: 1.47rem;
-        padding: 0.1rem;
-        box-sizing: border-box;
-        .top {
-          @include flex-between;
-          margin-bottom: 0.27rem;
-          .menu-icon {
-            width: 0.28rem;
-            height: 0.28rem;
-            border-radius: 0.04rem;
-          }
-        }
-        .name {
-          font-size: 0.12rem;
-          color: #1a1a1a;
-          font-weight: bold;
-          margin-bottom: 0.07rem;
-        }
-        .desc {
-          width: 100%;
-          font-size: 0.1rem;
-          @include ellipsisBasic(1);
-          color: #999;
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+  .menu-list {
+    width: 100%;
+    z-index: 3;
+    position: relative;
+    margin-top: -0.45rem;
+    margin-bottom: 0.37rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-left: 0.2rem;
+    .single-menu {
+      cursor: pointer;
+      background: white;
+      display: inline-block;
+      border-radius: 4px;
+      height: 1.14rem;
+      width: 1.47rem;
+      padding: 0.1rem;
+      box-sizing: border-box;
+      margin-right: 0.04rem;
+      .top {
+        @include flex-between;
+        margin-bottom: 0.27rem;
+        .menu-icon {
+          width: 0.28rem;
+          height: 0.28rem;
+          border-radius: 0.04rem;
         }
       }
+      .name {
+        font-size: 0.12rem;
+        color: #1a1a1a;
+        font-weight: bold;
+        margin-bottom: 0.07rem;
+      }
+      .desc {
+        width: 100%;
+        font-size: 0.1rem;
+        @include ellipsisBasic(1);
+        color: #999;
+      }
     }
+  }
+  .main-container {
+    padding: 0 0.2rem;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-home">
-    <MobileHeader />
+    <HeaderMobile />
     <nuxt-child style="position: relative; z-index: 1;box-sizing:border-box;"></nuxt-child>
   </div>
 </template>
