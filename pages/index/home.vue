@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <client-only>
+    <!-- <client-only> -->
       <HomeSwiper />
-    </client-only>
+    <!-- </client-only> -->
     <div class="main-container">
       <el-row class="menu-list" :gutter="20">
         <el-col v-for="menu in menuList" :key="menu.url" :span="4">

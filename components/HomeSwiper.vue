@@ -1,5 +1,5 @@
 <template>
-  <swiper class="swiper" :options="swiperOptions">
+  <!-- <swiper class="swiper" :options="swiperOptions">
     <swiper-slide v-for="(item,index) in list" :key="index">
       <div class="first-swiper" :style="{backgroundImage:`url(${item.cover})`}">
         <p class="big-text" v-html="item.title">{{ item.title }}</p>
@@ -8,7 +8,16 @@
       </div>
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
-  </swiper>
+  </swiper> -->
+  <el-carousel :interval="3000" class="swiper" arrow="never" indicator-position="none">
+    <el-carousel-item v-for="(item,index) in list" :key="index">
+      <div class="first-swiper" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
+        <p class="big-text" v-html="item.title">{{ item.title }}</p>
+        <p class="small-text">{{ item.sub_title }}</p>
+        <p class="button" v-if="item.event_name" @click="$router.push('/production')">{{ item.event_name }}</p>
+      </div>
+    </el-carousel-item>
+  </el-carousel>
 </template>
 
 <script>
@@ -32,11 +41,13 @@ export default {
     }
   },
   async created() {
-    const { data } = await this.$api.banner.bannerList({type: 'home'})
+    const data = await this.$api.banner.bannerList({type: 'home'})
+    console.log(data)
       this.list = data && data.map(o => {
         o.cover = this.$options.filters['cloudImage'](o.cover)
         return o
       })
+      console.log(this.list)
   },
 }
 </script>
@@ -88,25 +99,6 @@ export default {
       &:hover {
         opacity: 0.8;
       }
-    }
-  }
-
-  ::v-deep .swiper-pagination {
-    text-align: right;
-    right: 160px;
-    bottom: 160px;
-
-    .swiper-pagination-bullet {
-      width: 40px;
-      height: 5px;
-      background: #ffffff;
-      opacity: 0.45;
-      border-radius: 1px;
-      margin-right: 10px;
-    }
-
-    .swiper-pagination-bullet-active {
-      opacity: 1;
     }
   }
 }

@@ -81,6 +81,8 @@ export default {
     z-index: 1;
     left: 0;
     top: -0.04rem;
+    width: 100%;
+    @include ellipsisBasic(1)
   }
 }
 </style>
