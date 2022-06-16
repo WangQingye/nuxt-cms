@@ -19,14 +19,22 @@
       <el-row class="news" :gutter="20">
         <el-col :span="14" class="left">
           <BigTitle cn-text="中心要闻" en-text="SIC NEWS" />
-          <swiper class="swiper" :options="swiperOptions">
+          <!-- <swiper class="swiper" :options="swiperOptions">
             <swiper-slide v-for="(item,index) in menuList" :key="index">
               <div class="swiper-item" :style="{backgroundImage:`url(${item.icon})`}">
                 <p class="desc">通知公告通知公告通知公告通知公告通知公告通知公告通知公告通知公告通知公告通知公告通</p>
               </div>
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
+          </swiper> -->
+
+          <el-carousel :interval="3000" class="swiper" height="400px" indicator-position="none">
+            <el-carousel-item v-for="item in menuList" :key="item.id">
+              <div class="swiper-item" :style="{backgroundImage:`url(${item.icon})`}">
+                <p class="desc" v-html="item.title">{{ item.title }}</p>
+              </div>
+            </el-carousel-item>
+          </el-carousel>
           <div class="list-container">
             <div class="list-item" v-for="item in news" :key="item.id">
               <el-tag type="warning">{{item.tag}}</el-tag>
@@ -388,9 +396,11 @@ export default {
         .swiper {
           .swiper-item {
             width: 100%;
-            padding-bottom: 50%;
+            // padding-bottom: 50%;
             border-radius: 4px 4px 0 0;
             position: relative;
+            background-size: 100% 100%;
+            height: 400px;
             .desc {
               position: absolute;
               left: 40px;
@@ -423,6 +433,15 @@ export default {
             }
           }
         }
+        .list-container {
+          min-height: 225px;
+        }
+      }
+      .right {
+        min-height: 100%;
+        .list-container {
+          min-height: 625px;
+        }
       }
       .list-container {
         width: 100%;
@@ -454,12 +473,7 @@ export default {
           }
         }
       }
-      .right {
-        height: 100%;
-        .list-container {
-          height: 100%;
-        }
-      }
+
     }
     .activity {
       cursor: pointer;

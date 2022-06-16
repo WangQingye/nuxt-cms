@@ -9,7 +9,7 @@
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper> -->
-  <el-carousel :interval="3000" class="swiper" arrow="never" indicator-position="none">
+  <el-carousel :interval="3000" height="760px" class="swiper" arrow="never" indicator-position="none">
     <el-carousel-item v-for="(item,index) in list" :key="index">
       <div class="first-swiper" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
         <p class="big-text" v-html="item.title">{{ item.title }}</p>
