@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="header-bottom">
-      <img class="header-logo" v-if="$store.state.config.webConfig.site_front_logo" :src="$store.state.config.webConfig.site_front_logo|cloudImage" alt="logo">
+      <img class="header-logo" v-if="$store.state.config.webConfig.site_front_logo" :src="isHomePage ? logo1 : logo2" alt="logo">
       <img class="header-logo" v-else src="https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7" alt="">
       <div class="header-right">
         <div class="header-tabs">
@@ -80,11 +80,15 @@
 // import { AuthorizeCode } from '@/api/user'
 // import { authorizeMixin } from '@/mixins/authorize'
 
+import logo1 from '~/static/imgs/home/logo_01@2x.png'
+import logo2 from '~/static/imgs/home/logo_02@2x.png'
 export default {
   name: 'Header',
   // mixins: [authorizeMixin],
   data() {
     return {
+      logo1,
+      logo2,
       activeName: 'home',
       isLogin: false,
       showHeaderTop: true,

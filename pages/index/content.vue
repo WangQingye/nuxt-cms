@@ -24,7 +24,7 @@
                   <el-menu-item v-for="thirdItem in subItem.children" :index="thirdItem.menuId" :key="thirdItem.menuId">
                     <template slot="title">
                       <div class="item-line">
-                        <span>{{thirdItem.title}}</span>
+                        <span>{{thirdItem.title}}11</span>
                         <el-tag class="tag" type="primary" v-if="thirdItem.num">
                           {{thirdItem.num}}
                         </el-tag>
@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import img from '~/static/imgs/sucaibg.jpg'
+import img from '~/static/imgs/home/topbg@2x.jpg'
 export default {
   data() {
     return {
