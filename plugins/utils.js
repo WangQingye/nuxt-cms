@@ -152,35 +152,52 @@ async function getInitData(context) {
   console.log('setinitdata')
 }
 function getSubMenuItem(menuItem, subMenuId) {
-  console.log(menuItem,subMenuId )
+  console.log(menuItem,subMenuId)
   let subMenuItem
-  menuItem.children.forEach(m => {
-    // 一级
-    if (m.menuId == subMenuId) {
-      subMenuItem = m
-    } else if (m.children) {
-      m.children.forEach(mc => {
-        // 二级
-        if (mc.menuId == subMenuId) {
-          subMenuItem = mc
-        } else if (mc.children) {
-          mc.children.forEach(mcc => {
-            // 三级
-            if (mcc.menuId = subMenuId) {
-              subMenuItem = mcc
-            }
-          })
-        }
-      })
-      // console.log(m.children)
-      // console.log(item)
-      // if (item) {
-      //   subMenuItem = item
-      // } else if () {
+  findItem(menuItem.children)
+  function findItem(arr) {
+    arr.forEach(a => {
+      if (a.menuId == subMenuId) {
+        subMenuItem = a
+        return;
+      } else if (a.children) {
+        findItem(a.children)
+      }
+    })
+    // let item = arr.find(a => a.menuId == subMenuId)
+    // if (item) {
+    //   return item
+    // } else if (arr.children) {
+    //   return findItem(arr.children)
+    // }
+  }
+  // menuItem.children.forEach(m => {
+  //   // 一级
+  //   if (m.menuId == subMenuId) {
+  //     subMenuItem = m
+  //   } else if (m.children) {
+  //     m.children.forEach(mc => {
+  //       // 二级
+  //       if (mc.menuId == subMenuId) {
+  //         subMenuItem = mc
+  //       } else if (mc.children) {
+  //         mc.children.forEach(mcc => {
+  //           // 三级
+  //           if (mcc.menuId = subMenuId) {
+  //             subMenuItem = mcc
+  //           }
+  //         })
+  //       }
+  //     })
+  //     // console.log(m.children)
+  //     // console.log(item)
+  //     // if (item) {
+  //     //   subMenuItem = item
+  //     // } else if () {
 
-      // }
-    }
-  })
+  //     // }
+  //   }
+  // })
   return subMenuItem
 }
 function getContentPageMenuData(menuList, menuId, subMenuId) {
