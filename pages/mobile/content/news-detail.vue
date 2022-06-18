@@ -1,21 +1,5 @@
 <template>
   <div :class="['news-detail']">
-    <div class="top">
-      <div class="left">
-        <el-tag class='tag' type="info" style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
-            tag
-          }}
-        </el-tag>
-        <el-tag class='tag' type="warning">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
-      </div>
-      <el-button type="warning" class="button" @click="!$store.state.news.isPreview && doPrint()">打印本页</el-button>
-    </div>
-    <div id="content-print" class="content-print">
-      <p style="font-size: 24px;font-weight: bold;color: #1a1a1a;line-height: 30px;border-bottom: 2px solid #f2f2f2;padding: 40px 0;margin-bottom: 30px;text-align: center;">
-        {{ news.title }}
-      </p>
-      <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
-    </div>
     <div class="bottom">
       <div class="left">
         <el-tag class='tag' type="warning" style="margin-right: 10px">
@@ -45,8 +29,7 @@ export default {
     }
   },
   async asyncData(context) {
-    // let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
-    let data = await context.app.$api.news.newsDetail({ id: '0100422d0c244083b844542b37e1766e' })
+    let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
     console.log(context.route)
     console.log(context.app.$refs)
     return { news: data }

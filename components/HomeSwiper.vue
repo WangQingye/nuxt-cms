@@ -11,7 +11,7 @@
   </swiper> -->
   <el-carousel :interval="3000" height="760px" class="swiper" arrow="never" indicator-position="none">
     <el-carousel-item v-for="(item,index) in list" :key="index">
-      <div class="first-swiper" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
+      <div class="first-swiper" :style="{backgroundImage:`url(${item.cover}`}">
         <p class="big-text" v-html="item.title">{{ item.title }}</p>
         <p class="small-text">{{ item.sub_title }}</p>
         <p class="button" v-if="item.event_name" @click="$router.push('/production')">{{ item.event_name }}</p>
@@ -21,12 +21,29 @@
 </template>
 
 <script>
-
+import banner1 from '~/static/imgs/home/banner1.jpg'
+import banner2 from '~/static/imgs/home/banner2.jpg'
+import banner3 from '~/static/imgs/home/banner3.jpg'
 export default {
   name: "HomeSwiper",
   data() {
     return {
-      list: [],
+      list: [{
+        title: '测试标题',
+        sub_title: '测试标题',
+        event_name: '测试标题',
+        cover: banner1
+      },{
+        title: '测试标题2',
+        sub_title: '测试标题',
+        event_name: '测试标题',
+        cover: banner2
+      },{
+        title: '测试标题3',
+        sub_title: '测试标题',
+        event_name: '测试标题',
+        cover: banner3
+      }],
       swiperOptions: {
         loop: true,
         autoplay: {
@@ -40,15 +57,15 @@ export default {
       },
     }
   },
-  async created() {
-    const data = await this.$api.banner.bannerList({type: 'home'})
-    console.log(data)
-      this.list = data && data.map(o => {
-        o.cover = this.$options.filters['cloudImage'](o.cover)
-        return o
-      })
-      console.log(this.list)
-  },
+  // async created() {
+  //   const data = await this.$api.banner.bannerList({type: 'home'})
+  //   console.log(data)
+  //     this.list = data && data.map(o => {
+  //       o.cover = this.$options.filters['cloudImage'](o.cover)
+  //       return o
+  //     })
+  //     console.log(this.list)
+  // },
 }
 </script>
 

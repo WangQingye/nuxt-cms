@@ -5,14 +5,13 @@
     <Footer />
   </div>
 </template>
-
+ 
 <script>
 
 export default {
   name: 'Main',
   async asyncData(context) {
-    let data = await context.app.$api.banner.getWebConfig()
-    context.store.commit('config/setWebConfig', data)
+    await context.app.$utils.getInitData(context)
   },
 }
 </script>

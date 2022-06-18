@@ -11,7 +11,7 @@
         <span class="link">成绩查询</span>
       </div>
       <div>
-        <span class="link">English</span>
+        <span class="link">旧版网站</span>
         ·
         <span class="link">内容搜索</span>
       </div>
@@ -21,37 +21,23 @@
       <img class="header-logo" v-else src="https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7" alt="">
       <div class="header-right">
         <div class="header-tabs">
-          <el-popover placement="bottom" trigger="hover" v-for="(tab,index) in tabList" :key="index">
+          <el-popover placement="bottom" trigger="hover" v-for="(tab,index) in menuList" :key="index">
             <div>
               <!-- popover最小宽度150 -->
-              <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.name">
-                <p v-show="tabChild.name" class="tab-title">
+              <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.title">
+                <p v-show="tabChild.title" class="tab-title">
                   <i class="el-icon-date" style="margin-right: 5px"></i>
-                  {{tabChild.name}}
+                  {{tabChild.title}}
                 </p>
-                <p class="tab-link" v-for="child in tabChild.children" :key="child.url">{{child.name}}</p>
+                <p class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)">{{child.title}}</p>
               </div>
             </div>
             <span slot="reference" class="tab">
-              <span class="tab">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+              <span class="tab">{{tab.title}}<i class="el-icon-arrow-down el-icon--right"></i></span>
             </span>
           </el-popover>
           <i class="el-icon-search search-icon" @click="showSearch = !showSearch"></i>
         </div>
-        <!-- <el-tabs class="header-tabs" @tab-click="handleClick" v-model="activeName">
-          <el-tab-pane name="home">
-            <p class="tab" slot="label">首页</p>
-          </el-tab-pane>
-          <el-tab-pane name="news">
-            <p class="tab" slot="label">中心新闻</p>
-          </el-tab-pane>
-          <el-tab-pane name="models">
-            <p class="tab" slot="label">资料库</p>
-          </el-tab-pane>
-          <el-tab-pane name="production">
-            <p class="tab" slot="label">预约制造</p>
-          </el-tab-pane>
-        </el-tabs> -->
         <el-dropdown placement="bottom-start" v-if="isLogin">
           <span class="el-dropdown-link">
             <el-avatar :size="36" :src="user.avatar|cloudImage"></el-avatar>
@@ -93,7 +79,6 @@
 <script>
 // import { AuthorizeCode } from '@/api/user'
 // import { authorizeMixin } from '@/mixins/authorize'
-// import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Header',
@@ -103,114 +88,16 @@ export default {
       activeName: 'home',
       isLogin: false,
       showHeaderTop: true,
-      tabList: [
-        {
-          name: '人才培养',
-          children: [
-            {
-              children: [
-                {
-                  name: '课程体系',
-                  url: '16',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: '人才培养',
-          children: [
-            {
-              children: [
-                {
-                  name: '课程体系',
-                  url: '11',
-                },
-                {
-                  name: '课程体系1',
-                  url: '13',
-                },
-                {
-                  name: '课程体系3',
-                  url: '15',
-                },
-              ],
-            },
-            {
-              children: [
-                {
-                  name: '课程体系4',
-                  url: '1',
-                },
-                {
-                  name: '课程体系5',
-                  url: '12',
-                },
-                {
-                  name: '课程体系6',
-                  url: '13',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: '中心概况',
-          children: [
-            {
-              name: '教育教学2',
-              children: [
-                {
-                  name: '课程体系',
-                  url: '2',
-                },
-              ],
-            },
-            {
-              name: '教育教学3',
-              children: [
-                {
-                  name: '课程体系',
-                  url: '3',
-                },
-              ],
-            },
-            {
-              name: '教育教学4',
-              children: [
-                {
-                  name: '课程体系',
-                  url: '4',
-                },
-              ],
-            },
-            {
-              name: '教育教学',
-              children: [
-                {
-                  name: '课程体系',
-                  url: '21',
-                },
-                {
-                  name: '课程体系1',
-                  url: '34',
-                },
-              ],
-            },
-          ],
-        },
-      ],
       searchText: '',
       showSearch: false,
       isHomePage: false
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     isLogin: 'user/isLogin',
-  //     user: 'user/user',
-  //   }),
-  // },
+  computed: {
+    menuList() {
+      return this.$store.state.config.menuList
+    },
+  },
   mounted() {
     if (process.browser) {
       window.onscroll = () => {
@@ -226,8 +113,9 @@ export default {
     // ...mapActions({
     //   logout: 'user/logout',
     // }),
-    handleClick(tab) {
-      this.$router.push(`/${tab.name}`)
+    handleClick(tab, child) {
+      let subPage = this.$utils.typeToPages[child.type]
+      this.$router.push(`/content/${subPage}?menuId=${tab.menuId}&subMenuId=${child.menuId}`)
       return
     },
     async handleUlogin() {
