@@ -5,7 +5,7 @@
     </div>
     <section class='content'>
       <div class='left'>
-        <el-menu :default-openeds="menuItem.children.map(c => c.menuId)" :default-active="subMenuId" @select="onMenuSelect">
+        <el-menu :default-openeds="defaultOpen" :default-active="subMenuId" @select="onMenuSelect">
           <template v-for="item in menuItem.children">
             <!-- 一级 -->
             <el-submenu v-if="item.children && item.children.length" :index="item.menuId" :key="item.menuId">
@@ -135,6 +135,19 @@ export default {
     menuItemId() {
       return this.$route.query.key || this.newsCategories[0].children[0].id
     },
+    defaultOpen() {
+      let arr = []
+      this.menuItem.children.forEach(m => {
+        arr.push(m.menuId)
+        m.children.forEach(mc => {
+          // 子菜单也自动打开
+          if (mc.children) {
+            arr.push(mc.menuId)
+          }
+        })
+      })
+      return arr
+    }
   },
   methods: {
     async fetchCategories() {

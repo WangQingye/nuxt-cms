@@ -3,7 +3,7 @@
     <div class='content'>
       <p>
         <span>
-          © {{ (new Date).getFullYear() }} {{ $store.state.config.webConfig.site_name }}
+          © {{ (new Date).getFullYear() }} 上海交通大学学生创新中心
         </span>
         <span v-if="$store.state.config.webConfig.beian"
               @click="handleCommand($store.state.config.webConfig.beian)"
@@ -60,9 +60,9 @@ export default {
   background: white;
   color: #999999;
   border-top: 1px solid #f2f2f2;
-
+  padding: 0 10%;
+  box-sizing: border-box;
   .content {
-    width: 76%;
     margin: 0 auto;
     line-height: 60px;
     display: flex;

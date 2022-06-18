@@ -1,5 +1,11 @@
 <template>
   <div :class="['news-detail']">
+    <div id="content-print" class="content-print">
+      <p class="news-title">
+        {{ news.title }}
+      </p>
+      <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+    </div>
     <div class="bottom">
       <div class="left">
         <el-tag class='tag' type="warning" style="margin-right: 10px">
@@ -29,7 +35,8 @@ export default {
     }
   },
   async asyncData(context) {
-    let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
+    // let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
+    let data = await context.app.$api.news.newsDetail({ id: '0100422d0c244083b844542b37e1766e' })
     console.log(context.route)
     console.log(context.app.$refs)
     return { news: data }
@@ -50,17 +57,6 @@ export default {
       const { data } = await newsDetail({ id: this.news.id })
       this.news = data
       this.$refs.detail.innerHTML = data.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)
-    },
-    doPrint() {
-      var printHtml = document.getElementById('content-print').innerHTML //这个元素的样式需要用内联方式，不然在新开打印对话框中没有样式
-      console.log(printHtml)
-      var wind = window.open(
-        '',
-        'newwindow',
-        'height=300, width=700, top=100, left=100, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no'
-      )
-      wind.document.body.innerHTML = printHtml
-      wind.print()
     },
     async clickLike() {
       if (this.liked || this.$store.state.news.isPreview) return
@@ -112,11 +108,6 @@ export default {
 <style scoped lang='scss'>
 .news-detail {
   width: 100%;
-
-  .top {
-    padding-top: 10px;
-    @include flex-between;
-  }
 
   .bottom {
     margin-top: 40px;

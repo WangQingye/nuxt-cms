@@ -9,7 +9,7 @@
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper> -->
-  <el-carousel :interval="3000" height="760px" class="swiper" arrow="never" indicator-position="none">
+  <el-carousel :interval="3000" height="760px" class="swiper" arrow="never">
     <el-carousel-item v-for="(item,index) in list" :key="index">
       <div class="first-swiper" :style="{backgroundImage:`url(${item.cover}`}">
         <p class="big-text" v-html="item.title">{{ item.title }}</p>
@@ -77,8 +77,10 @@ export default {
 
   .first-swiper {
     padding-left: 240px;
-    padding-top: 170px;
+    display: flex;
+    flex-direction: column;
     height: 760px;
+    justify-content: center;
     box-sizing: border-box;
     background-image: url(~/static/imgs/sucaibg.jpg);
     background-repeat: no-repeat;
@@ -116,6 +118,20 @@ export default {
       &:hover {
         opacity: 0.8;
       }
+    }
+  }
+  ::v-deep .el-carousel__indicators--horizontal {
+    left: 83%;
+    bottom: 12%;
+    .el-carousel__button {
+      width: 40px;
+      height: 5px;
+      background: #ffffff;
+      opacity: 0.45;
+      margin-right: 10px;
+    }
+    .is-active .el-carousel__button {
+      opacity: 1;
     }
   }
 }

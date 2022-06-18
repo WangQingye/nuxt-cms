@@ -1,12 +1,12 @@
 <template>
   <div class="search-page">
     <div class="search-top">
-      <img class="header-logo" v-if="$store.state.config.webConfig.site_front_logo" :src="$store.state.config.webConfig.site_front_logo|cloudImage" alt="logo">
-      <img class="header-logo" v-else src="~/static/imgs/sucaibg.jpg" alt="">
+      <img class="header-logo" src="~/static/imgs/home/logo_02@2x.png" alt="logo" @click="$router.push('/')">
+      <!-- <img class="header-logo" v-else src="~/static/imgs/home/logo_02@2x.png" alt=""> -->
       <div class="search-input">
         <el-input placeholder="输入关键词进行搜索..." v-model="searchText">
         </el-input>
-        <el-button type="primary" style="width: 200px;height: 60px;font-size:18px" icon="el-icon-search" @click="clickSearch">搜索</el-button>
+        <el-button type="primary" style="width: 200px;height: 60px;font-size:18px;border-radius: 0 4px 4px 0" icon="el-icon-search" @click="clickSearch">搜 索</el-button>
       </div>
     </div>
     <div class="search-container">
@@ -126,6 +126,7 @@ export default {
   mounted() {
     if (this.$route.query.text) {
       this.searchText = this.$route.query.text
+      this.addSearchHistory()
       this.fetchData()
     }
   },
@@ -177,9 +178,10 @@ export default {
     padding: 0 10%;
     box-sizing: border-box;
     .header-logo {
-      width: 200px;
-      height: 40px;
+      // width: 200px;
+      height: 38px;
       margin-right: 100px;
+      cursor: pointer;
     }
     .search-input {
       flex: 1;
@@ -187,6 +189,7 @@ export default {
       ::v-deep .el-input__inner {
         height: 60px;
         font-size: 18px;
+        border-radius: 4px 0 0 4px;
       }
     }
   }
@@ -253,8 +256,9 @@ export default {
           padding: 15px 0;
           text-align: center;
           cursor: pointer;
+          transition: all .5s ease-in-out;
           &:hover {
-            text-decoration: underline;
+            color: $--color-primary;
           }
         }
       }

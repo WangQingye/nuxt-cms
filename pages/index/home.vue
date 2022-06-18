@@ -1,21 +1,23 @@
 <template>
   <div class="home">
     <!-- <client-only> -->
-      <HomeSwiper />
+    <HomeSwiper />
     <!-- </client-only> -->
     <div class="main-container">
-      <el-row class="menu-list" :gutter="20">
-        <el-col v-for="menu in menuList" :key="menu.url" :span="4">
-          <div class="single-menu">
-            <div class="top">
-              <img class="menu-icon" :src="menu.icon" alt="icon" />
-              <i class="el-icon-arrow-right" />
-            </div>
-            <p class="name">{{menu.name}}</p>
-            <p class="desc">{{menu.desc}}</p>
+      <!-- <el-row class="menu-list" :gutter="20"> -->
+      <!-- <el-col v-for="menu in menuList" :key="menu.url" :span="4"> -->
+      <div class="menu-list">
+        <div class="single-menu" v-for="menu in menuList" :key="menu.url" :span="4">
+          <div class="top">
+            <img class="menu-icon" :src="menu.icon" alt="icon" />
+            <i class="el-icon-arrow-right" />
           </div>
-        </el-col>
-      </el-row>
+          <p class="name">{{menu.name}}</p>
+          <p class="desc">{{menu.desc}}</p>
+        </div>
+      </div>
+      <!-- </el-col> -->
+      <!-- </el-row> -->
       <el-row class="news" :gutter="20">
         <el-col :span="14" class="left">
           <BigTitle cn-text="中心要闻" en-text="SIC NEWS" />
@@ -44,10 +46,11 @@
           </div>
         </el-col>
         <el-col :span="10" class="right">
+          <img class="back" src="~/static/imgs/home/list-back.png">
           <BigTitle cn-text="通知公告" en-text="NOTIFICATION" />
           <div class="list-container" style="height: 100%">
             <div class="list-item" v-for="item in news" :key="item.id">
-              <el-tag type="primary">{{item.tag}}</el-tag>
+              <el-tag type="primary">{{item.date}}</el-tag>
               <p class="desc desc-1">{{item.desc}}</p>
             </div>
           </div>
@@ -66,16 +69,22 @@
         <BigTitle :cn-text="subNew.name" :en-text="subNew.enName" />
         <el-row class="sub-new-list" :gutter="20">
           <el-col v-for="(newItem,index) in subNew.news" :key="newItem.id" :span="newItem.span">
-            <div class="sub-item" :style="{backgroundImage:`url(${newItem.img})`}">
-              <p class="name">{{newItem.name}}</p>
-              <span class="link" v-show="!index">点击查看<i class="el-icon-arrow-right"></i></span>
+            <!-- <div class="sub-item" :style="{backgroundImage:`url(${newItem.img})`}"> -->
+            <div class="sub-item">
+              <div class="back-img" :style="{backgroundImage:`url(${newItem.img})`}"></div>
+              <div class="back-mask"></div>
+              <!-- <img class="back-img" :src="newItem.img" alt=""> -->
+              <div class="bottom">
+                <p class="name">{{newItem.name}}</p>
+                <span class="link" v-show="!index">点击查看<i class="el-icon-arrow-right"></i></span>
+              </div>
             </div>
           </el-col>
         </el-row>
       </div>
     </div>
     <div class="bottom-links">
-      <img src="~/static/imgs/sucaibg.jpg" class="icon" />
+      <img src="~/static/imgs/home/logo_02@2x.png" class="icon" />
       <div class="links" v-for="links in bottomLinkList" :key="links.title">
         <p class="link-title">{{links.title}}</p>
         <p class="link" v-for="link in links.links" :key="link.name">
@@ -180,7 +189,7 @@ export default {
         {
           title: '新闻标题1',
           cover: news2,
-        }
+        },
       ],
       swiperOptions: {
         loop: true,
@@ -381,12 +390,14 @@ export default {
       position: relative;
       margin-top: -150px;
       margin-bottom: 60px;
+      @include flex-between;
       .single-menu {
         cursor: pointer;
         background: white;
         border-radius: 4px;
         height: 200px;
         padding: 20px 24px;
+        margin-right: 8px;
         box-sizing: border-box;
         // padding-bottom: 80%;
         transition: all 0.3s linear;
@@ -415,6 +426,9 @@ export default {
           box-shadow: 0px 10px 8px 0px rgba(214, 202, 202, 0.25);
           transform: translateY(-8px);
         }
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
     .news {
@@ -440,12 +454,10 @@ export default {
               @include ellipsisBasic(2);
             }
           }
-          ::v-deep .swiper-pagination {
-            text-align: right;
-            right: 30px;
-            bottom: 20px;
-
-            .swiper-pagination-bullet {
+          ::v-deep .el-carousel__indicators--horizontal {
+            left: 90%;
+            bottom: 2%;
+            .el-carousel__button {
               width: 5px;
               height: 5px;
               background: #ffffff;
@@ -454,7 +466,7 @@ export default {
               margin-right: 10px;
             }
 
-            .swiper-pagination-bullet-active {
+            .is-active .el-carousel__button {
               width: 25px;
               border-radius: 3px;
               opacity: 1;
@@ -462,11 +474,19 @@ export default {
           }
         }
         .list-container {
-          min-height: 225px;
+          min-height: 226px;
         }
       }
       .right {
         min-height: 100%;
+        position: relative;
+        .back {
+          position: absolute;
+          width: 100%;
+          right: 0px;
+          top: 100px;
+          opacity: 0.3;
+        }
         .list-container {
           min-height: 625px;
         }
@@ -501,7 +521,17 @@ export default {
           }
         }
       }
+      .left {
+        .list-item:last-child {
+          border-bottom: none;
+        }
+      }
 
+      .right {
+        .list-container {
+          background: rgba(255, 255, 255, 0.9);
+        }
+      }
     }
     .activity {
       cursor: pointer;
@@ -543,47 +573,85 @@ export default {
     .sub-news {
       margin-top: 50px;
       .sub-item {
-        @include flex-between(flex-end);
         cursor: pointer;
+        @include flex-between(flex-end);
         width: 100%;
         height: 300px;
         background-size: cover;
         color: white;
-        padding: 20px;
         box-sizing: border-box;
         border-radius: 4px;
-        transition: all 0.3s linear;
-        .name {
-          font-size: 26px;
+        transition: all 0.5s ease-in-out;
+        // background-position: center;
+        // background-size: cover;
+        position: relative;
+        overflow: hidden;
+        .back-img {
+          width: 100%;
+          position: absolute;
+          height: 300px;
+          left: 0;
+          top: 0;
+          background-size: cover;
+          z-index: 1;
+          transition: all 0.5s ease-in-out;
         }
-        .link {
-          color: #fefefe;
-          font-size: 12px;
-          &:hover {
-            text-decoration: underline;
+        .back-mask {
+          width: 100%;
+          position: absolute;
+          z-index: 2;
+          height: 300px;
+          left: 0;
+          top: 0;
+          background: rgba(0,0,0,.2);
+          transition: all 0.5s ease-in-out;
+        }
+        .bottom {
+          @include flex-between;
+          width: 100%;
+          padding: 20px 20px;
+          background-image: linear-gradient(to top , rgba(0,0,0,0.6), rgba(0,0,0,0));
+          position: relative;
+          z-index: 3;
+          .name {
+            font-size: 20px;
+          }
+          .link {
+            color: #fefefe;
+            font-size: 12px;
+            transition: all 0.5s ease-in-out;
+            &:hover {
+              color: $--color-primary;
+              // text-decoration: underline;
+            }
           }
         }
         &:hover {
           transition-timing-function: ease-in-out;
-          box-shadow: 0px 10px 8px 0px rgba(214, 202, 202, 0.25);
-          transform: translateY(-8px);
+          // background-size: cover;
+          .back-img {
+            transform: scale(1.1);
+          }
+          .back-mask {
+            background: rgba(0,0,0,0);
+          }
         }
       }
     }
   }
   .bottom-links {
     @include flex-between(flex-start);
-    justify-content: flex-start;
+    justify-content: space-between;
     padding: 60px 10%;
     background: white;
     color: #1a1a1a;
     .icon {
-      width: 38px;
+      // width: 38px;
       height: 38px;
-      margin-right: 15%;
+      margin-right: 5%;
     }
     .links {
-      margin: 0 5%;
+      margin: 0 2%;
       min-width: 140px;
       .link-title {
         font-size: 18px;
@@ -594,8 +662,9 @@ export default {
         margin-bottom: 10px;
         line-height: 20px;
         cursor: pointer;
+        transition: all 0.5s ease-in-out;
         &:hover {
-          text-decoration: underline;
+          color: $--color-primary;
         }
       }
     }

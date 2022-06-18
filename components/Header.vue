@@ -1,5 +1,5 @@
 <template>
-  <div :class="['header', isHomePage ? '':'header-hover']">
+  <div :class="['header', isHomePage && !showSearch ? '':'header-hover']">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
         <span class="link">OA入口</span>
@@ -17,8 +17,9 @@
       </div>
     </div>
     <div class="header-bottom">
-      <img class="header-logo" v-if="$store.state.config.webConfig.site_front_logo" :src="isHomePage ? logo1 : logo2" alt="logo">
-      <img class="header-logo" v-else src="https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7" alt="">
+      <img class="header-logo header-logo1" v-if="isHomePage" :src="logo1" alt="logo" @click="$router.push('/')">
+      <img class="header-logo header-logo2" v-if="isHomePage" :src="logo2" alt="logo" @click="$router.push('/')">
+      <img class="header-logo" v-if="!isHomePage" :src="logo2" alt="logo" @click="$router.push('/')">
       <div class="header-right">
         <div class="header-tabs">
           <el-popover placement="bottom" trigger="hover" v-for="(tab,index) in menuList" :key="index">
@@ -64,11 +65,11 @@
       </div>
     </div>
     <transition name="search">
-      <div class="search" v-show="showSearch">
-        <div class="search-container">
+      <div class="search-container" v-show="showSearch" @click="showSearch = false">
+        <div class="search" @click.stop="">
           <el-input placeholder="输入关键词进行搜索..." v-model="searchText">
           </el-input>
-          <el-button type="primary" icon="el-icon-search" @click="clickSearch">搜索</el-button>
+          <el-button class="button" type="primary" icon="el-icon-search" @click="clickSearch">搜 索</el-button>
         </div>
       </div>
     </transition>
@@ -94,7 +95,7 @@ export default {
       showHeaderTop: true,
       searchText: '',
       showSearch: false,
-      isHomePage: false
+      isHomePage: false,
     }
   },
   computed: {
@@ -119,7 +120,9 @@ export default {
     // }),
     handleClick(tab, child) {
       let subPage = this.$utils.typeToPages[child.type]
-      this.$router.push(`/content/${subPage}?menuId=${tab.menuId}&subMenuId=${child.menuId}`)
+      this.$router.push(
+        `/content/${subPage}?menuId=${tab.menuId}&subMenuId=${child.menuId}`
+      )
       return
     },
     async handleUlogin() {
@@ -137,8 +140,8 @@ export default {
       window.close()
     },
     clickSearch() {
-      this.showSearch = false;
-      this.$router.push(`/search?text=${this.searchText}`);
+      this.showSearch = false
+      this.$router.push(`/search?text=${this.searchText}`)
     },
   },
   watch: {
@@ -160,18 +163,24 @@ export default {
   top: 0;
   width: 100%;
   z-index: 4;
+  transition: all 0.5s ease-in-out;
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.1);
   .header-top {
     height: 39px;
-    padding: 0 5%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 12px;
+    padding: 0 10%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(3px);
+    transition: all 0.5s ease-in-out;
+    .link {
+      transition: all 0.5s ease-in-out;
+    }
     .link:hover {
-      text-decoration: underline;
+      color: $--color-primary;
       cursor: pointer;
     }
   }
@@ -205,19 +214,25 @@ export default {
 
   .header-bottom {
     height: 80px;
-    padding: 0 5%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0 10%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(3px);
     color: white;
     position: relative;
     z-index: 2;
+    transition: all 0.5s ease-in-out;
     .header-logo {
-      height: 50px;
+      height: 38px;
       z-index: 2;
+      cursor: pointer;
+    }
+    .header-logo1 {
+      display: block;
+    }
+    .header-logo2 {
+      display: none;
     }
 
     .header-right {
@@ -264,17 +279,19 @@ export default {
       }
     }
   }
-  .search {
-    height: 150px;
-    padding: 0 5%;
+  .search-container {
+    height: 100vh;
+    padding: 0 10%;
     width: 100%;
     box-sizing: border-box;
     position: relative;
     z-index: 1;
-    .search-container {
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(0px);
+    .search {
       border-top: 1px solid #e8eaed;
       width: 100%;
-      height: 150px;
+      height: 200px;
       background: white;
       display: flex;
       justify-content: center;
@@ -282,21 +299,41 @@ export default {
       padding: 0 100px;
       box-sizing: border-box;
       border-radius: 0 0 4px 4px;
+      .button {
+        width: 200px;
+        height: 70px;
+        border-radius: 0 4px 4px 0;
+        font-size: 18px;
+      }
+      ::v-deep .el-input__inner {
+        height: 70px;
+        line-height: 70px;
+        border-radius: 4px 0 0 4px;
+        border-right: none;
+        font-size: 18px;
+      }
     }
   }
 }
-.header:hover, .header-hover {
+.header:hover,
+.header-hover {
+  backdrop-filter: blur(0px);
   .header-top,
   .header-bottom {
-    background-color: white;
     backdrop-filter: blur(0px);
+    background-color: white;
     color: #4d4d4d;
-  }
-  .header-top {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: none;
+    backdrop-filter: blur(0px);
   }
 
   .header-bottom {
+    .header-logo1 {
+      display: none;
+    }
+    .header-logo2 {
+      display: block;
+    }
     .header-tabs {
       .tab {
         color: #4d4d4d !important;
@@ -306,11 +343,16 @@ export default {
       color: #4d4d4d;
     }
   }
+  .search-container {
+    backdrop-filter: blur(0px);
+  }
 }
-.search-enter-active, .search-leave-active {
-  transition: all .3s ease-in-out;
+.search-enter-active,
+.search-leave-active {
+  transition: all 0.3s ease-in-out;
 }
-.search-enter, .search-leave-to {
+.search-enter,
+.search-leave-to {
   opacity: 0;
   transform: translateY(-100px);
 }
