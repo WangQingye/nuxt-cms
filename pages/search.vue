@@ -13,17 +13,14 @@
       <div class="left">
         <el-tabs v-model="activeTab" @tab-click="handleTabClick">
           <el-tab-pane label="文章" name="first"></el-tab-pane>
-          <el-tab-pane label="新闻" name="second"></el-tab-pane>
-          <el-tab-pane label="通知" name="third"></el-tab-pane>
-          <el-tab-pane label="教师" name="fourth"></el-tab-pane>
-          <el-tab-pane label="课程" name="fourth1"></el-tab-pane>
+          <el-tab-pane label="人员" name="second"></el-tab-pane>
         </el-tabs>
         <PageList :page-size="pageSize" :total="total" @fetchData="fetchData" v-loading="isLoading">
           <el-empty v-if="(!newsItems.length && activeTab == 'first') || (!personItems.length && activeTab == 'second')" description="暂无内容"></el-empty>
           <div class="items" v-show="activeTab == 'first'">
             <NewsItemList class="list-way-item" v-for="(news, index) in newsItems" :key="index" :itemData="news" />
           </div>
-          <div class="items-person" v-show="activeTab == 'fourth'">
+          <div class="items-person" v-show="activeTab == 'second'">
             <PersonItem class="person-item" v-for="(person, index) in personItems" :key="index" :itemData="person" />
           </div>
         </PageList>
@@ -54,7 +51,7 @@ export default {
   name: 'searchPage',
   data() {
     return {
-      activeTab: 'fourth',
+      activeTab: 'first',
       searchText: '',
       pageSize: 2,
       total: 10,
@@ -204,7 +201,7 @@ export default {
       flex: 1;
       margin-right: 10px;
       .items {
-        padding: 0 20px;
+        padding: 10px 20px;
         background: white;
         border-radius: 4px;
       }

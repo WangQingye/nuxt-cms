@@ -1,5 +1,5 @@
 <template>
-  <div @click="$router.push(`/content/person-detail?id=${itemData.id}?key=${itemData.category_id}`)">
+  <div @click="$router.push(`/content/person-detail?id=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
     <div class='person-item-search' v-if="type === 'search'">
       <img class="img" :src="itemData.img|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
@@ -12,8 +12,10 @@
       <div class="info">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
-        <p class="position">{{itemData.position}}</p>
-        <p class="position">{{itemData.desc}}</p>
+        <div class="bottom">
+          <p class="position">{{itemData.position}}</p>
+          <p class="position">{{itemData.desc}}</p>
+        </div>
       </div>
     </div>
     <div class='person-item-department' v-if="type === 'department'">
@@ -98,23 +100,31 @@ export default {
   .info {
     position: absolute;
     bottom: 0;
-    padding: 20px;
+    padding-top: 20px;
     color: white;
     .name {
+      padding: 0 20px;
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 10px;
     }
     .line {
       width: 20px;
+      margin-left: 20px;
       height: 2px;
       background: $--color-primary;
-      margin-bottom: 15px;
     }
-    .position {
-      font-size: 13px;
-      line-height: 21px;
-      @include ellipsisBasic(1);
+    .bottom {
+      background-image: linear-gradient(to top , rgba(0,0,0,.5), rgba(0,0,0,0));
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      border-radius: 0 0 5px 5px;
+      .position {
+        font-size: 13px;
+        line-height: 21px;
+        @include ellipsisBasic(1);
+      }
     }
   }
 }
@@ -131,6 +141,7 @@ export default {
     margin-right: 20px;
   }
   .right {
+    min-height: 220px;
     flex: 1;
     border-bottom: 1px solid #e6e6e6;
     padding: 20px;
@@ -169,7 +180,9 @@ export default {
     color: #4d4d4d;
   }
   &:hover {
-    background: $--color-primary-light;
+    .right {
+      background: $--color-primary-light;
+    }
     .link {
       opacity: 1;
     }

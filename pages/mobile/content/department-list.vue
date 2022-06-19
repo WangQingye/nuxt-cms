@@ -8,7 +8,7 @@
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
-        <img class="department-item" :src="department" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail?id=1?key=1`)">
+        <img class="department-item" :src="department" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail?id=1&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
       </div>
     </PageList>
   </div>

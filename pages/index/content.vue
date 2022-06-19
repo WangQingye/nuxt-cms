@@ -19,12 +19,12 @@
                 <!-- 二级 -->
                 <el-submenu v-if="subItem.children && subItem.children.length" :index="subItem.menuId" :key="subItem.menuId">
                   <template slot="title">
-                    <span>{{subItem.title}}</span>
+                    <span style="padding-left:12px;">{{subItem.title}}</span>
                   </template>
                   <el-menu-item v-for="thirdItem in subItem.children" :index="thirdItem.menuId" :key="thirdItem.menuId">
                     <template slot="title">
                       <div class="item-line">
-                        <span>{{thirdItem.title}}11</span>
+                        <span>{{thirdItem.title}}</span>
                         <el-tag class="tag" type="primary" v-if="thirdItem.num">
                           {{thirdItem.num}}
                         </el-tag>
@@ -212,13 +212,16 @@ export default {
       margin-right: 5%;
       ::v-deep .el-menu {
         border-right: none;
+        .el-menu-item,.el-submenu__title {
+          font-size: 15px !important;
+        }
       }
       .item-line {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding-left: 12px;
         .menu-item-text {
-          font-size: 15px;
           font-weight: 400;
           color: #4d4d4d;
         }

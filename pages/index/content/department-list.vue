@@ -8,7 +8,7 @@
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
-        <img class="department-item" :src="department" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail?id=1?key=1`)">
+        <img class="department-item" :src="department" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail-info?id=1&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
       </div>
     </PageList>
   </div>
@@ -99,9 +99,12 @@ export default {
       margin-right: 1.33%;
       margin-bottom: 30px;
       cursor: pointer;
-      // &:hover {
-      //   box-shadow: 0px 10px 8px 0px rgba(214, 202, 202, 0.25);
-      // }
+      transition: all 0.3s ease;
+      &:hover {
+        transition-timing-function: ease-in-out;
+        box-shadow: 0px 10px 8px 0px rgba(214, 202, 202, 0.25);
+        transform: translateY(-8px);
+      }
     }
 
     .department-item:nth-child(4n + 4) {

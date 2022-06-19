@@ -1,5 +1,5 @@
 <template>
-  <div class='list-item' @click="$router.push(`/content/news-detail?id=${itemData.id}&key=${itemData.category_id}`)">
+  <div class='list-item' @click="$router.push(`/content/news-detail?id=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
     <div class='img-container'>
       <img class="img" :src="itemData.cover|cloudImage" alt="logo">
       <div class="img-cover">
