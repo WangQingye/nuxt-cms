@@ -1,17 +1,7 @@
 <template>
   <div class='footer'>
     <div class='content'>
-      <p>
-        <!-- <span>
-          © {{ (new Date).getFullYear() }} {{ $store.state.config.webConfig.site_name }}
-        </span>
-        <span v-if="$store.state.config.webConfig.copyright"
-              @click="handleCommand($store.state.config.webConfig.copyright)"
-              class="link">
-          | {{ $store.state.config.webConfig.copyright }}
-        </span> -->
-        <span>© 2015-2022 上海交通大学学生创新中心 版权所有</span>
-      </p>
+        <span style="width: 100%">© 2015-2022 上海交通大学学生创新中心 版权所有</span>
     </div>
   </div>
 </template>
@@ -39,11 +29,7 @@ export default {
   .content {
     line-height: 0.5rem;
     text-align: center;
-
-    .link {
-      cursor: pointer;
-      color: #999999;
-    }
+    width: 100%;
   }
 }
 </style>

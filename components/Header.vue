@@ -163,7 +163,7 @@ export default {
   top: 0;
   width: 100%;
   z-index: 4;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease-in-out;
   backdrop-filter: blur(3px);
   background-color: rgba(0, 0, 0, 0.1);
   .header-top {
@@ -175,40 +175,13 @@ export default {
     justify-content: space-between;
     align-items: center;
     color: white;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.2s ease-in-out;
     .link {
-      transition: all 0.5s ease-in-out;
+      // transition: all 0.2s ease-in-out;
     }
     .link:hover {
       color: $--color-primary;
       cursor: pointer;
-    }
-  }
-  .header-top-show {
-    animation: mymove1 0.2s ease-in-out;
-    height: 40px;
-    opacity: 1;
-    @keyframes mymove1 {
-      0% {
-        height: 0px;
-      }
-      100% {
-        height: 40px;
-      }
-    }
-  }
-  .header-top-hide {
-    animation: mymove 0.2s ease-in-out;
-    height: 0px;
-    border: none;
-    opacity: 0;
-    @keyframes mymove {
-      0% {
-        height: 40px;
-      }
-      100% {
-        height: 0px;
-      }
     }
   }
 
@@ -222,7 +195,7 @@ export default {
     color: white;
     position: relative;
     z-index: 2;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.2s ease-in-out;
     .header-logo {
       height: 38px;
       z-index: 2;
@@ -326,6 +299,9 @@ export default {
     border-bottom: none;
     backdrop-filter: blur(0px);
   }
+  .header-top {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
 
   .header-bottom {
     .header-logo1 {
@@ -345,6 +321,35 @@ export default {
   }
   .search-container {
     backdrop-filter: blur(0px);
+  }
+}
+
+.header-top-show {
+  animation: mymove1 0.2s ease-in-out;
+  height: 40px;
+  opacity: 1;
+  @keyframes mymove1 {
+    0% {
+      height: 0px;
+    }
+    100% {
+      height: 40px;
+    }
+  }
+}
+.header-top-hide {
+  animation: mymove 0.2s ease-in-out;
+  height: 0px !important;
+  border: none;
+  opacity: 0;
+  border-bottom: none !important;
+  @keyframes mymove {
+    0% {
+      height: 40px;
+    }
+    100% {
+      height: 0px;
+    }
   }
 }
 .search-enter-active,

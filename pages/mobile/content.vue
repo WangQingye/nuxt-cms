@@ -10,7 +10,7 @@
       </div>
       <span class="date">{{date}}</span>
     </div>
-    <nuxt-child></nuxt-child>
+    <nuxt-child style="padding: 0 0.2rem;box-sizing: border-box;"></nuxt-child>
   </div>
 </template>
 <script>
@@ -36,7 +36,7 @@ export default {
 <style scoped lang='scss'>
 .mobile-content-container {
   font-size: 0.12rem;
-  min-height: calc(100vh - 1rem);
+  min-height: calc(100vh - 0.5rem);
   margin-top: 0.5rem;
   .top {
     height: 0.72rem;

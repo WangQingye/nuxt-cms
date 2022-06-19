@@ -19,6 +19,7 @@
       <!-- </el-col> -->
       <!-- </el-row> -->
       <el-row class="news" :gutter="20">
+        <img class="back" src="~/static/imgs/home/list-back.png">
         <el-col :span="14" class="left">
           <BigTitle cn-text="中心要闻" en-text="SIC NEWS" />
           <!-- <swiper class="swiper" :options="swiperOptions">
@@ -46,7 +47,6 @@
           </div>
         </el-col>
         <el-col :span="10" class="right">
-          <img class="back" src="~/static/imgs/home/list-back.png">
           <BigTitle cn-text="通知公告" en-text="NOTIFICATION" />
           <div class="list-container" style="height: 100%">
             <div class="list-item" v-for="item in news" :key="item.id">
@@ -434,7 +434,17 @@ export default {
     .news {
       position: relative;
       margin-bottom: 50px;
+      .back {
+        position: absolute;
+        width: 100%;
+        right: -100px;
+        // opacity: 0.3;
+        height: 100%;
+        z-index: 1;
+      }
       .left {
+        position: relative;
+        z-index: 2;
         .swiper {
           .swiper-item {
             width: 100%;
@@ -480,20 +490,14 @@ export default {
       .right {
         min-height: 100%;
         position: relative;
-        .back {
-          position: absolute;
-          width: 100%;
-          right: 0px;
-          top: 100px;
-          opacity: 0.3;
-        }
+        z-index: 2;
         .list-container {
           min-height: 625px;
         }
       }
       .list-container {
         width: 100%;
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
         box-sizing: border-box;
         .list-item {
           cursor: pointer;
@@ -524,12 +528,6 @@ export default {
       .left {
         .list-item:last-child {
           border-bottom: none;
-        }
-      }
-
-      .right {
-        .list-container {
-          background: rgba(255, 255, 255, 0.9);
         }
       }
     }
@@ -603,14 +601,18 @@ export default {
           height: 300px;
           left: 0;
           top: 0;
-          background: rgba(0,0,0,.2);
+          background: rgba(0, 0, 0, 0.2);
           transition: all 0.5s ease-in-out;
         }
         .bottom {
           @include flex-between;
           width: 100%;
           padding: 20px 20px;
-          background-image: linear-gradient(to top , rgba(0,0,0,0.6), rgba(0,0,0,0));
+          background-image: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0)
+          );
           position: relative;
           z-index: 3;
           .name {
@@ -633,7 +635,7 @@ export default {
             transform: scale(1.1);
           }
           .back-mask {
-            background: rgba(0,0,0,0);
+            background: rgba(0, 0, 0, 0);
           }
         }
       }

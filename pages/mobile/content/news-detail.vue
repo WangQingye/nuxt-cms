@@ -4,20 +4,20 @@
       <p class="news-title">
         {{ news.title }}
       </p>
-      <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
     <div class="bottom">
       <div class="left">
-        <el-tag class='tag' type="warning" style="margin-right: 10px">
+        <el-tag class='tag' type="info" style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
         </el-tag>
-        <el-tag class='tag' :type="liked ? 'success' : 'danger'" style="cursor:pointer" @click="clickLike">
+        <el-tag class='tag' size="mini" :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
           <i class="font_family icon-dianzan" />
           {{ news.like_num }}
         </el-tag>
       </div>
-      <el-button type="warning" class="button" @click="!$store.state.news.isPreview && $router.back()">返回列表</el-button>
+      <!-- <el-button type="warning" class="button" @click="!$store.state.news.isPreview && $router.back()">返回列表</el-button> -->
     </div>
   </div>
 </template>
@@ -31,12 +31,14 @@ export default {
       },
       // 是否已经点过赞
       liked: false,
-      imgDomain
+      imgDomain,
     }
   },
   async asyncData(context) {
     // let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
-    let data = await context.app.$api.news.newsDetail({ id: '0100422d0c244083b844542b37e1766e' })
+    let data = await context.app.$api.news.newsDetail({
+      id: '0100422d0c244083b844542b37e1766e',
+    })
     console.log(context.route)
     console.log(context.app.$refs)
     return { news: data }
@@ -56,12 +58,15 @@ export default {
     async fetchData() {
       const { data } = await newsDetail({ id: this.news.id })
       this.news = data
-      this.$refs.detail.innerHTML = data.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)
+      this.$refs.detail.innerHTML = data.content.replace(
+        /src="\.\.\/media/g,
+        `src="${imgDomain}`
+      )
     },
     async clickLike() {
       if (this.liked || this.$store.state.news.isPreview) return
-      const {data}  = await newsLike({
-        id: this.news.id
+      const { data } = await newsLike({
+        id: this.news.id,
       })
       this.news.like_num = data.like_num
       this.liked = true
@@ -71,60 +76,66 @@ export default {
 </script>
 <style lang='scss'>
 .content-print {
-  border-bottom: 1px solid #f2f2f2;
-  padding: 0 20px;
-  padding-bottom: 50px;
-  line-height: 25px;
+  line-height: 0.25rem;
   img {
-    max-width:100%;
-    height:auto;
+    max-width: 100%;
+    height: auto;
   }
   h1 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 23px;
+    font-size: 0.23rem;
   }
   h2 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 20px;
+    font-size: 0.2rem;
   }
   h3 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 18px;
+    font-size: 0.18rem;
   }
   h4 {
     color: #444444;
     line-height: 1;
-    letter-spacing: 0.2px;
-    font-size: 17px;
+    font-size: 0.17rem;
   }
 }
 </style>
 <style scoped lang='scss'>
 .news-detail {
   width: 100%;
-
+  .news-title {
+    font-size: 0.21rem;
+    text-align: left;
+    color: #1a1a1a;
+    margin-bottom: 0.2rem;
+  }
+  .detail {
+    border-top: 0.01rem #F5F5FC solid;
+    border-bottom: 0.01rem #F5F5FC solid;
+    padding: 0.1rem 0 0.3rem 0;
+  }
   .bottom {
-    margin-top: 40px;
+    margin-top: 0.15rem;
+    margin-bottom: 0.3rem;
     @include flex-between;
   }
 
   .tag {
-    height: 34px;
-    line-height: 34px;
+    height: 0.3rem;
+    line-height: 0.3rem;
     border: none;
+    padding: 0 0.1rem;
+    box-sizing: border-box;
 
     i {
-      font-size: 15px;
-      line-height: 34px;
+      font-size: 0.14rem;
+      line-height: 0.3rem;
       font-weight: bold;
       vertical-align: middle;
-      margin-right: 5px;
+      margin-right: 0.1rem;
     }
   }
 

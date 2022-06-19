@@ -6,7 +6,7 @@
     </div>
     <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
       <div class="items">
-        <PersonItem class="person-item" type="department" v-for="person in departmentDetail.personList" :itemData="person" :key="person.id" />
+        <PersonItemMobile class="person-item" type="department" v-for="person in departmentDetail.personList" :itemData="person" :key="person.id" />
       </div>
     </PageList>
   </div>
@@ -103,20 +103,21 @@ export default {
 <style scoped lang='scss'>
 .department-detail {
   width: 100%;
-
+  margin-bottom: 0.5rem;
+  border-bottom:0.01rem solid #F5F5FC;
   .top {
-    margin-bottom: 50px;
-    padding-top: 10px;
+    margin-bottom: 0.15rem;
+    color: #4D4D4D;
     .name {
-      font-size: 24px;
+      font-size: 0.16rem;
       font-weight: bold;
       color: #4d4d4d;
-      margin-bottom: 20px;
+      margin-bottom: 0.15rem;
     }
     .desc {
-      font-size: 14px;
+      font-size: 0.12rem;
+      line-height: 0.21rem;
       color: #999999;
-      line-height: 24px;
     }
   }
 
