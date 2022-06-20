@@ -4,11 +4,11 @@
       <p class="name">{{departmentDetail.name}}</p>
       <p class="desc">{{departmentDetail.desc}}</p>
     </div>
-    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
+    <PageListMobile :page-size="pageSize" :total="total" @fetchData="fetchData">
       <div class="items">
         <PersonItemMobile class="person-item" type="department" v-for="person in departmentDetail.personList" :itemData="person" :key="person.id" />
       </div>
-    </PageList>
+    </PageListMobile>
   </div>
 </template>
 <script>

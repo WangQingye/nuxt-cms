@@ -71,7 +71,6 @@ export default {
     }
     .date {
       font-size: 0.1rem;
-      font-size: 10px;
       color: #999999;
     }
   }

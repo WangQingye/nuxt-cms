@@ -11,14 +11,14 @@
         </div>
       </el-button>
     </div>
-    <PageList v-if="showListWay" :page-size="pageSize" :total="total" @fetchData="fetchData">
+    <PageListMobile v-if="showListWay" :page-size="pageSize" :total="total" @fetchData="fetchData">
       <!-- <div class="items" v-if="newsItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
         <PersonItem class="person-item" type="list" v-for="i in 5" :key="i" />
       </div>
-    </PageList>
+    </PageListMobile>
     <div class="letter-list" v-else>
       <div class="letter" v-for="letterPerson in letterPersons" :key="letterPerson.letter">
         <p class="letter-title">{{letterPerson.letter}} <span class="sub-title">字母开头</span></p>

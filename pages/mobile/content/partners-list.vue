@@ -3,14 +3,14 @@
     <el-tabs v-model="newsActiveName" @tab-click="handleClick">
       <el-tab-pane v-for="tag in partnerTags" :key="tag" :label="tag" :name="tag"></el-tab-pane>
     </el-tabs>
-    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
+    <PageListMobile :page-size="pageSize" :total="total" @fetchData="fetchData">
       <!-- <div class="items" v-if="partnerItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
         <img class="partner-item" :src="partner" v-for="(partner,index) in partnerItems" :key="index">
       </div>
-    </PageList>
+    </PageListMobile>
   </div>
 </template>
 <script>

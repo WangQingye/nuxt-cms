@@ -13,6 +13,9 @@ export default {
     return {
     }
   },
+  async asyncData(context) {
+    await context.app.$utils.getInitData(context)
+  },
   mounted() {
     //按照宽度375图算， 1rem = 100px;
     function changeSize() {

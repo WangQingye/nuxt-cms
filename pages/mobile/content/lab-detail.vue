@@ -1,15 +1,5 @@
 <template>
-  <div :class="['person-detail']">
-    <div class="top">
-      <div class="left">
-        <el-tag class='tag' type="primary" style="margin-right: 10px" v-for="(tag,index ) in labDetail.tags" :key="index">{{
-            tag
-          }}
-        </el-tag>
-        <!-- <el-tag class='tag' type="warning">{{ labDetail.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag> -->
-      </div>
-      <el-button type="warning" class="button" @click="$router.back()">关闭返回</el-button>
-    </div>
+  <div :class="['lab-detail']">
     <div class="detial">
       <div class="base">
         <img class="img" :src="labDetail.img|cloudImage" alt="">
@@ -24,7 +14,7 @@
           <p class="position">个人主页：{{labDetail.page }}</p>
         </div>
       </div>
-      <div v-html="labDetail.content"></div>
+      <div v-html="labDetail.content" class="content-print"></div>
     </div>
   </div>
 </template>
@@ -71,10 +61,9 @@ export default {
 </script>
 <style lang='scss'>
 .content-print {
-  border-bottom: 1px solid #f2f2f2;
-  padding: 0 20px;
-  padding-bottom: 50px;
-  line-height: 25px;
+  line-height: 0.25rem;
+  font-size: 0.15rem;
+  padding: 0;
   img {
     max-width: 100%;
     height: auto;
@@ -82,96 +71,58 @@ export default {
   h1 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 23px;
+    font-size: 0.23rem;
   }
   h2 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 20px;
+    font-size: 0.2rem;
   }
   h3 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 18px;
+    font-size: 0.18rem;
   }
   h4 {
     color: #444444;
     line-height: 1;
-    letter-spacing: 0.2px;
-    font-size: 17px;
+    font-size: 0.17rem;
   }
 }
 </style>
 <style scoped lang='scss'>
-.person-detail {
+.lab-detail {
   width: 100%;
 
-  .top {
-    @include flex-between;
-  }
   .detial {
-    margin-top: 15px;
     .base {
-      @include flex-between(flex-start);
-      justify-content: flex-start;
-      margin-bottom: 30px;
-      padding-bottom: 50px;
-      border-bottom: 1px solid #EAEEF5;
+      margin-bottom: 0.2rem;
+      padding-bottom: 0.2rem;
+      border-bottom: 0.01rem solid #f5f5fc;
       .img {
-        width: 250px;
-        height: 340px;
-        border-radius: 5px;
-        margin-right: 70px;
+        width: 100%;
+        border-radius: 0.02rem;
       }
       .base-info {
-        margin-top: 60px;
+        margin-top: 0.4rem;
         .name {
-          font-size: 30px;
+          font-size: 0.21rem;
           font-weight: bold;
           color: #1a1a1a;
         }
         .line {
-          width: 20px;
-          height: 2px;
+          width: 0.14rem;
+          height: 0.01rem;
           background: $--color-primary;
-          margin-top: 20px;
-          margin-bottom: 15px;
+          margin-top: 0.2rem;
+          margin-bottom: 0.15rem;
         }
         .position {
-          font-size: 15px;
+          font-size: 0.12rem;
           color: #1a1a1a;
-          line-height: 24px;
+          line-height: 0.18rem;
         }
       }
-    }
-  }
-  .tag {
-    height: 34px;
-    line-height: 34px;
-    border: none;
-
-    i {
-      font-size: 15px;
-      line-height: 34px;
-      font-weight: bold;
-      vertical-align: middle;
-      margin-right: 5px;
-    }
-  }
-
-  .button {
-    line-height: 14px;
-    border: none;
-    font-size: 14px;
-    font-weight: 400;
-    color: #4d4d4d;
-    background: #f7f7f7;
-
-    &:hover {
-      opacity: 0.7;
     }
   }
 }

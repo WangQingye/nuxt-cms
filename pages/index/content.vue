@@ -70,7 +70,6 @@ export default {
       subMenuItem: {},
       contentTitleImg: img,
       menuActiveNames: ['news', 'equipment'],
-      // menuItemId: 'news1',
       newsCategories: [],
       newsTypes: [
         {
@@ -104,23 +103,7 @@ export default {
     }
   },
   async asyncData(context) {
-    // await context.$utils.getInitData()
-    await context.app.$utils.getInitData(context)
     let {menuItem, menuId, subMenuId, subMenuItem} = context.app.$utils.getContentPageMenuData(context.app.store.state.config.menuList, context.query.menuId, context.query.subMenuId)
-    // const menuId = context.query.menuId
-    // const subMenuId = String(context.query.subMenuId)
-    // const menuItem = context.app.store.state.config.menuList.find(m => m.menuId == menuId)
-    // let subMenuItem
-    // menuItem.children.forEach(m => {
-    //   if (m.menuId == subMenuId) {
-    //     subMenuItem = m
-    //   } else if (m.children) {
-    //     let item = m.children.find(mc => mc.menuId == subMenuId)
-    //     if (item) {
-    //       subMenuItem = item
-    //     }
-    //   }
-    // })
     return {
       menuItem,
       menuId,
@@ -132,9 +115,6 @@ export default {
     // this.fetchCategories()
   },
   computed: {
-    menuItemId() {
-      return this.$route.query.key || this.newsCategories[0].children[0].id
-    },
     defaultOpen() {
       let arr = []
       this.menuItem.children.forEach(m => {

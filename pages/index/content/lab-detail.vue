@@ -1,5 +1,5 @@
 <template>
-  <div :class="['person-detail']">
+  <div :class="['lab-detail']">
     <div class="top">
       <div class="left">
         <el-tag class='tag' type="primary" style="margin-right: 10px" v-for="(tag,index ) in labDetail.tags" :key="index">{{
@@ -106,7 +106,7 @@ export default {
 }
 </style>
 <style scoped lang='scss'>
-.person-detail {
+.lab-detail {
   width: 100%;
 
   .top {

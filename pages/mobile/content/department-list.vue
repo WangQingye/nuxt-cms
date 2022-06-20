@@ -3,14 +3,14 @@
     <!-- <p class="title">
       业务部门
     </p> -->
-    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
+    <PageListMobile :page-size="pageSize" :total="total" @fetchData="fetchData">
       <!-- <div class="items" v-if="departmentItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
         <img class="department-item" :src="department" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail?id=1&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
       </div>
-    </PageList>
+    </PageListMobile>
   </div>
 </template>
 <script>

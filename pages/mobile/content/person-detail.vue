@@ -114,6 +114,8 @@ export default {
 <style lang='scss'>
 .content-print {
   line-height: 0.25rem;
+  font-size: 0.15rem;
+  padding: 0;
   img {
     max-width: 100%;
     height: auto;

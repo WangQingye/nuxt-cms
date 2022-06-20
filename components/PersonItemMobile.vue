@@ -12,8 +12,10 @@
       <div class="info">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
-        <p class="position">{{itemData.position}}</p>
-        <p class="position">{{itemData.desc}}</p>
+        <div class="bottom">
+          <p class="position">{{itemData.position}}</p>
+          <p class="position">{{itemData.desc}}</p>
+        </div>
       </div>
     </div>
     <div class='person-item-department' v-if="type === 'department'">
@@ -93,28 +95,36 @@ export default {
   padding-bottom: 136%;
   background-size: cover;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 0.04rem;
   position: relative;
   .info {
     position: absolute;
     bottom: 0;
-    padding: 20px;
+    // padding-top: 0.2rem;
     color: white;
     .name {
-      font-size: 20px;
+      padding: 0 0.13rem;
+      font-size: 0.13rem;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 0.08rem;
     }
     .line {
-      width: 20px;
-      height: 2px;
+      width: 0.13rem;
+      margin-left: 0.13rem;
+      height: 0.01rem;
       background: $--color-primary;
-      margin-bottom: 15px;
     }
-    .position {
-      font-size: 13px;
-      line-height: 21px;
-      @include ellipsisBasic(1);
+    .bottom {
+      background-image: linear-gradient(to top , rgba(0,0,0,.5), rgba(0,0,0,0));
+      width: 100%;
+      padding: 0.13rem;
+      box-sizing: border-box;
+      border-radius: 0 0 0.04rem 0.04rem;
+      .position {
+        font-size: 0.08rem;
+        line-height: 0.15rem;
+        @include ellipsisBasic(1);
+      }
     }
   }
 }
