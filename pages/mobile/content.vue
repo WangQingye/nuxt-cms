@@ -1,12 +1,12 @@
  <template>
   <div class='mobile-content-container'>
     <div class="top" :style="`background-image: url(${contentTitleImg})`">
-      <p class="top-title">{{title}}</p>
+      <p class="top-title">{{titles[0]}}</p>
     </div>
     <div class="small-title">
       <div>
         <i class="circle"></i>
-        <span class="title">{{title}} / {{smallTitle}}</span>
+        <span class="title">{{titles[1]}} / {{titles[2]}}</span>
       </div>
       <span class="date">{{date}}</span>
     </div>
@@ -14,18 +14,42 @@
   </div>
 </template>
 <script>
-import img from '~/static/imgs/sucaibg.jpg'
+import img from '~/static/imgs/home/topbg@2x.jpg'
 export default {
   data() {
     return {
       contentTitleImg: img,
-      title: '中心概况',
-      smallTitle: '中心简介',
       date: '2022年03月22日',
     }
   },
   created() {},
-  methods: {},
+  methods: {
+    menu() {
+      console.log(titles)
+    }
+  },
+  computed: {
+    titles() {
+      let menuIds = this.$route.query.menuIds
+      let menuList = this.$store.state.config.menuList
+      let titleArr = []
+      menuIds.split(',').forEach(id => {
+        findMenuTitle(menuList, id)
+      })
+      function findMenuTitle(arr, id) {
+        arr.forEach(a => {
+          if (a.menuId == id) {
+            titleArr.push(a.title)
+            return;
+          } else if (a.children) {
+            findMenuTitle(a.children, id)
+          }
+        })
+      }
+      console.log(titleArr)
+      return titleArr
+    },
+  },
   watch: {
     '$route.query.key': function () {
       // this.fetchCategories()
@@ -41,6 +65,7 @@ export default {
   .top {
     height: 0.72rem;
     width: 100%;
+    background-size: contain;
     .top-title {
       line-height: 0.72rem;
       font-size: 0.21rem;
@@ -76,4 +101,3 @@ export default {
   }
 }
 </style>
- 

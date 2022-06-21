@@ -63,7 +63,7 @@ export default {
     .top {
       @include flex-between;
       justify-content: flex-start;
-      margin-bottom: 0.18rem;
+      margin-bottom: 0.11rem;
       // min-height: 0.24rem;
       // min-width: 0.1rem;
       .tag {
@@ -72,14 +72,14 @@ export default {
         padding: 0 0.05rem;
         font-weight: bold;
         margin-right: 0.1rem;
-  
+
         .icon {
           margin-right: 0.05rem;
           font-weight: bold;
           vertical-align: middle;
         }
       }
-  
+
     }
     .title {
       font-size: 0.12rem;
@@ -87,7 +87,7 @@ export default {
       line-height: 0.18rem;
       @include ellipsisBasic(2);
     }
-  
+
     // .desc {
     //   font-size: 14rem;
     //   font-weight: 400;

@@ -4,6 +4,7 @@
       <img class="img" :src="itemData.img|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
+        <div class="line"></div>
         <p class="position">{{itemData.position}}</p>
         <p class="position">{{itemData.desc}}</p>
       </div>
@@ -59,34 +60,37 @@ export default {
 <style scoped lang='scss'>
 .person-item-search {
   width: 100%;
-  height: 150px;
+  height: 1.5rem;
   cursor: pointer;
   @include flex-between(flex-end);
   background: white;
-  padding: 15px;
   box-sizing: border-box;
-  &:hover {
-    background: $--color-primary-light;
-  }
 
   .img {
-    width: 90px;
-    height: 120px;
-    border-radius: 4px;
-    margin-right: 10px;
+    width: 1.11rem;
+    height: 1.5rem;
+    border-radius: 0.04rem;
+    margin-right: 0.15rem;
   }
   .right {
     flex: 1;
+    padding-bottom: 0.15rem;
     .name {
-      font-size: 15px;
+      font-size: 0.15rem;
       font-weight: bold;
       color: #1a1a1a;
       margin-bottom: 10px;
     }
+    .line {
+      width: 0.13rem;
+      height: 0.01rem;
+      margin-bottom: 0.1rem;
+      background: $--color-primary;
+    }
     .position {
-      font-size: 13px;
+      font-size: 0.1rem;
       color: #4d4d4d;
-      line-height: 21px;
+      line-height: 0.15rem;
       @include ellipsisBasic(2);
     }
   }
