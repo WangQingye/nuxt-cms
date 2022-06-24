@@ -1,5 +1,5 @@
 <template>
-  <div class='list-item' @click="$router.push(`/content/news-detail?id=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
+  <div class='list-item' @click="$router.push(`/content/news-detail?id=${itemData.id}&menuIds=${$route.query.menuIds}`)">
     <img class="img" :src="itemData.thumb|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
     <div class="right">
       <div class="top" v-if="itemData.is_new || itemData.is_top">
