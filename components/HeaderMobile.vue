@@ -110,6 +110,7 @@ export default {
       )
     },
     goSearch() {
+      this.drawerVisible = false
       this.$router.push(`/mobile/search?text=${this.searchText}`)
     },
   },

@@ -28,7 +28,7 @@
         <p class="position">{{itemData.position1}}</p>
         <p class="desc">{{itemData.desc}}</p>
       </div>
-      <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span>
+      <!-- <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span> -->
     </div>
   </div>
 </template>

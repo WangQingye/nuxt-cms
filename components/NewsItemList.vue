@@ -22,7 +22,7 @@ export default {
           id: '87bc10c00baa42bb917908e89834ba83',
           title: '标题',
           digest: '第七届中国国际“互联网+”大学生创新创业大赛总决赛在南昌大学举行。重庆大学的创新创业团队表现优异，7件入围总决赛答辩项目获得了5金2银的历史最好成绩。此次比赛，交大不仅金奖数量及获奖总数创历史新高，而且实现了红旅赛道历史首金的突破，并获上海市的“先进集体奖”。',
-          thumb: 'https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/02/03/ChMkJlbKxy-IT_laAAP1DG9eVXQAALHwQC7EpUAA_Uk494.jpg',
+          thumb: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.18-23IyhMHV0DyhI4Rp-hAHaEK?w=333&h=187&c=7&r=0&o=5&dpr=1.25&pid=1.7',
         }
       },
     },
