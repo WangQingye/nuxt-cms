@@ -12,39 +12,39 @@
           </div>
           <el-input prefix-icon="el-icon-search" placeholder="搜索" v-model="searchText" @keyup.enter.native="goSearch"></el-input>
         </div>
-        <el-menu @select="onMenuSelect">
+        <el-menu class="main-menu" @select="onMenuSelect">
           <template v-for="item in menuList">
             <!-- 一级 -->
-            <el-submenu v-if="item.children && item.children.length" :index="item.menuId" :key="item.menuId">
+            <el-submenu v-if="item.children && item.children.length" :index="String(item.id)" :key="item.id">
               <template slot="title">
                 <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -20px;">
                   <i class="circle"></i>
-                  <span class="first-title">{{item.title}}</span>
+                  <span class="first-title">{{item.name}}</span>
                 </div>
               </template>
               <template v-for="subItem in item.children">
                 <!-- 二级 -->
-                <el-submenu v-if="subItem.children && subItem.children.length" :index="subItem.menuId" :key="subItem.menuId">
+                <el-submenu v-if="subItem.children && subItem.children.length" :index="String(subItem.id)" :key="subItem.id">
                   <template slot="title">
                     <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -12px;">
                       <i class="el-icon-location"></i>
-                      <span class="second-title">{{subItem.title}}</span>
+                      <span class="second-title">{{subItem.name}}</span>
                     </div>
                   </template>
                   <template v-for="thirdItem in subItem.children">
                     <template v-if="thirdItem.children && thirdItem.children.length">
-                      <el-menu-item v-for="fourthItem in thirdItem.children" :index="fourthItem.menuId" :key="fourthItem.menuId">
+                      <el-menu-item v-for="fourthItem in thirdItem.children" :index="String(fourthItem.id)" :key="fourthItem.id">
                         <template slot="title">
                           <div class="item-line">
-                            <span class="third-title">{{fourthItem.title}}</span>
+                            <span class="third-title">{{fourthItem.name}}</span>
                           </div>
                         </template>
                       </el-menu-item>
                     </template>
-                    <el-menu-item v-else :index="thirdItem.menuId" :key="thirdItem.menuId">
+                    <el-menu-item v-else :index="String(thirdItem.id)" :key="thirdItem.id">
                       <template slot="title">
                         <div class="item-line">
-                          <span class="third-title">{{thirdItem.title}}</span>
+                          <span class="third-title">{{thirdItem.name}}</span>
                         </div>
                       </template>
                     </el-menu-item>
@@ -57,9 +57,9 @@
                     </template>
                   </el-menu-item> -->
                 </el-submenu>
-                <el-menu-item v-else :index="subItem.menuId" :key="subItem.menuId">
+                <el-menu-item v-else :index="String(subItem.id)" :key="subItem.id">
                   <div class="item-line">
-                    <span>{{subItem.title}}</span>
+                    <span>{{subItem.name}}</span>
                     <el-tag class="tag" type="primary" v-if="subItem.num">
                       {{subItem.num}}
                     </el-tag>
@@ -165,6 +165,7 @@ export default {
   padding: 0.3rem;
   box-sizing: border-box;
   .top-container {
+    width: 2.48rem;
     border-bottom: 0.01rem solid #ededed;
     display: flex;
     flex-direction: column;
@@ -193,6 +194,7 @@ export default {
     margin-top: 0.9rem;
     border-top: 0.01rem solid #ededed;
     padding-top: 0.24rem;
+    box-sizing: border-box;
     .link {
       @include flex-between;
       margin-bottom: 0.24rem;
@@ -214,6 +216,9 @@ export default {
       }
     }
   }
+  .main-menu {
+    width: 2.48rem;
+  }
   .el-menu {
     border: none;
     color: #999;
@@ -228,13 +233,19 @@ export default {
     .third-title {
       font-size: 0.12rem;
     }
+    .el-submenu__title:hover {
+      background: none;
+    }
     .el-menu--inline {
       box-sizing: border-box;
       margin-left: 0.08rem;
-      border-left: 0.01rem solid #F5F8FF;
+      border-left: 0.01rem solid #f5f8ff;
       .is-opened .el-menu--inline {
         border-left: 0.01rem solid white;
         margin-left: 0.08rem;
+      }
+      .el-submenu__title {
+        // padding-right: 40px;
       }
     }
     .is-active {
@@ -243,7 +254,7 @@ export default {
       }
       .second-title {
         font-size: 0.12rem;
-        color: #1A1A1A;
+        color: #1a1a1a;
       }
       .is-active {
         .is-active {
@@ -252,7 +263,7 @@ export default {
         }
       }
       .el-submenu__title:hover {
-        background: none
+        background: none;
       }
     }
   }

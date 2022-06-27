@@ -22,21 +22,26 @@
       <img class="header-logo" v-if="!isHomePage" :src="logo2" alt="logo" @click="$router.push('/')">
       <div class="header-right">
         <div class="header-tabs">
-          <el-popover placement="bottom" trigger="hover" v-for="(tab,index) in menuList" :key="index">
-            <div>
-              <!-- popover最小宽度150 -->
-              <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.title">
-                <p v-show="tabChild.title" class="tab-title">
-                  <i class="el-icon-date" style="margin-right: 5px"></i>
-                  {{tabChild.title}}
-                </p>
-                <p class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)">{{child.title}}</p>
+          <template v-for="tab in menuList">
+            <p class="tab" :key="tab.id" v-if="tab.event_type == 'navigationTo'" @click="$router.push(tab.event_link)">
+              {{tab.name}}
+            </p>
+            <el-popover v-else placement="bottom" trigger="hover" :key="tab.id">
+              <div>
+                <!-- popover最小宽度150 -->
+                <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.name">
+                  <p v-show="tabChild.name" class="tab-title">
+                    <i class="el-icon-date" style="margin-right: 5px"></i>
+                    {{tabChild.name}}
+                  </p>
+                  <p class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)">{{child.name}}</p>
+                </div>
               </div>
-            </div>
-            <span slot="reference" class="tab">
-              <span class="tab">{{tab.title}}<i class="el-icon-arrow-down el-icon--right"></i></span>
-            </span>
-          </el-popover>
+              <span slot="reference" class="tab">
+                <span class="tab">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+              </span>
+            </el-popover>
+          </template>
           <i class="el-icon-search search-icon" @click="showSearch = !showSearch"></i>
         </div>
         <el-dropdown placement="bottom-start" v-if="isLogin">

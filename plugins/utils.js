@@ -30,124 +30,127 @@ function getDefaultImg(event) {
 
 async function getInitData(context) {
   if (context.app.store.state.config.menuList.length == 0) {
-    let data = await context.app.$api.banner.getWebConfig()
-    context.store.commit('config/setWebConfig', data)
-    context.store.commit('config/setMenuList', [
-      { 
-        title: '中心概况',
-        menuId: "1",
-        children: [
-          {
-            title: '中心概况',
-            icon: '',
-            menuId: "15",
-            children: [
-              {
-                title: '中心简介',
-                type: '1',
-                menuId: "2",
-              },
-              {
-                title: '中心领导',
-                type: '2',
-                menuId: "3",
-              },
-              {
-                title: '职能部门',
-                menuId: "16",
-                children: [
-                  {
-                    title: '党政办公室',
-                    type: '2',
-                    menuId: "4",
-                  },
-                  {
-                    title: '创新发展办公室',
-                    type: '2',
-                    menuId: "5",
-                  },
-                ]
-              },
-              {
-                title: '业务部门',
-                type: '3',
-                menuId: "6",
-              },
-              {
-                title: '信息公开',
-                type: '4',
-                menuId: "7",
-              },
-            ],
-          },
-          {
-            title: '中心动态',
-            icon: '',
-            menuId: "17",
-            children: [
-              {
-                title: '中心要闻',
-                type: '4',
-                menuId: "8",
-              },
-              {
-                title: '通知公告',
-                type: '4',
-                menuId: "9", 
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: '人才培养',
-        menuId: "20",
-        children: [
-          {
-            title: '教育教学',
-            icon: '',
-            menuId: "18",
-            children: [
-              {
-                title: '课程体系',
-                type: '4',
-                menuId: "10",
-                num: 5,
-              },
-              {
-                title: '精品课程',
-                type: '4',
-                menuId: "11",
-                num: 2,
-              },
-              {
-                title: '校企课程',
-                type: '4',
-                menuId: "12",
-                num: 1,
-              },
-            ]
-          },
-          {
-            title: '大创项目',
-            icon: '',
-            menuId: "19",
-            children: [
-              {
-                title: '大创概况',
-                type: '1',
-                menuId: "13",
-              },
-              {
-                title: '大创培训',
-                type: '1',
-                menuId: "14",
-              },
-            ]
-          },
-        ],
-      },
-    ])
+    // let config = await context.app.$api.banner.getWebConfig()
+    let navigation = await context.app.$api.banner.getNavigation()
+    console.log('navi', navigation)
+    // context.store.commit('config/setWebConfig', config)
+    context.store.commit('config/setMenuList', navigation)
+    // context.store.commit('config/setMenuList', [
+    //   { 
+    //     title: '中心概况',
+    //     menuId: "1",
+    //     children: [
+    //       {
+    //         title: '中心概况',
+    //         icon: '',
+    //         menuId: "15",
+    //         children: [
+    //           {
+    //             title: '中心简介',
+    //             type: '1',
+    //             menuId: "2",
+    //           },
+    //           {
+    //             title: '中心领导',
+    //             type: '2',
+    //             menuId: "3",
+    //           },
+    //           {
+    //             title: '职能部门',
+    //             menuId: "16",
+    //             children: [
+    //               {
+    //                 title: '党政办公室',
+    //                 type: '2',
+    //                 menuId: "4",
+    //               },
+    //               {
+    //                 title: '创新发展办公室',
+    //                 type: '2',
+    //                 menuId: "5",
+    //               },
+    //             ]
+    //           },
+    //           {
+    //             title: '业务部门',
+    //             type: '3',
+    //             menuId: "6",
+    //           },
+    //           {
+    //             title: '信息公开',
+    //             type: '4',
+    //             menuId: "7",
+    //           },
+    //         ],
+    //       },
+    //       {
+    //         title: '中心动态',
+    //         icon: '',
+    //         menuId: "17",
+    //         children: [
+    //           {
+    //             title: '中心要闻',
+    //             type: '4',
+    //             menuId: "8",
+    //           },
+    //           {
+    //             title: '通知公告',
+    //             type: '4',
+    //             menuId: "9", 
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     title: '人才培养',
+    //     menuId: "20",
+    //     children: [
+    //       {
+    //         title: '教育教学',
+    //         icon: '',
+    //         menuId: "18",
+    //         children: [
+    //           {
+    //             title: '课程体系',
+    //             type: '4',
+    //             menuId: "10",
+    //             num: 5,
+    //           },
+    //           {
+    //             title: '精品课程',
+    //             type: '4',
+    //             menuId: "11",
+    //             num: 2,
+    //           },
+    //           {
+    //             title: '校企课程',
+    //             type: '4',
+    //             menuId: "12",
+    //             num: 1,
+    //           },
+    //         ]
+    //       },
+    //       {
+    //         title: '大创项目',
+    //         icon: '',
+    //         menuId: "19",
+    //         children: [
+    //           {
+    //             title: '大创概况',
+    //             type: '1',
+    //             menuId: "13",
+    //           },
+    //           {
+    //             title: '大创培训',
+    //             type: '1',
+    //             menuId: "14",
+    //           },
+    //         ]
+    //       },
+    //     ],
+    //   },
+    // ])
   }
   console.log('setinitdata')
 }
@@ -177,8 +180,8 @@ function getContentPageMenuData(menuList, menuId, subMenuId) {
   }
 }
 const typeToPages = {
-  '1': 'news-detail',
-  '2': 'department-detail',
+  'newsTo': 'news-detail',
+  'institutionTo': 'department-detail',
   '3': 'department-list',
   '4': 'news-list'
 }

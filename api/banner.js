@@ -10,5 +10,11 @@ export default $axios => ({
     return $axios({
       url: '/setting/configure', method: 'get', params
     })
+  },
+  // 获取导航菜单
+  getNavigation(params) {
+    return $axios({
+      url: '/navigation/index', method: 'get', params
+    })
   }
 })
