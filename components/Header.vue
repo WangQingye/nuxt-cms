@@ -119,9 +119,16 @@ export default {
     //   logout: 'user/logout',
     // }),
     handleClick(tab, child) {
-      let subPage = this.$utils.typeToPages[child.type]
+      let c
+      // 如果有下一级，那么默认跳到下一级的第一个选项
+      if (child.children && child.children.length) {
+        c = child.children[0]
+      } else {
+        c = child
+      }
+      let subPage = this.$utils.typeToPages[c.type]
       this.$router.push(
-        `/content/${subPage}?menuId=${tab.menuId}&subMenuId=${child.menuId}`
+        `/content/${subPage}?menuId=${tab.menuId}&subMenuId=${c.menuId}`
       )
       return
     },

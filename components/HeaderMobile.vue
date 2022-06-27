@@ -1,72 +1,66 @@
 <template>
   <div :class="['mobile-header', isHomePage ? 'home-header' : '']">
-    <img class="header-logo"
-      v-if="isHomePage"
-      :src="logo1"
-      @click="$router.push('/mobile/home')"
-      alt="logo">
-    <img class="header-logo"
-      @click="$router.push('/mobile/home')"
-      v-else
-      :src="logo2" />
-    <i class="el-icon-s-fold icon"
-      @click="drawerVisible = true" />
-    <el-drawer title="我是标题"
-      :visible.sync="drawerVisible"
-      :with-header="false"
-      append-to-body
-      size="3.08rem">
+    <img class="header-logo" v-if="isHomePage" :src="logo1" @click="$router.push('/mobile/home')" alt="logo">
+    <img class="header-logo" @click="$router.push('/mobile/home')" v-else :src="logo2" />
+    <i class="el-icon-s-fold icon" @click="drawerVisible = true" />
+    <el-drawer title="我是标题" :visible.sync="drawerVisible" :with-header="false" append-to-body size="3.08rem">
       <div class="mobile-menu">
         <div class="top-container">
           <div class="top">
-            <el-button style="width: 1.64rem"
-              type="primary">用户登录</el-button>
+            <el-button style="width: 1.64rem" type="primary">用户登录</el-button>
             <i class="el-icon-close close"></i>
           </div>
-          <el-input prefix-icon="el-icon-search"
-            placeholder="搜索" v-model="searchText" @keyup.enter.native="goSearch"></el-input>
+          <el-input prefix-icon="el-icon-search" placeholder="搜索" v-model="searchText" @keyup.enter.native="goSearch"></el-input>
         </div>
         <el-menu @select="onMenuSelect">
           <template v-for="item in menuList">
             <!-- 一级 -->
-            <el-submenu v-if="item.children && item.children.length"
-              :index="item.menuId"
-              :key="item.menuId">
+            <el-submenu v-if="item.children && item.children.length" :index="item.menuId" :key="item.menuId">
               <template slot="title">
                 <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -20px;">
-                  <i class="el-icon-location"></i>
-                  <span>{{item.title}}</span>
+                  <i class="circle"></i>
+                  <span class="first-title">{{item.title}}</span>
                 </div>
               </template>
               <template v-for="subItem in item.children">
                 <!-- 二级 -->
-                <el-submenu v-if="subItem.children && subItem.children.length"
-                  :index="subItem.menuId"
-                  :key="subItem.menuId">
+                <el-submenu v-if="subItem.children && subItem.children.length" :index="subItem.menuId" :key="subItem.menuId">
                   <template slot="title">
                     <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -12px;">
                       <i class="el-icon-location"></i>
-                      <span>{{subItem.title}}</span>
+                      <span class="second-title">{{subItem.title}}</span>
                     </div>
                   </template>
-                  <el-menu-item v-for="thirdItem in subItem.children"
-                    :index="thirdItem.menuId"
-                    :key="thirdItem.menuId">
+                  <template v-for="thirdItem in subItem.children">
+                    <template v-if="thirdItem.children && thirdItem.children.length">
+                      <el-menu-item v-for="fourthItem in thirdItem.children" :index="fourthItem.menuId" :key="fourthItem.menuId">
+                        <template slot="title">
+                          <div class="item-line">
+                            <span class="third-title">{{fourthItem.title}}</span>
+                          </div>
+                        </template>
+                      </el-menu-item>
+                    </template>
+                    <el-menu-item v-else :index="thirdItem.menuId" :key="thirdItem.menuId">
+                      <template slot="title">
+                        <div class="item-line">
+                          <span class="third-title">{{thirdItem.title}}</span>
+                        </div>
+                      </template>
+                    </el-menu-item>
+                  </template>
+                  <!-- <el-menu-item v-for="thirdItem in subItem.children" :index="thirdItem.menuId" :key="thirdItem.menuId">
                     <template slot="title">
                       <div class="item-line">
-                        <span>{{thirdItem.title}}</span>
+                        <span class="third-title">{{thirdItem.title}}</span>
                       </div>
                     </template>
-                  </el-menu-item>
+                  </el-menu-item> -->
                 </el-submenu>
-                <el-menu-item v-else
-                  :index="subItem.menuId"
-                  :key="subItem.menuId">
+                <el-menu-item v-else :index="subItem.menuId" :key="subItem.menuId">
                   <div class="item-line">
                     <span>{{subItem.title}}</span>
-                    <el-tag class="tag"
-                      type="primary"
-                      v-if="subItem.num">
+                    <el-tag class="tag" type="primary" v-if="subItem.num">
                       {{subItem.num}}
                     </el-tag>
                   </div>
@@ -75,6 +69,13 @@
             </el-submenu>
           </template>
         </el-menu>
+        <div class="links">
+          <div class="link" v-for="i in 3" :key="i">
+            <span class="text-container"><i class="circle"></i><span class="text">OA入口
+              </span></span>
+            <i class="el-icon-arrow-right icon"></i>
+          </div>
+        </div>
       </div>
     </el-drawer>
   </div>
@@ -90,7 +91,7 @@ export default {
       logo1,
       logo2,
       drawerVisible: false,
-      searchText: ''
+      searchText: '',
     }
   },
   mounted() {},
@@ -98,7 +99,10 @@ export default {
     onMenuSelect(subMenuId, indexPath) {
       let topMenuId = indexPath[0]
       console.log(indexPath)
-      let subItem = this.$utils.getSubMenuItem(this.menuList.find(m => m.menuId == topMenuId), subMenuId)
+      let subItem = this.$utils.getSubMenuItem(
+        this.menuList.find((m) => m.menuId == topMenuId),
+        subMenuId
+      )
       let subPage = this.$utils.typeToPages[subItem.type]
       this.drawerVisible = false
       this.$router.push(
@@ -115,7 +119,7 @@ export default {
     },
     isHomePage() {
       return this.$route.name == 'mobile-home'
-    }
+    },
   },
   watch: {
     // '$route.name': {
@@ -184,11 +188,82 @@ export default {
       background: $--color-primary-light;
     }
   }
+  .links {
+    margin-top: 0.9rem;
+    border-top: 0.01rem solid #ededed;
+    padding-top: 0.24rem;
+    .link {
+      @include flex-between;
+      margin-bottom: 0.24rem;
+      .text-container {
+        @include flex-between;
+        .circle {
+          vertical-align: middle;
+          margin-right: 0.1rem;
+        }
+        .text {
+          font-size: 0.14rem;
+          font-weight: bold;
+          color: #999;
+        }
+      }
+      .icon {
+        font-size: 0.12rem;
+        color: #999;
+      }
+    }
+  }
   .el-menu {
     border: none;
-    .el-submenu__title {
-      // padding: 0 !important;
+    color: #999;
+    .first-title {
+      font-size: 0.14rem;
+      color: #999;
     }
+    .second-title {
+      font-size: 0.12rem;
+      color: #999;
+    }
+    .third-title {
+      font-size: 0.12rem;
+    }
+    .el-menu--inline {
+      box-sizing: border-box;
+      margin-left: 0.08rem;
+      border-left: 0.01rem solid #F5F8FF;
+      .is-opened .el-menu--inline {
+        border-left: 0.01rem solid white;
+        margin-left: 0.08rem;
+      }
+    }
+    .is-active {
+      .first-title {
+        color: $--color-primary;
+      }
+      .second-title {
+        font-size: 0.12rem;
+        color: #1A1A1A;
+      }
+      .is-active {
+        .is-active {
+          background: $--color-primary-light;
+          border-radius: 0.03rem;
+        }
+      }
+      .el-submenu__title:hover {
+        background: none
+      }
+    }
+  }
+  .circle {
+    display: inline-block;
+    width: 0.15rem;
+    height: 0.15rem;
+    border: 0.02rem solid #e6edff;
+    border-radius: 50%;
+    box-sizing: border-box;
+    margin-right: 0.05rem;
+    vertical-align: middle;
   }
 }
 </style>
