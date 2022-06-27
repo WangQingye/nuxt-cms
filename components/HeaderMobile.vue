@@ -8,7 +8,7 @@
         <div class="top-container">
           <div class="top">
             <el-button style="width: 1.64rem" type="primary">用户登录</el-button>
-            <i class="el-icon-close close"></i>
+            <i class="el-icon-close close" @click="drawerVisible = false"></i>
           </div>
           <el-input prefix-icon="el-icon-search" placeholder="搜索" v-model="searchText" @keyup.enter.native="goSearch"></el-input>
         </div>
