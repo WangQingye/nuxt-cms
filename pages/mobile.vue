@@ -29,5 +29,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-message {
+  min-width: 1rem;
+  max-width: 3.75rem;
+  .el-message__icon {
+    font-size: 0.14rem;
+  }
+}
 </style>

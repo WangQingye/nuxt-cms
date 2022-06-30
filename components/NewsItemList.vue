@@ -3,8 +3,8 @@
     <img class="img" :src="itemData.thumb|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
     <div class="right">
       <div class="top">
-        <el-tag class="tag" type="info" v-if="itemData.isNew">新</el-tag>
-        <el-tag class="tag" type="info" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
+        <el-tag class="tag" type="primary" v-if="itemData.isNew">新</el-tag>
+        <el-tag class="tag" type="primary" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
         </el-tag>
         <p class='title'>{{ itemData.title }}</p>
       </div>

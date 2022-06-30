@@ -42,7 +42,6 @@
         <p class="back-button">返回中心首页</p>
       </div>
     </div>
-    <Footer />
   </div>
 </template>
 
@@ -167,6 +166,7 @@ export default {
 .search-page {
   width: 100%;
   min-width: 1440px;
+  padding-top: 0 !important;
   .search-top {
     width: 100%;
     height: 160px;

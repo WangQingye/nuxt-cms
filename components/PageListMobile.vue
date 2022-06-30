@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     prev() {
-      console.log(this.$refs.pagination)
     },
     refresh() {
       this.$emit('fetchData', this.currentPage)
@@ -45,7 +44,6 @@ export default {
     },
     jump() {
       this.currentPage = Number(this.jumpPage)
-      console.log(this.currentPage, '321312')
       this.$emit('fetchData', this.currentPage)
     },
   },

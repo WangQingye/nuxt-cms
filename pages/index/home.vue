@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- <client-only> -->
-    <HomeSwiper />
+    <HomeSwiper :list="bannerList" />
     <!-- </client-only> -->
     <div class="main-container">
       <!-- <el-row class="menu-list" :gutter="20"> -->
@@ -338,6 +338,16 @@ export default {
           ],
         },
       ],
+      bannerList: []
+    }
+  },
+  async asyncData(context) {
+    let banner = await context.app.$api.banner.bannerList({ type: 'home'})
+    let middleBanner = await context.app.$api.banner.bannerList({ type: 'home_middle'})
+    console.log(banner)
+    console.log('middle', middleBanner)
+    return {
+      bannerList: banner
     }
   },
   mounted() {

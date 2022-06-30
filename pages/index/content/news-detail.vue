@@ -2,11 +2,11 @@
   <div :class="['news-detail']">
     <div class="top">
       <div class="left">
-        <el-tag class='tag' type="info" style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
+        <el-tag class='tag' style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
             tag
           }}
         </el-tag>
-        <el-tag class='tag' type="warning">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
+        <el-tag class='tag'>{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
       </div>
       <el-button type="warning" class="button" @click="!$store.state.news.isPreview && doPrint()">打印本页</el-button>
     </div>
@@ -22,7 +22,7 @@
           <i class="el-icon-view" />
           {{ news.views }}
         </el-tag>
-        <el-tag class='tag' :type="liked ? 'success' : 'danger'" style="cursor:pointer" @click="clickLike">
+        <el-tag class='tag' :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
           <i class="font_family icon-dianzan" />
           {{ news.like_num }}
         </el-tag>
@@ -45,29 +45,11 @@ export default {
     }
   },
   async asyncData(context) {
-    // let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
-    let data = await context.app.$api.news.newsDetail({ id: '0100422d0c244083b844542b37e1766e' })
-    console.log(context.route)
-    console.log(context.app.$refs)
+    let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
     return { news: data }
   },
-  mounted() {
-    console.log(this.news)
-    // this.$refs.detail.innerHTML = this.news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)
-    // const { id } = this.$route.query
-    // console.log(this.$route.query)
-    // this.$store.commit('news/setIsPreview', this.$route.name == 'news-preview')
-    // this.news.id = id
-    // if (id) {
-    //   this.fetchData()
-    // }
-  },
+  mounted() {},
   methods: {
-    async fetchData() {
-      const { data } = await newsDetail({ id: this.news.id })
-      this.news = data
-      this.$refs.detail.innerHTML = data.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)
-    },
     doPrint() {
       var printHtml = document.getElementById('content-print').innerHTML //这个元素的样式需要用内联方式，不然在新开打印对话框中没有样式
       console.log(printHtml)
@@ -80,8 +62,8 @@ export default {
       wind.print()
     },
     async clickLike() {
-      if (this.liked || this.$store.state.news.isPreview) return
-      const {data}  = await newsLike({
+      if (this.liked) return
+      const data  = await this.$api.news.newsLike({
         id: this.news.id
       })
       this.news.like_num = data.like_num

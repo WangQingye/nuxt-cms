@@ -8,7 +8,7 @@ export default $axios => ({
   // 获取配置
   getWebConfig(params) {
     return $axios({
-      url: '/setting/configure', method: 'get', params
+      url: '/configure/config', method: 'get', params
     })
   },
   // 获取导航菜单

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['header', isHomePage && !showSearch ? '':'header-hover']">
+  <div :class="['header', isHomePage && !showSearch ? '':'header-hover']" v-show="!isSearchPage">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
         <span class="link">OA入口</span>
@@ -101,6 +101,7 @@ export default {
       searchText: '',
       showSearch: false,
       isHomePage: false,
+      isSearchPage: false
     }
   },
   computed: {
@@ -131,11 +132,11 @@ export default {
       } else {
         c = child
       }
-      let subPage = this.$utils.typeToPages[c.type]
+      console.log(c)
+      let subPage = this.$utils.typeToPages[c.event_type]
       this.$router.push(
-        `/content/${subPage}?menuId=${tab.menuId}&subMenuId=${c.menuId}`
+        `/content/${subPage}?menuId=${tab.id}&subMenuId=${c.id}&params=${c.event_link}`
       )
-      return
     },
     async handleUlogin() {
       // let callback = window.location.href
@@ -160,8 +161,8 @@ export default {
     '$route.name': {
       immediate: true,
       handler: function (val) {
-        console.log(val)
         this.isHomePage = val == 'index-home'
+        this.isSearchPage = val == 'index-search'
         this.showHeaderTop = val == 'index-home'
       },
     },

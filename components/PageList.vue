@@ -36,7 +36,6 @@ export default {
     },
     jump() {
       this.currentPage = Number(this.jumpPage)
-      console.log(this.currentPage, '321312')
       this.$emit('fetchData', this.currentPage)
     },
   },

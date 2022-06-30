@@ -30,10 +30,11 @@ function getDefaultImg(event) {
 
 async function getInitData(context) {
   if (context.app.store.state.config.menuList.length == 0) {
-    // let config = await context.app.$api.banner.getWebConfig()
+    let config = await context.app.$api.banner.getWebConfig()
+    console.log('config', config)
     let navigation = await context.app.$api.banner.getNavigation()
-    console.log('navi', navigation)
-    // context.store.commit('config/setWebConfig', config)
+    console.log('navigation', JSON.parse(JSON.stringify(navigation)))
+    context.store.commit('config/setWebConfig', config)
     context.store.commit('config/setMenuList', navigation)
     // context.store.commit('config/setMenuList', [
     //   { 
@@ -152,14 +153,13 @@ async function getInitData(context) {
     //   },
     // ])
   }
-  console.log('setinitdata')
 }
 function getSubMenuItem(menuItem, subMenuId) {
   let subMenuItem
   findItem(menuItem.children)
   function findItem(arr) {
     arr.forEach(a => {
-      if (a.menuId == subMenuId) {
+      if (a.id == subMenuId) {
         subMenuItem = a
         return;
       } else if (a.children) {
@@ -170,7 +170,7 @@ function getSubMenuItem(menuItem, subMenuId) {
   return subMenuItem
 }
 function getContentPageMenuData(menuList, menuId, subMenuId) {
-  const menuItem = menuList.find(m => m.menuId == menuId)
+  const menuItem = menuList.find(m => m.id == menuId)
   let subMenuItem = getSubMenuItem(menuItem, subMenuId)
   return {
     menuItem,
@@ -180,10 +180,11 @@ function getContentPageMenuData(menuList, menuId, subMenuId) {
   }
 }
 const typeToPages = {
-  'newsTo': 'news-detail',
+  'newsTo': 'news-list',
+  'pageTo': 'news-detail',
   'institutionTo': 'department-detail',
-  '3': 'department-list',
-  '4': 'news-list'
+  '': 'department-list',
+  '': 'news-list'
 }
 // Vue.prototype.$utils = {
 //   getDefaultImg,

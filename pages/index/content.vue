@@ -1,30 +1,30 @@
  <template>
-  <div class='content-container' v-if="menuItem.title">
+  <div class='content-container' v-if="menuItem.name">
     <div class="top" :style="`background-image: url(${contentTitleImg})`">
-      <p class="top-title">{{menuItem.title}}</p>
+      <p class="top-title">{{menuItem.name}}</p>
     </div>
     <section class='content'>
       <div class='left'>
         <el-menu :default-openeds="defaultOpen" :default-active="subMenuId" @select="onMenuSelect">
           <template v-for="item in menuItem.children">
             <!-- 一级 -->
-            <el-submenu v-if="item.children && item.children.length" :index="item.menuId" :key="item.menuId">
+            <el-submenu v-if="item.children && item.children.length" :index="String(item.id)" :key="item.id">
               <template slot="title">
                 <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold">
                   <i class="el-icon-location"></i>
-                  <span>{{item.title}}</span>
+                  <span>{{item.name}}</span>
                 </div>
               </template>
               <template v-for="subItem in item.children">
                 <!-- 二级 -->
-                <el-submenu v-if="subItem.children && subItem.children.length" :index="subItem.menuId" :key="subItem.menuId">
+                <el-submenu v-if="subItem.children && subItem.children.length" :index="String(subItem.id)" :key="subItem.id">
                   <template slot="title">
-                    <span style="padding-left:12px;">{{subItem.title}}</span>
+                    <span style="padding-left:12px;">{{subItem.name}}</span>
                   </template>
-                  <el-menu-item v-for="thirdItem in subItem.children" :index="thirdItem.menuId" :key="thirdItem.menuId">
+                  <el-menu-item v-for="thirdItem in subItem.children" :index="String(thirdItem.id)" :key="thirdItem.id">
                     <template slot="title">
                       <div class="item-line">
-                        <span>{{thirdItem.title}}</span>
+                        <span>{{thirdItem.name}}</span>
                         <el-tag class="tag" type="primary" v-if="thirdItem.num">
                           {{thirdItem.num}}
                         </el-tag>
@@ -32,9 +32,9 @@
                     </template>
                   </el-menu-item>
                 </el-submenu>
-                <el-menu-item v-else :index="subItem.menuId" :key="subItem.menuId">
+                <el-menu-item v-else :index="String(subItem.id)" :key="subItem.id">
                   <div class="item-line">
-                    <span>{{subItem.title}}</span>
+                    <span>{{subItem.name}}</span>
                     <el-tag class="tag" type="primary" v-if="subItem.num">
                       {{subItem.num}}
                     </el-tag>
@@ -42,10 +42,10 @@
                 </el-menu-item>
               </template>
             </el-submenu>
-            <!-- <el-menu-item v-else :index="item.menuId" :key="item.menuId">
+            <!-- <el-menu-item v-else :index="String(item.id)" :key="item.id">
               <template slot="title">
                 <div class="item-line">
-                  <span>{{item.title}}</span>
+                  <span>{{item.name}}</span>
                   <el-tag class="tag" type="primary" v-if="item.num">
                     {{item.num}}
                   </el-tag>
@@ -103,6 +103,7 @@ export default {
     }
   },
   async asyncData(context) {
+    await context.app.$utils.getInitData(context)
     let {menuItem, menuId, subMenuId, subMenuItem} = context.app.$utils.getContentPageMenuData(context.app.store.state.config.menuList, context.query.menuId, context.query.subMenuId)
     return {
       menuItem,
@@ -118,11 +119,11 @@ export default {
     defaultOpen() {
       let arr = []
       this.menuItem.children.forEach(m => {
-        arr.push(m.menuId)
+        arr.push(String(m.id))
         m.children.forEach(mc => {
           // 子菜单也自动打开
           if (mc.children) {
-            arr.push(mc.menuId)
+            arr.push(String(mc.id))
           }
         })
       })
@@ -130,24 +131,10 @@ export default {
     }
   },
   methods: {
-    async fetchCategories() {
-      // const { data } = await newsCategory()
-      // // 如果是直接跳转到新闻详情页，不要重定向
-      // if (
-      //   !this.$route.query.key &&
-      //   data.length &&
-      //   this.$route.name != 'news-detail' &&
-      //   this.$route.name != 'news-preview'
-      // ) {
-      //   this.$router.push(`/news?key=${data[0].children[0].id}`)
-      // }
-      // this.newsCategories = data
-      // this.menuActiveNames = data.map((c) => c.id)
-    },
     onMenuSelect(subMenuId) {
       let subItem = this.$utils.getSubMenuItem(this.menuItem, subMenuId)
-      let subPage = this.$utils.typeToPages[subItem.type]
-      this.$router.push(`/content/${subPage}?menuId=${this.menuId}&subMenuId=${subMenuId}`)
+      let subPage = this.$utils.typeToPages[subItem.event_type]
+      this.$router.push(`/content/${subPage}?menuId=${this.menuId}&subMenuId=${subMenuId}&params=${subItem.event_link}`)
     }
   },
   watch: {

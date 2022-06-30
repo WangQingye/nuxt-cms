@@ -98,12 +98,11 @@ export default {
   methods: {
     onMenuSelect(subMenuId, indexPath) {
       let topMenuId = indexPath[0]
-      console.log(indexPath)
       let subItem = this.$utils.getSubMenuItem(
-        this.menuList.find((m) => m.menuId == topMenuId),
+        this.menuList.find((m) => m.id == topMenuId),
         subMenuId
       )
-      let subPage = this.$utils.typeToPages[subItem.type]
+      let subPage = this.$utils.typeToPages[subItem.event_type]
       this.drawerVisible = false
       this.$router.push(
         `/mobile/content/${subPage}?menuIds=${indexPath.join(',')}`

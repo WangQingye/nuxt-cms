@@ -16,11 +16,11 @@
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items" v-if="!showListWay">
-        <NewsItemSkeleton class="news-item" v-for="i in 3" :key="i" v-show="isLoading" />
-        <NewsItem class="news-item" v-for="i in 3" :key="i" />
+        <NewsItemSkeleton class="news-item" v-for="i in 3" :key="i" v-if="isLoading" />
+        <NewsItem class="news-item" v-for="item in newsItems" :itemData="item" :key="item.id" />
       </div>
       <div class="items" v-else>
-        <NewsItemList class="list-way-item" v-for="i in 3" :key="i" />
+        <NewsItemList class="list-way-item" v-for="item in newsItems" :itemData="item" :key="item.id" />
       </div>
     </PageList>
   </div>
@@ -35,38 +35,52 @@ export default {
       showListWay: false,
       isLoading: false,
       newsItems: [],
-      newsTags: ['全部', '标签2', '标签3'],
+      newsTags: [],
       pageSize: 10,
       total: 0,
     }
   },
+  async asyncData(context) {
+    let tags = await context.app.$api.news.newsTag({
+      category_id: context.query.params,
+    })
+    let {list, total} = await context.app.$api.news.newsList({
+      category_id: context.query.params,
+      page: 1,
+      limit: 10,
+      tag: '',
+    })
+    return {
+      newsTags: ['全部', ...tags],
+      newsItems: list,
+      total
+    }
+  },
   methods: {
     async fetchData(page = 1) {
-      // const {
-      //   data: { total, list },
-      // } = await newsList({
-      //   page,
-      //   limit: this.pageSize,
-      //   category_id: this.$route.query.key,
-      //   // 查全部则tag传空字符串
-      //   tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
-      // })
+      const { total, list } = await this.$api.news.newsList({
+        page,
+        limit: this.pageSize,
+        category_id: this.$route.query.key,
+        // 查全部则tag传空字符串
+        tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
+      })
       this.total = total
-      // this.newsItems = list
+      this.newsItems = list
       this.isLoading = false
     },
     async fetchTags(key) {
       this.isLoading = true
       this.newsItems = []
-      const { data } = await categoryTag({ category_id: key })
+      const { data } = await this.$api.news.newsTag({ category_id: key })
       this.newsTags = ['全部', ...data]
       this.newsActiveName = '全部'
       this.fetchData()
     },
     handleClick() {
-      // this.isLoading = true
-      // this.newsItems = []
-      // this.fetchData()
+      this.isLoading = true
+      this.newsItems = []
+      this.fetchData()
     },
   },
   watch: {

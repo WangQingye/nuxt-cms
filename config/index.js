@@ -1,3 +1,3 @@
 module.exports = {
-  imgDomain: 'http://ma.vispp.cn/media'
+  imgDomain: 'http://cms.vispp.cn/media'
 }

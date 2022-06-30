@@ -9,7 +9,6 @@ export default function (context) {
     context.req.headers["user-agent"] :
     navigator.userAgent;
   context.isMoible = isMoible(context.userAgent);
-  console.log(context.route)
   if (context.route.path === '/') {
     context.redirect(context.isMoible ? `/mobile/home` : '/home')
   }
