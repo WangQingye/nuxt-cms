@@ -11,10 +11,10 @@
   </swiper> -->
   <el-carousel :interval="3000" height="760px" class="swiper" arrow="never">
     <el-carousel-item v-for="(item,index) in list" :key="index">
-      <div class="first-swiper" :style="{backgroundImage:`url(${item.cover}`}">
+      <div class="first-swiper" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
         <p class="big-text" v-html="item.title">{{ item.title }}</p>
         <p class="small-text">{{ item.sub_title }}</p>
-        <p class="button" v-if="item.event_name" @click="$router.push('/production')">{{ item.event_name }}</p>
+        <p class="button" v-if="item.event_name" @click="clickBanner(item)">{{ item.event_name }}</p>
       </div>
     </el-carousel-item>
   </el-carousel>
@@ -25,25 +25,31 @@ import banner1 from '~/static/imgs/home/banner1.jpg'
 import banner2 from '~/static/imgs/home/banner2.jpg'
 import banner3 from '~/static/imgs/home/banner3.jpg'
 export default {
-  name: "HomeSwiper",
+  name: 'HomeSwiper',
+  props: {
+    list: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
-      list: [{
-        title: '测试标题',
-        sub_title: '测试标题',
-        event_name: '测试标题',
-        cover: banner1
-      },{
-        title: '测试标题2',
-        sub_title: '测试标题',
-        event_name: '测试标题',
-        cover: banner2
-      },{
-        title: '测试标题3',
-        sub_title: '测试标题',
-        event_name: '测试标题',
-        cover: banner3
-      }],
+      // list: [{
+      //   title: '测试标题',
+      //   sub_title: '测试标题',
+      //   event_name: '测试标题',
+      //   cover: banner1
+      // },{
+      //   title: '测试标题2',
+      //   sub_title: '测试标题',
+      //   event_name: '测试标题',
+      //   cover: banner2
+      // },{
+      //   title: '测试标题3',
+      //   sub_title: '测试标题',
+      //   event_name: '测试标题',
+      //   cover: banner3
+      // }],
       swiperOptions: {
         loop: true,
         autoplay: {
@@ -66,6 +72,15 @@ export default {
   //     })
   //     console.log(this.list)
   // },
+  methods: {
+    clickBanner(banner) {
+      let subPage = this.$utils.typeToPages[banner.event_type]
+      subPage = this.$utils.typeToPages[banner.event_type]
+      this.$router.push(
+        `/content/${subPage}?param=${banner.event_link}`
+      )
+    },
+  },
 }
 </script>
 
