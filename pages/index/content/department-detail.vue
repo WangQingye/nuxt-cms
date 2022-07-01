@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       pageSize: 6,
-      total: 7,
+      total: 0,
       departmentDetail: {
         name: '综合事务部',
         desc: '综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述综合事务部描述',
@@ -75,25 +75,53 @@ export default {
       },
     }
   },
+  async asyncData(context) {
+    let detail = await context.app.$api.department.deparmentDetail({
+      key: context.route.query.params,
+    })
+    let { total, list } = await context.app.$api.department.deparmentPerson({
+      key: context.route.query.params,
+      page: 1,
+      limit: 6,
+    })
+    return {
+      departmentDetail: {
+        ...detail,
+        personList: list,
+      },
+      total,
+    }
+  },
   methods: {
     async fetchData(page = 1) {
-      // const {
-      //   data: { total, list },
-      // } = await newsList({
-      //   page,
-      //   limit: this.pageSize,
-      //   category_id: this.$route.query.key,
-      //   // 查全部则tag传空字符串
-      //   tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
-      // })
+      const { total, list } = await this.$api.department.deparmentPerson({
+        page,
+        limit: this.pageSize,
+        key: this.$route.query.params,
+      })
       this.total = total
-      // this.newsItems = list
+      this.departmentDetail.personList = list
+    },
+    async getInfo() {
+      let detail = await this.$api.department.deparmentDetail({
+        key: this.$route.query.params,
+      })
+      let { total, list } = await this.$api.department.deparmentPerson({
+        key: this.$route.query.params,
+        page: 1,
+        limit: 6,
+      })
+      this.departmentDetail = {
+        ...detail,
+        personList: list,
+      }
+      this.total = total
     },
   },
   watch: {
-    '$route.query.key': {
+    '$route.query.params': {
       handler: function (val) {
-        // if (val) this.fetchTags(val)
+        if (val) this.getInfo(val)
       },
       immediate: true,
     },

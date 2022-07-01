@@ -6,18 +6,18 @@
             tag
           }}
         </el-tag>
-        <el-tag class='tag'>{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
+        <el-tag class='tag' v-show="news.publish_at">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
       </div>
       <el-button type="warning" class="button" @click="!$store.state.news.isPreview && doPrint()">打印本页</el-button>
     </div>
     <div id="content-print" class="content-print">
       <p style="font-size: 24px;font-weight: bold;color: #1a1a1a;line-height: 30px;border-bottom: 2px solid #f2f2f2;padding: 40px 0;margin-bottom: 30px;text-align: center;">
-        {{ news.title }}
+        {{ news.title || news.name }}
       </p>
       <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
-    <div class="bottom">
-      <div class="left">
+    <div :class="[news.publish_at ? 'bottom' : 'bottom-1']">
+      <div class="left" v-show="news.publish_at">
         <el-tag class='tag' type="warning" style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
@@ -45,7 +45,12 @@ export default {
     }
   },
   async asyncData(context) {
-    let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
+    let data
+    if (context.route.query.singlePage == 1) {
+      data = await context.app.$api.news.articleDetail({ id: context.route.query.params })
+    } else {
+      data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
+    }
     return { news: data }
   },
   mounted() {},
@@ -120,6 +125,11 @@ export default {
   .bottom {
     margin-top: 40px;
     @include flex-between;
+  }
+  .bottom-1 {
+    margin-top: 40px;
+    @include flex-between;
+    justify-content:flex-end;
   }
 
   .tag {

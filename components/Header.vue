@@ -135,7 +135,7 @@ export default {
       console.log(c)
       let subPage = this.$utils.typeToPages[c.event_type]
       this.$router.push(
-        `/content/${subPage}?menuId=${tab.id}&subMenuId=${c.id}&params=${c.event_link}`
+        `/content/${subPage}?menuId=${tab.id}&subMenuId=${c.id}&params=${c.event_link}&singlePage=1`
       )
     },
     async handleUlogin() {

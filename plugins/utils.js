@@ -182,9 +182,9 @@ function getContentPageMenuData(menuList, menuId, subMenuId) {
 const typeToPages = {
   'newsTo': 'news-list',
   'pageTo': 'news-detail',
-  'institutionTo': 'department-detail',
-  '': 'department-list',
-  '': 'news-list'
+  'institutionTo': 'lab-detail',
+  'personnelTo': 'department-detail',
+  'institutionTypeTo': 'department-list'
 }
 // Vue.prototype.$utils = {
 //   getDefaultImg,

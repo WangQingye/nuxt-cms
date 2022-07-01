@@ -134,7 +134,7 @@ export default {
     onMenuSelect(subMenuId) {
       let subItem = this.$utils.getSubMenuItem(this.menuItem, subMenuId)
       let subPage = this.$utils.typeToPages[subItem.event_type]
-      this.$router.push(`/content/${subPage}?menuId=${this.menuId}&subMenuId=${subMenuId}&params=${subItem.event_link}`)
+      this.$router.push(`/content/${subPage}?menuId=${this.menuId}&subMenuId=${subMenuId}&params=${subItem.event_link}&singlePage=1`)
     }
   },
   watch: {

@@ -8,7 +8,7 @@
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
-        <img class="department-item" :src="department" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail-info?id=1&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
+        <img class="department-item" :src="department.cover|cloudImage" :alt="department.name" v-for="(department,index) in departmentItems" :key="index" @click="$router.push(`/content/lab-detail-info?params=${department.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
       </div>
     </PageList>
   </div>
@@ -34,6 +34,18 @@ export default {
       ],
       pageSize: 10,
       total: 0,
+    }
+  },
+  async asyncData(context) {
+    let { total, list } = await context.app.$api.department.deparmentList({
+      type: Number(context.route.query.params),
+      page: 1,
+      limit: 6,
+    })
+    console.log('dl', list)
+    return {
+      departmentItems: list,
+      total,
     }
   },
   methods: {
@@ -95,6 +107,7 @@ export default {
     .department-item {
       width: 24%;
       min-width: 150px;
+      min-height: 70px;
       // max-width: 330px;
       margin-right: 1.33%;
       margin-bottom: 30px;

@@ -1,6 +1,7 @@
 import bannerModule from '~/api/banner'
 import newsModule from '~/api/news'
 import userModule from '~/api/user'
+import departmentModule from '~/api/department'
 import { Message } from "element-ui";
 export default function ({ $axios }, inject) {
   const apiModules = {}
@@ -20,6 +21,7 @@ export default function ({ $axios }, inject) {
   apiModules.banner = bannerModule($axios)
   apiModules.news = newsModule($axios)
   apiModules.user = userModule($axios)
+  apiModules.department = departmentModule($axios)
   // Inject to context as $api
   inject('api', apiModules)
 }

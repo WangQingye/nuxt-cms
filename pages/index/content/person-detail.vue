@@ -3,7 +3,7 @@
     <div class="top">
       <div class="left">
         <el-tag class='tag' type="primary" style="margin-right: 10px" v-for="(tag,index ) in personDetail.tags" :key="index">{{
-            tag
+            tag.name
           }}
         </el-tag>
         <!-- <el-tag class='tag' type="warning">{{ personDetail.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag> -->
@@ -12,23 +12,23 @@
     </div>
     <div class="detial">
       <div class="base">
-        <img class="img" :src="personDetail.img|cloudImage" alt="">
+        <img class="img" :src="personDetail.avatar|cloudImage" alt="">
         <div class="base-info">
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
-          <p class="position">{{personDetail.position}}</p>
-          <p class="position" style="margin-bottom: 20px">{{personDetail.desc}}</p>
-          <p class="position">所在所系：{{personDetail.department}}</p>
-          <p class="position">办公电话：{{personDetail.phone}}</p>
+          <p class="position">{{personDetail.job_content}}</p>
+          <p class="position" style="margin-bottom: 20px">{{personDetail.intro}}</p>
+          <p class="position">所在所系：{{personDetail.dept}}</p>
+          <p class="position">办公电话：{{personDetail.tel}}</p>
           <p class="position">通讯地址：{{personDetail.address}}</p>
           <p class="position">电子邮件：{{personDetail.email}}</p>
-          <p class="position">个人主页：{{personDetail.page }}</p>
+          <p class="position">个人主页：{{personDetail.homepage }}</p>
         </div>
       </div>
       <el-collapse v-model="activeNames">
-        <el-collapse-item v-for="(info,index) in personDetail.infos" :key="index" :name="index">
+        <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">
           <template slot="title">
-            <span style="font-size:15px;font-weight:bold">{{info.title}}</span>
+            <span style="font-size:15px;font-weight:bold">{{info.name}}</span>
           </template>
           <div v-html="info.content"></div>
         </el-collapse-item>
@@ -82,14 +82,17 @@ export default {
         ],
       },
       imgDomain,
-      activeNames: [0, 1, 2, 3, 4],
+      activeNames: [],
     }
   },
   async asyncData(context) {
-    // let data = await context.app.$api.person.personDetail({ id: context.route.query.id })
-    // console.log(context.route)
-    // console.log(context.app.$refs)
-    // return { news: data }
+    let data = await context.app.$api.department.personDetail({
+      id: context.route.query.params,
+    })
+    let activeNames = data.labels.map((labal, index) => {
+      return index
+    })
+    return { personDetail: data, activeNames }
   },
   mounted() {},
   methods: {

@@ -1,31 +1,31 @@
 <template>
-  <div @click="$router.push(`/content/person-detail?id=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
+  <div @click="$router.push(`/content/person-detail?params=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
     <div class='person-item-search' v-if="type === 'search'">
-      <img class="img" :src="itemData.img|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
+      <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
-        <p class="position">{{itemData.position}}</p>
-        <p class="position">{{itemData.desc}}</p>
+        <p class="position">{{itemData.job_content}}</p>
+        <p class="position">{{itemData.intro}}</p>
       </div>
     </div>
-    <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${itemData.img})`}">
+    <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${itemData.avatar})`}">
       <div class="info">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <div class="bottom">
-          <p class="position">{{itemData.position}}</p>
-          <p class="position">{{itemData.desc}}</p>
+          <p class="position">{{itemData.job_content}}</p>
+          <p class="position">{{itemData.intro}}</p>
         </div>
       </div>
     </div>
     <div class='person-item-department' v-if="type === 'department'">
-      <img class="img" :src="itemData.img|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
+      <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
-        <p class="position">{{itemData.position}}</p>
-        <p class="position" style="margin-bottom: 25px;">{{itemData.position1}}</p>
-        <p class="desc">{{itemData.desc}}</p>
+        <p class="position">{{itemData.job_content}}</p>
+        <p class="position" style="margin-bottom: 25px;">{{itemData.job_content1}}</p>
+        <p class="desc">{{itemData.intro}}</p>
       </div>
       <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span>
     </div>
@@ -38,10 +38,12 @@ export default {
       type: Object,
       default: () => {
         return {
-          img: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          name: '武星域',
-          position: '院长助理 \\ 副教授 航空航天学院',
-          desc: '发动机推进与本科教学实验室建设',
+          avatar: '/backend/file/upload/b93cab64ff2e771304b6a953e6436fe6.png',
+          id: '623c925ec14d4055b60a4b8c4c44d5fc',
+          intro: '发的萨芬大师傅',
+          job_content: '发的萨芬大师傅',
+          name: '胡一刀',
+          post: '放大佛挡杀佛',
         }
       },
     },
@@ -115,7 +117,11 @@ export default {
       background: $--color-primary;
     }
     .bottom {
-      background-image: linear-gradient(to top , rgba(0,0,0,.5), rgba(0,0,0,0));
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0)
+      );
       width: 100%;
       padding: 20px;
       box-sizing: border-box;

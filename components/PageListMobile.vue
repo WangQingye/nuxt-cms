@@ -1,5 +1,5 @@
 <template>
-  <div class='page-list'>
+  <div class='page-list-mobile'>
     <slot></slot>
     <el-pagination ref="pagination" :pager-count="5" style='float:right' class="my-pagination" @current-change="handleCurrentChange" :current-page="currentPage" hide-on-single-page :page-size="pageSize" layout="total, slot" :total="total">
       <div class="pager">
@@ -50,7 +50,7 @@ export default {
 }
 </script>
 <style lang='scss'>
-.page-list {
+.page-list-mobile {
   .my-pagination {
     margin-top: 0.2rem;
     max-width: 100%;
