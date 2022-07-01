@@ -67,10 +67,10 @@ export default {
     }
   },
   async asyncData(context) {
-    // let data = await context.app.$api.person.labDetail({ id: context.route.query.id })
-    // console.log(context.route)
-    // console.log(context.app.$refs)
-    // return { news: data }
+    let data = await context.app.$api.person.labDetail({ id: context.route.query.id })
+    console.log(context.route)
+    console.log(context.app.$refs)
+    return { news: data }
   },
   mounted() {},
   methods: {
