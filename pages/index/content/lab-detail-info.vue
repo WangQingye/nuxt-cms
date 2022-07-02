@@ -67,9 +67,7 @@ export default {
     }
   },
   async asyncData(context) {
-    let data = await context.app.$api.person.labDetail({ id: context.route.query.id })
-    console.log(context.route)
-    console.log(context.app.$refs)
+    let data = await context.app.$api.department.labDetail({ id: context.route.query.params })
     return { news: data }
   },
   mounted() {},

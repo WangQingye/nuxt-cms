@@ -6,16 +6,18 @@
     <div class="main-container">
       <!-- <el-row class="menu-list" :gutter="20"> -->
       <!-- <el-col v-for="menu in menuList" :key="menu.url" :span="4"> -->
-      <div class="menu-list">
-        <div class="single-menu" v-for="menu in menuList" :key="menu.url" :span="4">
-          <div class="top">
-            <img class="menu-icon" :src="menu.icon" alt="icon" />
-            <i class="el-icon-arrow-right" />
+      <el-row class="menu-list" :gutter="8">
+        <el-col v-for="menu in menuList" :key="menu.link" :span="4">
+          <div class="single-menu" @click="goLink(menu.link)">
+            <div class="top">
+              <img class="menu-icon" :src="menu.icon|cloudImage" alt="icon" />
+              <i class="el-icon-arrow-right" />
+            </div>
+            <p class="name">{{menu.name}}</p>
+            <p class="desc">{{menu.desc}}</p>
           </div>
-          <p class="name">{{menu.name}}</p>
-          <p class="desc">{{menu.desc}}</p>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
       <!-- </el-col> -->
       <!-- </el-row> -->
       <el-row class="news" :gutter="20">
@@ -85,12 +87,16 @@
     </div>
     <div class="bottom-links">
       <img src="~/static/imgs/home/logo_02@2x.png" class="icon" />
-      <div class="links" v-for="links in bottomLinkList" :key="links.title">
-        <p class="link-title">{{links.title}}</p>
-        <p class="link" v-for="link in links.links" :key="link.name">
-          {{link.name}}
-        </p>
-      </div>
+      <el-row class="links-wrapper" :gutter="20">
+        <el-col v-for="links in bottomLinkList" :key="links.title" :span="6">
+          <div class="links">
+            <p class="link-title">{{links.title}}</p>
+            <p class="link" v-for="link in links.links" :key="link.name" @click="goLink(link.link)">
+              {{link.name}}
+            </p>
+          </div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -153,7 +159,7 @@ export default {
         {
           icon: icon1,
           name: '设备申请',
-          desc: '中心设备预约使用中心',
+          desc: '中心设备预约使用中心中心设备预约使用中心',
         },
         {
           icon: icon2,
@@ -344,10 +350,23 @@ export default {
   async asyncData(context) {
     let banner = await context.app.$api.banner.bannerList({ type: 'home'})
     let middleBanner = await context.app.$api.banner.bannerList({ type: 'home_middle'})
-    console.log(banner)
+    let quickLink = await context.app.$api.banner.getQuickLink()
+    let friendLink = await context.app.$api.banner.getFriendLink()
+    console.log('ql',quickLink)
+    console.log('fl',friendLink)
     console.log('middle', middleBanner)
     return {
-      bannerList: banner
+      bannerList: banner,
+      menuList: quickLink,
+      bottomLinkList: [
+        {
+          title: '常用链接',
+          links: friendLink
+        },{
+          title: '快速入口',
+          links: quickLink
+        }
+      ]
     }
   },
   mounted() {
@@ -357,6 +376,9 @@ export default {
     // this.fetchModelList()
   },
   methods: {
+    goLink(link){
+      window.open(link, '_blank')
+    }
     // async fetchCenterNews() {
     //   const {
     //     data
@@ -400,14 +422,14 @@ export default {
       position: relative;
       margin-top: -150px;
       margin-bottom: 60px;
-      @include flex-between;
+      // @include flex-between;
       .single-menu {
         cursor: pointer;
         background: white;
         border-radius: 4px;
         height: 200px;
         padding: 20px 24px;
-        margin-right: 8px;
+        // margin-right: 8px;
         box-sizing: border-box;
         // padding-bottom: 80%;
         transition: all 0.3s linear;
@@ -662,21 +684,24 @@ export default {
       height: 38px;
       margin-right: 5%;
     }
-    .links {
-      margin: 0 2%;
-      min-width: 140px;
-      .link-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 30px;
-      }
-      .link {
-        margin-bottom: 10px;
-        line-height: 20px;
-        cursor: pointer;
-        transition: all 0.5s ease-in-out;
-        &:hover {
-          color: $--color-primary;
+    .links-wrapper {
+      flex: 1;
+      .links {
+        // margin: 0 2%;
+        min-width: 140px;
+        .link-title {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 30px;
+        }
+        .link {
+          margin-bottom: 10px;
+          line-height: 20px;
+          cursor: pointer;
+          transition: all 0.5s ease-in-out;
+          &:hover {
+            color: $--color-primary;
+          }
         }
       }
     }

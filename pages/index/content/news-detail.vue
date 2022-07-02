@@ -8,7 +8,7 @@
         </el-tag>
         <el-tag class='tag' v-show="news.publish_at">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
       </div>
-      <el-button type="warning" class="button" @click="!$store.state.news.isPreview && doPrint()">打印本页</el-button>
+      <el-button type="warning" class="button" v-show="!isSinglePage" @click="!$store.state.news.isPreview && doPrint()">打印本页</el-button>
     </div>
     <div id="content-print" class="content-print">
       <p style="font-size: 24px;font-weight: bold;color: #1a1a1a;line-height: 30px;border-bottom: 2px solid #f2f2f2;padding: 40px 0;margin-bottom: 30px;text-align: center;">
@@ -16,8 +16,8 @@
       </p>
       <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
-    <div :class="[news.publish_at ? 'bottom' : 'bottom-1']">
-      <div class="left" v-show="news.publish_at">
+    <div v-show="!isSinglePage" class="bottom">
+      <div class="left">
         <el-tag class='tag' type="warning" style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
@@ -41,17 +41,21 @@ export default {
       },
       // 是否已经点过赞
       liked: false,
-      imgDomain
+      imgDomain,
+      // 是否单页
+      isSinglePage: false,
     }
   },
   async asyncData(context) {
     let data
+    let isSinglePage = false
     if (context.route.query.singlePage == 1) {
       data = await context.app.$api.news.articleDetail({ id: context.route.query.params })
+      isSinglePage = true
     } else {
       data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
     }
-    return { news: data }
+    return { news: data, isSinglePage }
   },
   mounted() {},
   methods: {
