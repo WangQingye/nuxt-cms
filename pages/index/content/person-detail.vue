@@ -96,14 +96,6 @@ export default {
   },
   mounted() {},
   methods: {
-    async fetchData() {
-      const { data } = await newsDetail({ id: this.news.id })
-      this.news = data
-      this.$refs.detail.innerHTML = data.content.replace(
-        /src="\.\.\/media/g,
-        `src="${imgDomain}`
-      )
-    },
   },
 }
 </script>

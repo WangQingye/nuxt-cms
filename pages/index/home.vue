@@ -8,7 +8,7 @@
       <!-- <el-col v-for="menu in menuList" :key="menu.url" :span="4"> -->
       <el-row class="menu-list" :gutter="8">
         <el-col v-for="menu in menuList" :key="menu.link" :span="4">
-          <div class="single-menu" @click="goLink(menu.link)">
+          <div class="single-menu" @click="$utils.goLink(menu.link)">
             <div class="top">
               <img class="menu-icon" :src="menu.icon|cloudImage" alt="icon" />
               <i class="el-icon-arrow-right" />
@@ -72,8 +72,8 @@
         <el-row class="sub-new-list" :gutter="20">
           <el-col v-for="(newItem,index) in subNew.news" :key="newItem.id" :span="newItem.span">
             <!-- <div class="sub-item" :style="{backgroundImage:`url(${newItem.img})`}"> -->
-            <div class="sub-item">
-              <div class="back-img" :style="{backgroundImage:`url(${newItem.img})`}"></div>
+            <div class="sub-item" @click="$utils.goLink(newItem.link)">
+              <div class="back-img" :style="{backgroundImage:`url(${$utils.cloudImg(newItem.cover)})`}"></div>
               <div class="back-mask"></div>
               <!-- <img class="back-img" :src="newItem.img" alt=""> -->
               <div class="bottom">
@@ -91,7 +91,7 @@
         <el-col v-for="links in bottomLinkList" :key="links.title" :span="6">
           <div class="links">
             <p class="link-title">{{links.title}}</p>
-            <p class="link" v-for="link in links.links" :key="link.name" @click="goLink(link.link)">
+            <p class="link" v-for="link in links.links" :key="link.name" @click="$utils.goLink(link.link)">
               {{link.name}}
             </p>
           </div>
@@ -208,80 +208,7 @@ export default {
           clickable: true,
         },
       },
-      subNews: [
-        {
-          name: '创业学院',
-          enName: 'ENTREPRENEURSHIP',
-          news: [
-            {
-              name: '交大创业宣怀版介绍',
-              id: '1',
-              span: 9,
-              img: b1,
-            },
-            {
-              name: '交大创业宣怀版介绍',
-              id: '2',
-              span: 9,
-              img: b2,
-            },
-            {
-              name: '交大创业宣怀版介绍',
-              id: '3',
-              span: 6,
-              img: b3,
-            },
-          ],
-        },
-        {
-          name: '学生风采',
-          enName: 'STUDENT',
-          news: [
-            {
-              name: '交大创业宣怀版介绍',
-              id: '1',
-              span: 8,
-              img: b4,
-            },
-            {
-              name: '交大创业宣怀版介绍',
-              id: '2',
-              span: 8,
-              img: b5,
-            },
-            {
-              name: '交大创业宣怀版介绍',
-              id: '3',
-              span: 8,
-              img: b6,
-            },
-          ],
-        },
-        {
-          name: '媒体聚焦',
-          enName: 'MEDIA FOUCUS',
-          news: [
-            {
-              name: '交大创业宣怀版介绍',
-              id: '1',
-              span: 12,
-              img: b7,
-            },
-            {
-              name: '交大创业宣怀版介绍',
-              id: '2',
-              span: 6,
-              img: b8,
-            },
-            {
-              name: '交大创业宣怀版介绍',
-              id: '3',
-              span: 6,
-              img: b9,
-            },
-          ],
-        },
-      ],
+      subNews: [],
       bottomLinkList: [
         {
           title: '常用链接',
@@ -352,9 +279,34 @@ export default {
     let middleBanner = await context.app.$api.banner.bannerList({ type: 'home_middle'})
     let quickLink = await context.app.$api.banner.getQuickLink()
     let friendLink = await context.app.$api.banner.getFriendLink()
+    let chuangye = await context.app.$api.banner.getHotPoint({ type: 'chuangye'})
+    let spans = [9,9,6]
+    for (let i = 0; i < spans.length; i++) {
+      const span = spans[i];
+      if (chuangye[i]) {
+        chuangye[i].span = span
+      }
+    }
+    let student = await context.app.$api.banner.getHotPoint({ type: 'student'})
+    let spans1 = [8,8,8]
+    for (let i = 0; i < spans1.length; i++) {
+      const span = spans1[i];
+      if (student[i]) {
+        student[i].span = span
+      }
+    }
+    let media = await context.app.$api.banner.getHotPoint({ type: 'media'})
+    let spans2 = [12,6,6]
+    for (let i = 0; i < spans1.length; i++) {
+      const span = spans2[i];
+      if (media[i]) {
+        media[i].span = span
+      }
+    }
     console.log('ql',quickLink)
     console.log('fl',friendLink)
     console.log('middle', middleBanner)
+    console.log('chuangye', chuangye)
     return {
       bannerList: banner,
       menuList: quickLink,
@@ -366,6 +318,23 @@ export default {
           title: '快速入口',
           links: quickLink
         }
+      ],
+      subNews: [
+        {
+          name: '创业学院',
+          enName: 'ENTREPRENEURSHIP',
+          news: chuangye,
+        },
+        {
+          name: '学生风采',
+          enName: 'STUDENT',
+          news: student,
+        },
+        {
+          name: '媒体聚焦',
+          enName: 'MEDIA FOUCUS',
+          news: media,
+        },
       ]
     }
   },
@@ -376,9 +345,6 @@ export default {
     // this.fetchModelList()
   },
   methods: {
-    goLink(link){
-      window.open(link, '_blank')
-    }
     // async fetchCenterNews() {
     //   const {
     //     data
@@ -447,6 +413,7 @@ export default {
           color: #1a1a1a;
           font-weight: bold;
           margin-bottom: 14px;
+          @include ellipsisBasic(1);
         }
         .desc {
           width: 100%;

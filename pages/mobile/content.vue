@@ -8,7 +8,7 @@
         <i class="circle"></i>
         <span class="title">{{titles[1]}} / {{titles[2]}}</span>
       </div>
-      <span class="date">{{date}}</span>
+      <!-- <span class="date">{{date}}</span> -->
     </div>
     <nuxt-child style="padding: 0 0.2rem;box-sizing: border-box;"></nuxt-child>
   </div>
@@ -38,8 +38,8 @@ export default {
       })
       function findMenuTitle(arr, id) {
         arr.forEach(a => {
-          if (a.menuId == id) {
-            titleArr.push(a.title)
+          if (a.id == id) {
+            titleArr.push(a.name)
             return;
           } else if (a.children) {
             findMenuTitle(a.children, id)

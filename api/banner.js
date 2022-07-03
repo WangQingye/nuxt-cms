@@ -29,10 +29,10 @@ export default $axios => ({
       url: '/friend/index', method: 'get', params
     })
   },
-  // // 首页热点
-  // getHotPoint(params) {
-  //   return $axios({
-  //     url: '/quick/index', method: 'get', params
-  //   })
-  // }
+  // 首页热点
+  getHotPoint(params) {
+    return $axios({
+      url: '/home/hot', method: 'get', params
+    })
+  }
 })

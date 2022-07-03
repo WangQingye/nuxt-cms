@@ -104,8 +104,9 @@ export default {
       )
       let subPage = this.$utils.typeToPages[subItem.event_type]
       this.drawerVisible = false
+      console.log(subPage)
       this.$router.push(
-        `/mobile/content/${subPage}?menuIds=${indexPath.join(',')}`
+        `/mobile/content/${subPage}?menuIds=${indexPath.join(',')}&params=${subItem.event_link}&singlePage=1`
       )
     },
     goSearch() {

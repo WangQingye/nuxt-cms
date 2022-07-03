@@ -25,6 +25,11 @@ export default {
     }
     changeSize()
     window.addEventListener('resize', changeSize, false)
+    try {
+      window.document.title = this.$store.state.config.webConfig.find(c => c.key == 'name').value
+    } catch (error) {
+      console.log('noname')
+    }
   },
 }
 </script>

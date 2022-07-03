@@ -14,7 +14,7 @@
           <p class="position">个人主页：{{labDetail.page }}</p>
         </div>
       </div>
-      <div v-html="labDetail.content" class="content-print"></div>
+      <div v-html="labDetail.content" class="content-print-mobile"></div>
     </div>
     <div class="teachers">
       <el-tabs v-model="teacherTab">
@@ -57,26 +57,27 @@ export default {
     }
   },
   async asyncData(context) {
-    // let data = await context.app.$api.person.labDetail({ id: context.route.query.id })
-    // console.log(context.route)
-    // console.log(context.app.$refs)
-    // return { news: data }
+    let data = await context.app.$api.department.labDetail({ id: context.route.query.params })
+    return { news: data }
   },
   mounted() {},
   methods: {
     async fetchData() {
-      const { data } = await newsDetail({ id: this.news.id })
-      this.news = data
-      this.$refs.detail.innerHTML = data.content.replace(
-        /src="\.\.\/media/g,
-        `src="${imgDomain}`
-      )
+      let data = await this.$api.department.labDetail({ id: this.$route.query.params })
+      this.labDetail = data
+    },
+  },
+  watch: {
+    '$route.query.params': {
+      handler: function (val) {
+        if (val) this.fetchData()
+      },
     },
   },
 }
 </script>
 <style lang='scss'>
-.content-print {
+.content-print-mobile {
   line-height: 0.25rem;
   font-size: 0.15rem;
   padding: 0;

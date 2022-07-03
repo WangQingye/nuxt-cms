@@ -5,7 +5,7 @@
     </el-tabs>
     <PageListMobile :page-size="pageSize" :total="total" @fetchData="fetchData">
       <div class="items">
-        <NewsItemListMobile class="list-way-item" v-for="i in 10" :key="i" />
+        <NewsItemListMobile class="list-way-item" v-for="i in newsItems" :key="i.id" :itemData="i" />
       </div>
     </PageListMobile>
   </div>
@@ -34,33 +34,47 @@ export default {
       total: 11
     }
   },
+  async asyncData(context) {
+    let tags = await context.app.$api.news.newsTag({
+      category_id: context.query.params,
+    })
+    let {list, total} = await context.app.$api.news.newsList({
+      category_id: context.query.params,
+      page: 1,
+      limit: 10,
+      tag: '',
+    })
+    return {
+      newsTags: ['全部', ...tags],
+      newsItems: list,
+      total
+    }
+  },
   methods: {
     async fetchData(page = 1) {
-      // const {
-      //   data: { total, list },
-      // } = await newsList({
-      //   page,
-      //   limit: this.pageSize,
-      //   category_id: this.$route.query.key,
-      //   // 查全部则tag传空字符串
-      //   tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
-      // })
+      const { total, list } = await this.$api.news.newsList({
+        page,
+        limit: this.pageSize,
+        category_id: this.$route.query.key,
+        // 查全部则tag传空字符串
+        tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
+      })
       this.total = total
-      // this.newsItems = list
+      this.newsItems = list
       this.isLoading = false
     },
     async fetchTags(key) {
       this.isLoading = true
       this.newsItems = []
-      const { data } = await categoryTag({ category_id: key })
+      const { data } = await this.$api.news.newsTag({ category_id: key })
       this.newsTags = ['全部', ...data]
       this.newsActiveName = '全部'
       this.fetchData()
     },
     handleClick() {
-      // this.isLoading = true
-      // this.newsItems = []
-      // this.fetchData()
+      this.isLoading = true
+      this.newsItems = []
+      this.fetchData()
     },
   },
   watch: {

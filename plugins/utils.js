@@ -37,7 +37,7 @@ async function getInitData(context) {
     context.store.commit('config/setWebConfig', config)
     context.store.commit('config/setMenuList', navigation)
     // context.store.commit('config/setMenuList', [
-    //   { 
+    //   {
     //     title: '中心概况',
     //     menuId: "1",
     //     children: [
@@ -97,7 +97,7 @@ async function getInitData(context) {
     //           {
     //             title: '通知公告',
     //             type: '4',
-    //             menuId: "9", 
+    //             menuId: "9",
     //           },
     //         ],
     //       },
@@ -191,6 +191,10 @@ const typeToPages = {
 //   cloudImg,
 //   getInitData
 // }
+
+function goLink(link){
+  window.open(link, '_blank')
+}
 export default function ({ $axios }, inject) {
   // Inject to context as $api
   inject('utils', {
@@ -199,6 +203,7 @@ export default function ({ $axios }, inject) {
     getInitData,
     getContentPageMenuData,
     getSubMenuItem,
-    typeToPages
+    typeToPages,
+    goLink
   })
 }

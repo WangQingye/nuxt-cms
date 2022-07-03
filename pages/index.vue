@@ -5,7 +5,7 @@
     <Footer />
   </div>
 </template>
- 
+
 <script>
 
 export default {
@@ -13,6 +13,13 @@ export default {
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
   },
+  mounted() {
+    try {
+      window.document.title = this.$store.state.config.webConfig.find(c => c.key == 'name').value
+    } catch (error) {
+      console.log('noname')
+    }
+  }
 }
 </script>
 

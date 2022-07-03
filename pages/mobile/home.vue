@@ -5,14 +5,14 @@
         <div class="carousel-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
           <p class="big-text" v-html="item.title">{{ item.title }}</p>
           <p class="small-text">{{ item.sub_title }}</p>
-          <p class="button" v-if="item.event_name" @click="$router.push('/production')">{{ item.event_name }}</p>
+          <p class="button" v-if="item.event_name" @click="$router.push(item.event_link)">{{ item.event_name }}</p>
         </div>
       </el-carousel-item>
     </el-carousel>
     <div class="menu-list">
-      <div class="single-menu" v-for="menu in menuList" :key="menu.url">
+      <div class="single-menu" v-for="menu in menuList" :key="menu.link" @click="$utils.goLink(menu.link)">
         <div class="top">
-          <img class="menu-icon" :src="menu.icon" alt="icon" />
+          <img class="menu-icon" :src="menu.icon|cloudImage" alt="icon" />
           <i class="el-icon-arrow-right" />
         </div>
         <p class="name">{{menu.name}}</p>
@@ -202,10 +202,17 @@ export default {
     }
   },
   async asyncData(context) {
-    const data = await context.app.$api.banner.bannerList({ type: 'home' })
-    let bannerList = data
-    console.log(bannerList)
-    return { bannerList }
+    let banner = await context.app.$api.banner.bannerList({ type: 'home'})
+    let middleBanner = await context.app.$api.banner.bannerList({ type: 'home_middle'})
+    let quickLink = await context.app.$api.banner.getQuickLink()
+    let friendLink = await context.app.$api.banner.getFriendLink()
+    console.log('ql',quickLink)
+    console.log('fl',friendLink)
+    console.log('middle', middleBanner)
+    return {
+      bannerList: banner,
+      menuList: quickLink
+    }
   },
   mounted() {
     //按照宽度375图算， 1rem = 100px;

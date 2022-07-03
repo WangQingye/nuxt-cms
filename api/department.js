@@ -23,10 +23,10 @@ export default $axios => ({
       url: '/institution/index', method: 'post', data, needToken: false
     })
   },
-  // 机构列表
+  // 机构详情
   labDetail(data) {
     return $axios({
-      url: '/institution/index', method: 'post', data, needToken: false
+      url: '/institution/detail', method: 'post', data, needToken: false
     })
   },
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class='list-item' @click="$router.push(`/content/news-detail?id=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
+  <div class='list-item' @click="$router.push(`/content/news-detail?params=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
     <img class="img" :src="itemData.thumb|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
     <div class="right">
       <div class="top">
@@ -60,20 +60,20 @@ export default {
       @include flex-between;
       justify-content: flex-start;
       margin-bottom: 10px;
-  
+
       .tag {
         height: 20px;
         line-height: 18px;
         font-weight: bold;
         margin-right: 10px;
-  
+
         .icon {
           margin-right: 5px;
           font-weight: bold;
           vertical-align: middle;
         }
       }
-  
+
       .title {
         font-size: 15px;
         font-weight: bold;
@@ -84,7 +84,7 @@ export default {
         -webkit-box-orient: vertical;
       }
     }
-  
+
     .desc {
       font-size: 14px;
       font-weight: 400;

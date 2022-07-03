@@ -73,12 +73,16 @@ export default {
   mounted() {},
   methods: {
     async fetchData() {
-      const { data } = await newsDetail({ id: this.news.id })
+      let data = await this.$api.department.labDetail({ id: this.$route.query.params })
       this.news = data
-      this.$refs.detail.innerHTML = data.content.replace(
-        /src="\.\.\/media/g,
-        `src="${imgDomain}`
-      )
+    },
+  },
+  watch: {
+    '$route.query.params': {
+      handler: function (val) {
+        if (val) this.fetchData()
+      },
+      immediate: true,
     },
   },
 }

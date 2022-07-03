@@ -1,18 +1,39 @@
 <template>
   <div :class="['news-detail']">
-    <div id="content-print" class="content-print">
-      <p class="news-title">
-        {{ news.title }}
-      </p>
-      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+    <span class="date" v-show="!isSinglePage">{{news.publish_at|parseTime('{y}年{m}月{d}日')}}</span>
+    <div class="top">
+      <el-tag class='tag'
+        style="margin-right: 10px"
+        v-for="(tag,index ) in news.tags"
+        :key="index">{{
+            tag
+          }}
+      </el-tag>
     </div>
-    <div class="bottom">
+    <div id="content-print-mobile"
+      class="content-print-mobile">
+      <p class="news-title">
+        {{ news.title || news.name }}
+      </p>
+      <div class="detail"
+        ref="detail"
+        v-if="news.content"
+        v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+    </div>
+    <div class="bottom"
+      v-show="!isSinglePage">
       <div class="left">
-        <el-tag class='tag' type="info" style="margin-right: 10px">
+        <el-tag class='tag'
+          type="info"
+          style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
         </el-tag>
-        <el-tag class='tag' size="mini" :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
+        <el-tag class='tag'
+          size="mini"
+          :type="liked ? 'success' : 'info'"
+          style="cursor:pointer"
+          @click="clickLike">
           <i class="font_family icon-dianzan" />
           {{ news.like_num }}
         </el-tag>
@@ -32,16 +53,24 @@ export default {
       // 是否已经点过赞
       liked: false,
       imgDomain,
+      isSinglePage: false,
     }
   },
   async asyncData(context) {
     // let data = await context.app.$api.news.newsDetail({ id: context.route.query.id })
-    let data = await context.app.$api.news.newsDetail({
-      id: '0100422d0c244083b844542b37e1766e',
-    })
-    console.log(context.route)
-    console.log(context.app.$refs)
-    return { news: data }
+    let data
+    let isSinglePage = false
+    if (context.route.query.singlePage == 1) {
+      data = await context.app.$api.news.articleDetail({
+        id: context.route.query.params,
+      })
+      isSinglePage = true
+    } else {
+      data = await context.app.$api.news.newsDetail({
+        id: context.route.query.params,
+      })
+    }
+    return { news: data, isSinglePage }
   },
   mounted() {
     console.log(this.news)
@@ -64,18 +93,42 @@ export default {
       )
     },
     async clickLike() {
-      if (this.liked || this.$store.state.news.isPreview) return
-      const { data } = await newsLike({
+      if (this.liked) return
+      const data = await this.$api.news.newsLike({
         id: this.news.id,
       })
       this.news.like_num = data.like_num
       this.liked = true
     },
+    async getInfo() {
+      let data
+      let isSinglePage = false
+      if (this.$route.query.singlePage == 1) {
+        data = await this.$api.news.articleDetail({
+          id: this.$route.query.params,
+        })
+        isSinglePage = true
+      } else {
+        data = await this.$api.news.newsDetail({
+          id: this.$route.query.params,
+        })
+      }
+      this.news = data
+      this.isSinglePage = isSinglePage
+    },
+  },
+  watch: {
+    '$route.query.params': {
+      handler: function (val) {
+        if (val) this.getInfo(val)
+      },
+      immediate: true,
+    },
   },
 }
 </script>
 <style lang='scss'>
-.content-print {
+.content-print-mobile {
   line-height: 0.25rem;
   font-size: 0.15rem;
   padding: 0;
@@ -108,6 +161,20 @@ export default {
 <style scoped lang='scss'>
 .news-detail {
   width: 100%;
+  .date {
+      font-size: 0.1rem;
+      color: #999999;
+      float: right;
+      margin-top: -0.54rem;
+  }
+  .top {
+    @include flex-between;
+    justify-content: flex-start;
+    margin-bottom: 0.3rem;
+    .tag {
+      margin-right: 0.05rem;
+    }
+  }
   .news-title {
     font-size: 0.21rem;
     text-align: left;
@@ -115,8 +182,8 @@ export default {
     margin-bottom: 0.2rem;
   }
   .detail {
-    border-top: 0.01rem #F5F5FC solid;
-    border-bottom: 0.01rem #F5F5FC solid;
+    border-top: 0.01rem #f5f5fc solid;
+    border-bottom: 0.01rem #f5f5fc solid;
     padding: 0.1rem 0 0.3rem 0;
   }
   .bottom {

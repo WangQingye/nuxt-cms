@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'shjd',
+    title: '',
     htmlAttrs: {
       lang: 'en',
     },
@@ -65,7 +65,7 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     // baseURL: 'http://ma.vispp.cn/api',
     baseURL: 'http://cms.vispp.cn/api',
-    
+
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

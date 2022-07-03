@@ -1,32 +1,32 @@
 <template>
-  <div @click="$router.push(`/content/person-detail?id=${itemData.id}&menuIds=${$route.query.menuIds}`)">
+  <div @click="$router.push(`/content/person-detail?params=${itemData.id}&menuIds=${$route.query.menuIds}`)">
     <div class='person-item-search' v-if="type === 'search'">
-      <img class="img" :src="itemData.img|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
+      <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
-        <p class="position">{{itemData.position}}</p>
-        <p class="position">{{itemData.desc}}</p>
+        <p class="position">{{itemData.job_content}}</p>
+        <p class="position">{{itemData.intro}}</p>
       </div>
     </div>
-    <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${itemData.img})`}">
+    <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${$utils.cloudImg(itemData.avatar)})`}">
       <div class="info">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <div class="bottom">
-          <p class="position">{{itemData.position}}</p>
-          <p class="position">{{itemData.desc}}</p>
+          <p class="position">{{itemData.job_content}}</p>
+          <p class="position">{{itemData.intro}}</p>
         </div>
       </div>
     </div>
     <div class='person-item-department' v-if="type === 'department'">
-      <img class="img" :src="itemData.img|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
+      <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
-        <p class="position">{{itemData.position}}</p>
-        <p class="position">{{itemData.position1}}</p>
-        <p class="desc">{{itemData.desc}}</p>
+        <p class="position">{{itemData.job_content}}</p>
+        <p class="position">{{itemData.job_content1}}</p>
+        <p class="desc">{{itemData.intro}}</p>
       </div>
       <!-- <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span> -->
     </div>

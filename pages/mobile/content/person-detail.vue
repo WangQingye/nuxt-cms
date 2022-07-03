@@ -3,7 +3,7 @@
     <div class="top">
       <div class="left">
         <el-tag class='tag' type="primary" style="margin-right: 10px" v-for="(tag,index ) in personDetail.tags" :key="index">{{
-            tag
+            tag.name
           }}
         </el-tag>
         <!-- <el-tag class='tag' type="warning">{{ personDetail.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag> -->
@@ -12,30 +12,29 @@
     </div>
     <div class="detial">
       <div class="base base-1">
-        <img class="img" :src="personDetail.img|cloudImage" alt="">
+        <img class="img" :src="personDetail.avatar|cloudImage" alt="">
         <div class="base-info">
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
-          <p class="position">{{personDetail.position}}</p>
-          <p class="position" style="margin-bottom: 20px">{{personDetail.desc}}</p>
+          <p class="position">{{personDetail.job_content}}</p>
+          <!-- <p class="position" style="margin-bottom: 20px">{{personDetail.intro}}</p> -->
         </div>
       </div>
       <div class="base" style="margin-bottom: 0.1rem; padding-top: 0.1rem; font-size:0.12rem; color:#1A1A1A">
         <div class="base-info">
-          <p class="position">所在所系：{{personDetail.department}}</p>
-          <p class="position">办公电话：{{personDetail.phone}}</p>
+          <p class="position">所在所系：{{personDetail.dept}}</p>
+          <p class="position">办公电话：{{personDetail.tel}}</p>
           <p class="position">通讯地址：{{personDetail.address}}</p>
           <p class="position">电子邮件：{{personDetail.email}}</p>
-          <p class="position">个人主页：{{personDetail.page }}</p>
+          <p class="position">个人主页：{{personDetail.homepage }}</p>
         </div>
       </div>
-      <p class="desc">
-        这是一段人员简介文本可替代内容，不代表实际文本内容仅作文本示例所用。 经过多年的实践和探索，上海交大创业教育硕果累累。在“创青春”全国大学生创业大赛等国内外创业赛事中摘金夺银，特别是在2014年的首届“创青春”全国大学生创业大赛中，上海交通大学选送6支团队参赛，获5金1银，以团体总分第一名的优异成绩，捧得赛事最高奖项“冠军杯”。根据腾讯开放平台发布的“2014城市&高校创业排行榜”中，上海交大位列“创业者最多的top10院校”榜单第三位。近年来，以饿了么网上订餐、触宝科技、应届生求职网、Teambition、在路上、59store等为代表的一批青年创业校友企业也正在迅速崛起中。立足民生、服务社会、转化才学、投身创业已成为上海交大众多学子的理想。
+      <p class="desc">{{personDetail.intro}}
       </p>
       <el-collapse v-model="activeNames">
-        <el-collapse-item v-for="(info,index) in personDetail.infos" :key="index" :name="index">
+        <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">
           <template slot="title">
-            <span style="font-size:15px;font-weight:bold">{{info.title}}</span>
+            <span style="font-size:15px;font-weight:bold">{{info.name}}</span>
           </template>
           <div v-html="info.content"></div>
         </el-collapse-item>
@@ -93,22 +92,16 @@ export default {
     }
   },
   async asyncData(context) {
-    // let data = await context.app.$api.person.personDetail({ id: context.route.query.id })
-    // console.log(context.route)
-    // console.log(context.app.$refs)
-    // return { news: data }
+    let data = await context.app.$api.department.personDetail({
+      id: context.route.query.params,
+    })
+    let activeNames = data.labels.map((labal, index) => {
+      return index
+    })
+    return { personDetail: data, activeNames }
   },
   mounted() {},
-  methods: {
-    async fetchData() {
-      const { data } = await newsDetail({ id: this.news.id })
-      this.news = data
-      this.$refs.detail.innerHTML = data.content.replace(
-        /src="\.\.\/media/g,
-        `src="${imgDomain}`
-      )
-    },
-  },
+  methods: {},
 }
 </script>
 <style lang='scss'>
@@ -198,6 +191,7 @@ export default {
     height: 34px;
     line-height: 34px;
     border: none;
+    margin-bottom:0.05rem;
 
     i {
       font-size: 15px;
