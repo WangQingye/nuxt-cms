@@ -130,8 +130,8 @@ export default {
         c = child.children[0]
       } else {
         c = child
-      }      
-      let title = c.name     
+      }
+      let title = c.name
       let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, title)
       let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
       let subPage = this.$utils.typeToPages[item.event_type]
@@ -142,11 +142,9 @@ export default {
       this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
     },
     async handleUlogin() {
-      // let callback = window.location.href
-      // const {
-      //   data: { authorize_url },
-      // } = await AuthorizeCode({ callback })
-      // window.location.href = authorize_url
+      let callback = window.location.href
+      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
+      window.location.href = authorize_url
     },
     async handleLogout() {
       // await this.logout()
@@ -331,7 +329,7 @@ export default {
     }
     .header-tabs {
       .tab {
-        color: #4d4d4d !important;        
+        color: #4d4d4d !important;
       }
     }
     .el-dropdown-link {
