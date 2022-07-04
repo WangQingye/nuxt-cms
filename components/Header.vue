@@ -130,15 +130,16 @@ export default {
         c = child.children[0]
       } else {
         c = child
-      }
-      let subPage = this.$utils.typeToPages[c.event_type]
+      }      
+      let title = c.name     
+      let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, title)
+      let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
+      let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
         this.$message.error('未找到菜单地址，请检查配置')
         return
       }
-      this.$router.push(
-        `/content/${subPage}?menuId=${tab.id}&subMenuId=${c.id}&params=${c.event_link}&singlePage=1`
-      )
+      this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
     },
     async handleUlogin() {
       // let callback = window.location.href

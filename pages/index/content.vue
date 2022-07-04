@@ -104,7 +104,8 @@ export default {
   },
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
-    let {menuItem, menuId, subMenuId, subMenuItem} = context.app.$utils.getContentPageMenuData(context.app.store.state.config.menuList, context.query.menuId, context.query.subMenuId)
+    let ids = context.query.menuIds.split(',')
+    let {menuItem, menuId, subMenuId, subMenuItem} = context.app.$utils.getContentPageMenuData(context.app.store.state.config.menuList, ids[0], ids[ids.length - 1])
     return {
       menuItem,
       menuId,
@@ -132,18 +133,22 @@ export default {
   },
   methods: {
     onMenuSelect(subMenuId) {
-      let subItem = this.$utils.getSubMenuItem(this.menuItem, subMenuId)
-      let subPage = this.$utils.typeToPages[subItem.event_type]
+      let title = this.$utils.findMenuTitle(this.$store.state.config.menuList, subMenuId)      
+      let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, title)
+      let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
+      let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
         this.$message.error('未找到菜单地址，请检查配置')
         return
       }
-      this.$router.push(`/content/${subPage}?menuId=${this.menuId}&subMenuId=${subMenuId}&params=${subItem.event_link}&singlePage=1`)
+      this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
     }
   },
   watch: {
-    '$route.query.subMenuId': function (val) {
-      let {menuItem, menuId, subMenuId, subMenuItem} = this.$utils.getContentPageMenuData(this.$store.state.config.menuList, this.$route.query.menuId, val)
+    '$route.query.menuIds': function (val) {
+      console.log(val)
+      let ids = val.split(',')
+      let {menuItem, menuId, subMenuId, subMenuItem} = this.$utils.getContentPageMenuData(this.$store.state.config.menuList, ids[0], ids[ids.length - 1])
       this.menuItem = menuItem
       this.menuId = menuId
       this.subMenuId = subMenuId

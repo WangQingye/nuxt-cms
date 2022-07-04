@@ -15,7 +15,7 @@
           :alt="department.name"
           v-for="(department,index) in departmentItems"
           :key="index"
-          @click="$router.push(`/content/lab-detail-info?params=${department.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
+          @click="$router.push(`/content/lab-detail-info?params=${department.id}&menuIds=${$route.query.menuIds}`)">
       </div>
     </PageList>
   </div>
@@ -52,7 +52,8 @@ export default {
       limit: 6,
     })
     let menuList = context.store.state.config.menuList
-    let title = context.app.$utils.findMenuTitle(menuList, context.route.query.subMenuId)
+    let ids = context.route.query.menuIds.split(',')
+    let title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
     return {
       departmentItems: list,
       total,
@@ -69,7 +70,8 @@ export default {
       this.departmentItems = list
       this.total = total
       let menuList = this.$store.state.config.menuList
-      let title = this.$utils.findMenuTitle(menuList, this.$route.query.subMenuId)
+      let ids = this.$route.query.menuIds.split(',')
+      let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
       this.title = title
     },
   },

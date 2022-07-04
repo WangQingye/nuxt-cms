@@ -25,20 +25,20 @@
       </div>
       <div v-html="labDetail.desc" class="content-print"></div>
     </div>
-    <div class="teachers">
+    <div class="teachers" v-show="labDetail.employers && labDetail.employers.length">
       <el-tabs v-model="teacherTab">
         <el-tab-pane label="中心教师" name="teacher"></el-tab-pane>
       </el-tabs>
       <div class="items">
-        <PersonItem class="person-item" type="list" v-for="i in 4" :key="i" />
+        <PersonItem class="person-item" type="list" v-for="item in labDetail.employers" :key="item.id" :itemData="item" />
       </div>
     </div>
-    <div class="news">
+    <div class="news" v-show="newsList.length">
       <el-tabs v-model="teacherTab">
         <el-tab-pane label="部门动态" name="teacher"></el-tab-pane>
       </el-tabs>
       <div class="items">
-        <NewsItemList class="list-way-item" v-for="i in 3" :key="i" />
+        <NewsItemList class="list-way-item" v-for="item in newsList" :key="item.id" :itemData="item" />
       </div>
     </div>
   </div>
@@ -63,17 +63,40 @@ export default {
       },
       teacherTab: 'teacher',
       imgDomain,
+      newsList: [],
     }
   },
   async asyncData(context) {
-    let data = await context.app.$api.department.labDetail({ id: context.route.query.params })
-    return { labDetail: data }
+    let data = await context.app.$api.department.labDetail({
+      id: context.route.query.params,
+    })
+    let newsList = []
+    if (data.category_id != undefined) {
+      const { list } = await context.app.$api.news.newsList({
+        page: 1,
+        limit: 10,
+        category_id: data.category_id,
+        tag: '',
+      })
+      newsList = list
+    }
+    return { labDetail: data, newsList }
   },
-  mounted() {},
   methods: {
     async fetchData() {
-      let data = await this.$api.department.labDetail({ id: this.$route.query.params })
+      let data = await this.$api.department.labDetail({
+        id: this.$route.query.params,
+      })
       this.labDetail = data
+      if (this.labDetail.category_id != undefined) {
+        const { list } = await this.$api.news.newsList({
+          page: 1,
+          limit: 10,
+          category_id: this.labDetail.category_id,
+          tag: '',
+        })
+        this.newsList = list
+      }
     },
   },
   watch: {
@@ -139,7 +162,7 @@ export default {
       border-bottom: 1px solid #eaeef5;
       .img {
         width: 250px;
-        // height: 116px;
+        height: 150px;
         border-radius: 5px;
         margin-right: 70px;
       }

@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="main-container">
-      <BigTitleMobile cn-text="中心要闻" en-text="SIC NEWS" :moreUrl="'a'" />
+      <BigTitleMobile cn-text="中心要闻" en-text="SIC NEWS" showMoreUrl />
       <el-carousel :interval="3000" height="1.75rem" indicator-position="none">
         <el-carousel-item v-for="item in bannerList" :key="item.id">
           <div class="carousel-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
@@ -34,7 +34,7 @@
           <p class="title">{{news.title}}</p>
         </div>
       </div>
-      <BigTitleMobile cn-text="中心要闻" en-text="SIC NEWS" :moreUrl="'a'" style="margin-top:0.4rem" />
+      <BigTitleMobile cn-text="通知公告" en-text="SIC NEWS" showMoreUrl style="margin-top:0.4rem" />
       <div class="new-item-container" style="margin-bottom: 0.3rem">
         <div class="new-item" v-for="news in newsList" :key="news.id">
           <el-tag type="primary" class="tag">{{news.date|parseTime('{m}月{d}日')}}</el-tag>
@@ -42,10 +42,10 @@
         </div>
       </div>
       <img src="~/static/imgs/sucaibg.jpg" class="big-news-img" />
-      <div class="news-part-container" v-for="(newsPart,index) in newsParts" :key="index">
-        <BigTitleMobile :cn-text="newsPart.cnText" :en-text="newsPart.enText" style="margin-top:0.4rem" />
-        <div class="new-item" v-for="news in newsPart.newsList" :key="news.id" :style="{backgroundImage:`url(${$utils.cloudImg(news.cover)})`}">
-          <p class="title">{{news.title}}</p>
+      <div class="news-part-container" v-for="(newsPart,index) in subNews" :key="index">
+        <BigTitleMobile :cn-text="newsPart.name" :en-text="newsPart.enName" style="margin-top:0.4rem" />
+        <div class="new-item" v-for="news in newsPart.news" :key="news.id" :style="{backgroundImage:`url(${$utils.cloudImg(news.cover)})`}" @click="$utils.goLink(news.link)">
+          <p class="title">{{news.name}}</p>
         </div>
       </div>
     </div>
@@ -199,6 +199,7 @@ export default {
           ],
         },
       ],
+      subNews: [],
     }
   },
   async asyncData(context) {
@@ -206,12 +207,35 @@ export default {
     let middleBanner = await context.app.$api.banner.bannerList({ type: 'home_middle'})
     let quickLink = await context.app.$api.banner.getQuickLink()
     let friendLink = await context.app.$api.banner.getFriendLink()
+    let chuangye = await context.app.$api.banner.getHotPoint({
+      type: 'chuangye',
+    })
+    let student = await context.app.$api.banner.getHotPoint({ type: 'student' })
+    let media = await context.app.$api.banner.getHotPoint({ type: 'media' })
+
     console.log('ql',quickLink)
     console.log('fl',friendLink)
     console.log('middle', middleBanner)
     return {
       bannerList: banner,
-      menuList: quickLink
+      menuList: quickLink,
+      subNews: [
+        {
+          name: '创业学院',
+          enName: 'ENTREPRENEURSHIP',
+          news: chuangye.slice(0,3),
+        },
+        {
+          name: '学生风采',
+          enName: 'STUDENT',
+          news: student.slice(0,3),
+        },
+        {
+          name: '媒体聚焦',
+          enName: 'MEDIA FOUCUS',
+          news: media.slice(0,3),
+        },
+      ],
     }
   },
   mounted() {

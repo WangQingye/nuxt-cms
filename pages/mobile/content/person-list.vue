@@ -23,7 +23,7 @@
       <div class="letter" v-for="letterPerson in letterPersons" :key="letterPerson.letter">
         <p class="letter-title">{{letterPerson.letter}} <span class="sub-title">字母开头</span></p>
         <div class="persons">
-          <p v-for="person in letterPerson.persons" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?id=${person.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">· {{person.name}}</p>
+          <p v-for="person in letterPerson.persons" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?id=${person.id}&menuIds=${$route.query.menuIds}`)">· {{person.name}}</p>
         </div>
       </div>
     </div>

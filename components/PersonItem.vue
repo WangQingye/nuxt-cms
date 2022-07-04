@@ -1,5 +1,5 @@
 <template>
-  <div @click="$router.push(`/content/person-detail?params=${itemData.id}&menuId=${$route.query.menuId}&subMenuId=${$route.query.subMenuId}`)">
+  <div @click="$router.push(`/content/person-detail?params=${itemData.id}&menuIds=${$route.query.menuIds}`)">
     <div class='person-item-search' v-if="type === 'search'">
       <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">

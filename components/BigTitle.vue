@@ -49,7 +49,7 @@ export default {
       let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, this.cnText)
       let subPage = this.$utils.typeToPages[item.event_type]
       this.$router.push(
-        `/content/${subPage}?menuId=${ids[0]}&subMenuId=${ids[ids.length - 1]}&params=${item.event_link}&singlePage=1`
+        `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
       )
     },
   },
