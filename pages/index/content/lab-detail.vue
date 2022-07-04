@@ -72,7 +72,7 @@ export default {
 <style lang='scss'>
 .content-print {
   border-bottom: 1px solid #f2f2f2;
-  padding: 0 20px;
+  padding: 0;
   padding-bottom: 50px;
   line-height: 25px;
   img {

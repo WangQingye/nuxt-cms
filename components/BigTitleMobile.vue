@@ -30,9 +30,9 @@ export default {
       type: String,
       default: 'center',
     },
-    moreUrl: {
-      type: String,
-      default: '',
+    showMoreUrl: {
+      type: Boolean,
+      default: false
     },
   },
   data() {

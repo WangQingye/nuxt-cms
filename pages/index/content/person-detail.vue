@@ -17,13 +17,17 @@
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
           <p class="position">{{personDetail.job_content}}</p>
-          <p class="position" style="margin-bottom: 20px">{{personDetail.intro}}</p>
-          <p class="position">所在所系：{{personDetail.dept}}</p>
-          <p class="position">办公电话：{{personDetail.tel}}</p>
-          <p class="position">通讯地址：{{personDetail.address}}</p>
-          <p class="position">电子邮件：{{personDetail.email}}</p>
-          <p class="position">个人主页：{{personDetail.homepage }}</p>
+          <p class="position" style="margin-bottom: 20px">{{personDetail.post}}</p>
+          <p class="position" v-show="personDetail.dept">所在部门：{{personDetail.dept}}</p>
+          <p class="position" v-show="personDetail.tel">办公电话：{{personDetail.tel}}</p>
+          <p class="position" v-show="personDetail.address">通讯地址：{{personDetail.address}}</p>
+          <p class="position" v-show="personDetail.email">电子邮件：{{personDetail.email}}</p>
+          <p class="position" v-show="personDetail.homepage">个人主页：{{personDetail.homepage}}</p>
         </div>
+      </div>
+      <div class="intro">
+        <p class="title">简介</p>
+        <p class="text">{{personDetail.intro}}</p>
       </div>
       <el-collapse v-model="activeNames">
         <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">
@@ -95,14 +99,13 @@ export default {
     return { personDetail: data, activeNames }
   },
   mounted() {},
-  methods: {
-  },
+  methods: {},
 }
 </script>
 <style lang='scss'>
 .content-print {
   border-bottom: 1px solid #f2f2f2;
-  padding: 0 20px;
+  padding: 0;
   padding-bottom: 50px;
   line-height: 25px;
   img {
@@ -173,6 +176,22 @@ export default {
           color: #1a1a1a;
           line-height: 24px;
         }
+      }
+    }
+    .intro {
+      margin-bottom: 30px;
+      .title {
+        font-size: 15px;
+        font-weight: bold;
+        color: #1a1a1a;
+        line-height: 24px;
+        margin-bottom: 10px;
+      }
+      .text {
+        font-size: 14px;
+        font-weight: 400;
+        color: #999999;
+        line-height: 18px;
       }
     }
   }

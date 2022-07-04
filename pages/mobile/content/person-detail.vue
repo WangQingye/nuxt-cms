@@ -17,16 +17,16 @@
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
           <p class="position">{{personDetail.job_content}}</p>
-          <!-- <p class="position" style="margin-bottom: 20px">{{personDetail.intro}}</p> -->
+          <p class="position" style="margin-bottom: 0.2rem">{{personDetail.post}}</p>
         </div>
       </div>
       <div class="base" style="margin-bottom: 0.1rem; padding-top: 0.1rem; font-size:0.12rem; color:#1A1A1A">
         <div class="base-info">
-          <p class="position">所在所系：{{personDetail.dept}}</p>
-          <p class="position">办公电话：{{personDetail.tel}}</p>
-          <p class="position">通讯地址：{{personDetail.address}}</p>
-          <p class="position">电子邮件：{{personDetail.email}}</p>
-          <p class="position">个人主页：{{personDetail.homepage }}</p>
+          <p class="position" v-show="personDetail.dept">所在部门：{{personDetail.dept}}</p>
+          <p class="position" v-show="personDetail.tel">办公电话：{{personDetail.tel}}</p>
+          <p class="position" v-show="personDetail.address">通讯地址：{{personDetail.address}}</p>
+          <p class="position" v-show="personDetail.email">电子邮件：{{personDetail.email}}</p>
+          <p class="position" v-show="personDetail.homepage">个人主页：{{personDetail.homepage }}</p>
         </div>
       </div>
       <p class="desc">{{personDetail.intro}}

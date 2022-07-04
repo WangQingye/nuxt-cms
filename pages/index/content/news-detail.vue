@@ -12,7 +12,7 @@
         <el-tag class='tag'
           v-show="news.publish_at">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
       </div>
-      <el-button type="warning"
+      <el-button type="info"
         class="button"
         v-show="!isSinglePage"
         @click="!$store.state.news.isPreview && doPrint()">打印本页</el-button>
@@ -43,7 +43,7 @@
           {{ news.like_num }}
         </el-tag>
       </div>
-      <el-button type="warning"
+      <el-button type="info"
         class="button"
         @click="!$store.state.news.isPreview && $router.back()">返回列表</el-button>
     </div>
@@ -130,7 +130,7 @@ export default {
 <style lang='scss'>
 .content-print {
   border-bottom: 1px solid #f2f2f2;
-  padding: 0 20px;
+  padding: 0;
   padding-bottom: 50px;
   line-height: 25px;
   img {

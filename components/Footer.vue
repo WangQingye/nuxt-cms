@@ -5,36 +5,17 @@
         <span>
           © {{ (new Date).getFullYear() }} 上海交通大学学生创新中心
         </span>
-        <span v-if="$store.state.config.webConfig.beian"
-              @click="handleCommand($store.state.config.webConfig.beian)"
-              class="link">
+        <span v-if="$store.state.config.webConfig.beian" @click="handleCommand($store.state.config.webConfig.beian)" class="link">
           | {{ $store.state.config.webConfig.beian }}
         </span>
-        <span v-if="$store.state.config.webConfig.copyright"
-              @click="handleCommand($store.state.config.webConfig.copyright)"
-              class="link">
+        <span v-if="$store.state.config.webConfig.copyright" @click="handleCommand($store.state.config.webConfig.copyright)" class="link">
           | {{ $store.state.config.webConfig.copyright }}
         </span>
       </p>
       <p>
-        <span v-if="$store.state.config.webConfig.friend_links && $store.state.config.webConfig.friend_links.length"
-              class="link">
-          <el-dropdown placement="top-end"
-                       trigger="hover"
-                       @command="handleCommand">
-            <span class="link">
-              友情链接
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(link,index ) in $store.state.config.webConfig.friend_links"
-                                :key="index"
-                                :command="link.value">{{ link.label }}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </span>
-        <span v-if="$store.state.config.webConfig.help_url"
-              @click="handleCommand($store.state.config.webConfig.help_url)"
-              class="link"> | 帮助文档</span>
+        <span @click="handleCommand('/')" class="link">投诉建议</span>
+        <span @click="handleCommand('/')" class="link"> | OA入口</span>
+        <span @click="handleCommand('/')" class="link"> | 用户指南</span>
       </p>
     </div>
   </div>

@@ -28,7 +28,6 @@
             </p>
             <el-popover v-else placement="bottom" trigger="hover" :key="tab.id">
               <div>
-                <!-- popover最小宽度150 -->
                 <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.name">
                   <p v-show="tabChild.name" class="tab-title">
                     <i class="el-icon-date" style="margin-right: 5px"></i>
@@ -132,8 +131,11 @@ export default {
       } else {
         c = child
       }
-      console.log(c)
       let subPage = this.$utils.typeToPages[c.event_type]
+      if (!subPage) {
+        this.$message.error('未找到菜单地址，请检查配置')
+        return
+      }
       this.$router.push(
         `/content/${subPage}?menuId=${tab.id}&subMenuId=${c.id}&params=${c.event_link}&singlePage=1`
       )
@@ -175,6 +177,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
+  min-width: 1440px;
   z-index: 4;
   transition: all 0.2s ease-in-out;
   backdrop-filter: blur(3px);
@@ -228,7 +231,7 @@ export default {
       .header-tabs {
         height: 80px;
         .tab {
-          width: auto;
+          width: 80px;
           // padding: 0 20px;
           margin: 0 20px;
           cursor: pointer;
@@ -242,7 +245,8 @@ export default {
           font-weight: bold;
           cursor: pointer;
           line-height: 80px;
-          margin-right: 20px;
+          margin-right:10px;
+          margin-left:20px;
         }
       }
 
@@ -261,7 +265,7 @@ export default {
         text-align: center;
         cursor: pointer;
         height: 40px;
-        margin-left: 25px;
+        margin-left: 15px;
       }
     }
   }
@@ -326,7 +330,7 @@ export default {
     }
     .header-tabs {
       .tab {
-        color: #4d4d4d !important;
+        color: #4d4d4d !important;        
       }
     }
     .el-dropdown-link {

@@ -23,16 +23,7 @@
       <el-row class="news" :gutter="20">
         <img class="back" src="~/static/imgs/home/list-back.png">
         <el-col :span="14" class="left">
-          <BigTitle cn-text="中心要闻" en-text="SIC NEWS" />
-          <!-- <swiper class="swiper" :options="swiperOptions">
-            <swiper-slide v-for="(item,index) in menuList" :key="index">
-              <div class="swiper-item" :style="{backgroundImage:`url(${item.icon})`}">
-                <p class="desc">通知公告通知公告通知公告通知公告通知公告通知公告通知公告通知公告通知公告通知公告通</p>
-              </div>
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper> -->
-
+          <BigTitle cn-text="中心要闻" en-text="SIC NEWS" showMoreUrl />
           <el-carousel :interval="3000" class="swiper" height="400px">
             <el-carousel-item v-for="item in newsList" :key="item.id">
               <div class="swiper-item" :style="{backgroundImage:`url(${item.cover})`}">
@@ -49,7 +40,7 @@
           </div>
         </el-col>
         <el-col :span="10" class="right">
-          <BigTitle cn-text="通知公告" en-text="NOTIFICATION" />
+          <BigTitle cn-text="通知公告" en-text="NOTIFICATION" showMoreUrl/>
           <div class="list-container" style="height: 100%">
             <div class="list-item" v-for="item in news" :key="item.id">
               <el-tag type="primary">{{item.date}}</el-tag>
@@ -271,40 +262,44 @@ export default {
           ],
         },
       ],
-      bannerList: []
+      bannerList: [],
     }
   },
   async asyncData(context) {
-    let banner = await context.app.$api.banner.bannerList({ type: 'home'})
-    let middleBanner = await context.app.$api.banner.bannerList({ type: 'home_middle'})
+    let banner = await context.app.$api.banner.bannerList({ type: 'home' })
+    let middleBanner = await context.app.$api.banner.bannerList({
+      type: 'home_middle',
+    })
     let quickLink = await context.app.$api.banner.getQuickLink()
     let friendLink = await context.app.$api.banner.getFriendLink()
-    let chuangye = await context.app.$api.banner.getHotPoint({ type: 'chuangye'})
-    let spans = [9,9,6]
+    let chuangye = await context.app.$api.banner.getHotPoint({
+      type: 'chuangye',
+    })
+    let spans = [9, 9, 6]
     for (let i = 0; i < spans.length; i++) {
-      const span = spans[i];
+      const span = spans[i]
       if (chuangye[i]) {
         chuangye[i].span = span
       }
     }
-    let student = await context.app.$api.banner.getHotPoint({ type: 'student'})
-    let spans1 = [8,8,8]
+    let student = await context.app.$api.banner.getHotPoint({ type: 'student' })
+    let spans1 = [8, 8, 8]
     for (let i = 0; i < spans1.length; i++) {
-      const span = spans1[i];
+      const span = spans1[i]
       if (student[i]) {
         student[i].span = span
       }
     }
-    let media = await context.app.$api.banner.getHotPoint({ type: 'media'})
-    let spans2 = [12,6,6]
+    let media = await context.app.$api.banner.getHotPoint({ type: 'media' })
+    let spans2 = [12, 6, 6]
     for (let i = 0; i < spans1.length; i++) {
-      const span = spans2[i];
+      const span = spans2[i]
       if (media[i]) {
         media[i].span = span
       }
     }
-    console.log('ql',quickLink)
-    console.log('fl',friendLink)
+    console.log('ql', quickLink)
+    console.log('fl', friendLink)
     console.log('middle', middleBanner)
     console.log('chuangye', chuangye)
     return {
@@ -313,58 +308,61 @@ export default {
       bottomLinkList: [
         {
           title: '常用链接',
-          links: friendLink
-        },{
+          links: friendLink,
+        },
+        {
           title: '快速入口',
-          links: quickLink
-        }
+          links: quickLink,
+        },
+        {
+          title: '关注我们',
+          links: [
+            {
+              name: '微信公众号',
+              url: '321312',
+            },
+            {
+              name: '上海交通大学学生创新中心',
+              url: '321312',
+            },
+          ],
+        },
+        {
+          title: '联系我们',
+          links: [
+            {
+              name: '联系我们',
+              url: '321312',
+            },
+            {
+              name: '帮助中心',
+              url: '321312',
+            },
+          ],
+        },
       ],
       subNews: [
         {
           name: '创业学院',
           enName: 'ENTREPRENEURSHIP',
-          news: chuangye,
+          news: chuangye.slice(0,3),
         },
         {
           name: '学生风采',
           enName: 'STUDENT',
-          news: student,
+          news: student.slice(0,3),
         },
         {
           name: '媒体聚焦',
           enName: 'MEDIA FOUCUS',
-          news: media,
+          news: media.slice(0,3),
         },
-      ]
+      ],
     }
   },
-  mounted() {
-    // this.fetchCraftList()
-    // this.fetchCenterNews()
-    // this.fetchCenterService()
-    // this.fetchModelList()
-  },
-  methods: {
-    // async fetchCenterNews() {
-    //   const {
-    //     data
-    //   } = await getIndexNews()
-    //   this.news = data
-    // },
-    // async fetchCenterService() {
-    //   const {
-    //     data
-    //   } = await getIndexDevice()
-    //   this.services = data
-    // },
-    // async fetchModelList() {
-    //   const {
-    //     data
-    //   } = await getIndexModel()
-    //   this.modelItems = data
-    // },
-    // ...mapActions({ fetchCraftList: 'craft/getCraftList' }),
-  },
+  mounted() {},
+  methods: {},
+  computed: {},
 }
 </script>
 <style lang='scss'>

@@ -194,10 +194,66 @@ function findMenuTitle(arr, id) {
   return name
 }
 
+function findMenuIdByTitle(arr, title) {
+  let titleId = undefined
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    if (a.name == title) {
+      if (titleId == undefined) titleId = a.id
+      break;
+    } else if (a.children) {
+      if (titleId == undefined) titleId = findMenuIdByTitle(a.children, title)
+    }
+  }
+  return titleId
+}
+
+function findMenuItemByTitle(arr, title) {
+  let item = undefined
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    if (a.name == title) {
+      if (item == undefined) item = a
+      break;
+    } else if (a.children) {
+      if (item == undefined) item = findMenuItemByTitle(a.children, title)
+    }
+  }
+  return item
+}
+
+function findMenuParentId(arr, id) {
+  let parentId = undefined
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    if (a.id == id) {
+      if (parentId == undefined) parentId = a.parent_id
+      break;
+    } else if (a.children) {
+      if (parentId == undefined) parentId = findMenuParentId(a.children, id)
+    }
+  }
+  return parentId
+}
+function findMenuIdsByTitle(menuList, title) {  
+  let id = findMenuIdByTitle(menuList, title)
+  let ids = []
+  ids.push(id)
+  let parentId;
+  for (let i = 0; i < 4; i++) {
+    parentId = findMenuParentId(menuList, id)
+    if (parentId && parentId != 0) {
+      ids.push(parentId)
+      id = parentId
+    }
+  }
+  ids = ids.reverse()
+  return ids
+}
 const typeToPages = {
   'newsTo': 'news-list',
   'pageTo': 'news-detail',
-  'institutionTo': 'lab-detail',
+  'institutionTo': 'lab-detail-info',
   'personnelTo': 'department-detail',
   'institutionTypeTo': 'department-list'
 }
@@ -220,6 +276,8 @@ export default function ({ $axios }, inject) {
     getSubMenuItem,
     typeToPages,
     goLink,
-    findMenuTitle
+    findMenuTitle,
+    findMenuIdsByTitle,
+    findMenuItemByTitle
   })
 }

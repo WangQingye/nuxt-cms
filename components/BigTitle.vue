@@ -4,7 +4,7 @@
       <span class="line"></span>
       <span class='cn-text'>{{cnText}}</span>
     </div>
-    <div class="more" v-show="moreUrl">
+    <div class="more" @click="clickMore" v-show="showMoreUrl">
       <span>查看更多</span>
       <i class="el-icon-arrow-right"></i>
     </div>
@@ -30,9 +30,9 @@ export default {
       type: String,
       default: 'center',
     },
-    moreUrl: {
-      type: String,
-      default: '',
+    showMoreUrl: {
+      type: Boolean,
+      default: false
     },
   },
   data() {
@@ -43,7 +43,16 @@ export default {
       this.$refs.title.style.color = this.color
     }
   },
-  methods: {},
+  methods: {
+    clickMore() {
+      let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, this.cnText)
+      let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, this.cnText)
+      let subPage = this.$utils.typeToPages[item.event_type]
+      this.$router.push(
+        `/content/${subPage}?menuId=${ids[0]}&subMenuId=${ids[ids.length - 1]}&params=${item.event_link}&singlePage=1`
+      )
+    },
+  },
 }
 </script>
 <style scoped lang='scss'>
@@ -72,8 +81,12 @@ export default {
   .more {
     color: #4d4d4d;
     position: relative;
+    cursor: pointer;
     z-index: 2;
     margin-top: 8px;
+    &:hover {
+      color: $--color-primary;
+    }
   }
   .en-text {
     font-size: 60px;

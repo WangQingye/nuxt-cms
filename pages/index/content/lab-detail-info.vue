@@ -17,10 +17,10 @@
           <p class="name">{{labDetail.name}}</p>
           <div class="line"></div>
           <p class="position" style="margin-bottom: 20px">{{labDetail.sub_name}}</p>
-          <p class="position">所在地址：{{labDetail.address}}</p>
-          <p class="position">联系电话：{{labDetail.tel}}</p>
-          <p class="position">负责人：{{labDetail.head }}</p>
-          <p class="position">电子邮件：{{labDetail.email}}</p>
+          <p class="position" v-show="labDetail.address">通讯地址：{{labDetail.address}}</p>
+          <p class="position" v-show="labDetail.tel">办公电话：{{labDetail.tel}}</p>
+          <!-- <p class="position">负责人：{{labDetail.head }}</p> -->
+          <p class="position" v-show="labDetail.email">邮件地址：{{labDetail.email}}</p>
         </div>
       </div>
       <div v-html="labDetail.desc" class="content-print"></div>
@@ -89,7 +89,7 @@ export default {
 <style lang='scss'>
 .content-print {
   border-bottom: 1px solid #f2f2f2;
-  padding: 0 20px;
+  padding: 0;
   padding-bottom: 50px;
   line-height: 25px;
   img {
@@ -139,12 +139,12 @@ export default {
       border-bottom: 1px solid #eaeef5;
       .img {
         width: 250px;
-        height: 340px;
+        // height: 116px;
         border-radius: 5px;
         margin-right: 70px;
       }
       .base-info {
-        margin-top: 60px;
+        // margin-top: 60px;
         .name {
           font-size: 30px;
           font-weight: bold;

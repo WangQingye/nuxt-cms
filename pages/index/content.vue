@@ -134,6 +134,10 @@ export default {
     onMenuSelect(subMenuId) {
       let subItem = this.$utils.getSubMenuItem(this.menuItem, subMenuId)
       let subPage = this.$utils.typeToPages[subItem.event_type]
+      if (!subPage) {
+        this.$message.error('未找到菜单地址，请检查配置')
+        return
+      }
       this.$router.push(`/content/${subPage}?menuId=${this.menuId}&subMenuId=${subMenuId}&params=${subItem.event_link}&singlePage=1`)
     }
   },

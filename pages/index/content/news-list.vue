@@ -72,7 +72,7 @@ export default {
     async fetchTags(key) {
       this.isLoading = true
       this.newsItems = []
-      const { data } = await this.$api.news.newsTag({ category_id: key })
+      const data = await this.$api.news.newsTag({ category_id: key })
       this.newsTags = ['全部', ...data]
       this.newsActiveName = '全部'
       this.fetchData()
@@ -84,7 +84,7 @@ export default {
     },
   },
   watch: {
-    '$route.query.key': {
+    '$route.query.params': {
       handler: function (val) {
         if (val) this.fetchTags(val)
       },
