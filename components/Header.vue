@@ -307,7 +307,8 @@ export default {
   .header-top,
   .header-bottom {
     backdrop-filter: blur(0px);
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9);;
+
     color: #4d4d4d;
     border-bottom: none;
     backdrop-filter: blur(0px);

@@ -66,7 +66,7 @@ export default {
     },
   },
   watch: {
-    '$route.query.key': {
+    '$route.query.params': {
       handler: function (val) {
         if (val) this.fetchData()
       },

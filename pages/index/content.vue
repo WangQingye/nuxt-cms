@@ -153,12 +153,14 @@ export default {
   min-height: calc(100vh - 161px);
   .top {
     width: 100%;
-    height: 170px;
+    height: 250px;
     padding: 0 10%;
     box-sizing: border-box;
-    padding-top: 90px;
+    padding-top: 170px;
     background-repeat: no-repeat;
-    background-size: 100% 170px;
+    background-size: 100% 250px;
+    // background-position: 0 0px;
+    margin-top: -80px;
     .top-title {
       font-size: 36px;
       font-weight: bold;

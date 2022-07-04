@@ -5,16 +5,15 @@
         <img class="img" :src="labDetail.img|cloudImage" alt="">
         <div class="base-info">
           <p class="name">{{labDetail.name}}</p>
-          <div class="line"></div>
-          <p class="position" style="margin-bottom: 20px">{{labDetail.desc}}</p>
-          <p class="position">所在所系：{{labDetail.department}}</p>
-          <p class="position">办公电话：{{labDetail.phone}}</p>
-          <p class="position">通讯地址：{{labDetail.address}}</p>
+          <div class="line"></div>          
+          <p class="position" style="margin-bottom: 20px">{{labDetail.sub_name}}</p>
+          <p class="position">所在地址：{{labDetail.address}}</p>
+          <p class="position">联系电话：{{labDetail.tel}}</p>
+          <p class="position">负责人：{{labDetail.head }}</p>
           <p class="position">电子邮件：{{labDetail.email}}</p>
-          <p class="position">个人主页：{{labDetail.page }}</p>
         </div>
       </div>
-      <div v-html="labDetail.content" class="content-print-mobile"></div>
+      <div v-html="labDetail.desc" class="content-print-mobile"></div>
     </div>
     <div class="teachers">
       <el-tabs v-model="teacherTab">

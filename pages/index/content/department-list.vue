@@ -1,7 +1,7 @@
 <template>
   <div class="department-list">
     <p class="title">
-      业务部门
+      {{title}}
     </p>
     <PageList :page-size="pageSize"
       :total="total"
@@ -41,17 +41,22 @@ export default {
       ],
       pageSize: 10,
       total: 0,
+      title: '部门列表'
     }
   },
   async asyncData(context) {
+    await context.app.$utils.getInitData(context)
     let { total, list } = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
       page: 1,
       limit: 6,
     })
+    let menuList = context.store.state.config.menuList
+    let title = context.app.$utils.findMenuTitle(menuList, context.route.query.subMenuId)
     return {
       departmentItems: list,
       total,
+      title
     }
   },
   methods: {
@@ -63,12 +68,15 @@ export default {
       })
       this.departmentItems = list
       this.total = total
+      let menuList = this.$store.state.config.menuList
+      let title = this.$utils.findMenuTitle(menuList, this.$route.query.subMenuId)
+      this.title = title
     },
   },
   watch: {
-    '$route.query.key': {
+    '$route.query.params': {
       handler: function (val) {
-        if (val) this.fetchData(val)
+        if (val) this.fetchData()
       },
       immediate: true,
     },

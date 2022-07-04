@@ -179,6 +179,21 @@ function getContentPageMenuData(menuList, menuId, subMenuId) {
     subMenuItem
   }
 }
+
+function findMenuTitle(arr, id) {
+  let name = ''
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    if (a.id == id) {
+      if (!name) name = a.name
+      break;
+    } else if (a.children) {
+      if (!name) name = findMenuTitle(a.children, id)
+    }
+  }
+  return name
+}
+
 const typeToPages = {
   'newsTo': 'news-list',
   'pageTo': 'news-detail',
@@ -204,6 +219,7 @@ export default function ({ $axios }, inject) {
     getContentPageMenuData,
     getSubMenuItem,
     typeToPages,
-    goLink
+    goLink,
+    findMenuTitle
   })
 }

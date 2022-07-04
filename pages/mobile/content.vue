@@ -34,19 +34,8 @@ export default {
       let menuList = this.$store.state.config.menuList
       let titleArr = []
       menuIds.split(',').forEach(id => {
-        findMenuTitle(menuList, id)
+        titleArr.push(this.$utils.findMenuTitle(menuList, id))
       })
-      function findMenuTitle(arr, id) {
-        arr.forEach(a => {
-          if (a.id == id) {
-            titleArr.push(a.name)
-            return;
-          } else if (a.children) {
-            findMenuTitle(a.children, id)
-          }
-        })
-      }
-      console.log(titleArr)
       return titleArr
     },
   },
