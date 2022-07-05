@@ -204,6 +204,7 @@ export default {
         padding: 10px 20px;
         background: white;
         border-radius: 4px;
+        margin-bottom: 20px;
       }
       .items-person {
         @include flex-between(flex-start);
@@ -213,7 +214,7 @@ export default {
           width: 32%;
           min-width: 200px;
           // max-width: 330px;
-          margin-right: 2%; 
+          margin-right: 2%;
           margin-bottom: 2%;
         }
 

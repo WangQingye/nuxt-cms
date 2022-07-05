@@ -162,7 +162,7 @@ export default {
       border-bottom: 1px solid #eaeef5;
       .img {
         width: 250px;
-        height: 150px;
+        // height: 150px;
         border-radius: 5px;
         margin-right: 70px;
       }

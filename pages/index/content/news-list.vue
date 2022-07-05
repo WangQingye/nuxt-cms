@@ -12,9 +12,9 @@
       </el-button>
     </div>
     <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
-      <!-- <div class="items" v-if="newsItems.length == 0 && !isLoading">
+      <div class="items" v-if="newsItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
-      </div> -->
+      </div>
       <div class="items" v-if="!showListWay">
         <NewsItemSkeleton class="news-item" v-for="i in 3" :key="i" v-if="isLoading" />
         <NewsItem class="news-item" v-for="item in newsItems" :itemData="item" :key="item.id" />

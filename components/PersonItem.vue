@@ -24,7 +24,7 @@
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <p class="position">{{itemData.job_content}}</p>
-        <p class="position" style="margin-bottom: 25px;">{{itemData.job_content1}}</p>
+        <p class="position" style="margin-bottom: 25px;">{{itemData.post}}</p>
         <p class="desc">{{itemData.intro}}</p>
       </div>
       <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span>
