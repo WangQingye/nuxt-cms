@@ -13,7 +13,7 @@
           <p class="position" v-show="labDetail.email">邮件地址：{{labDetail.email}}</p>
         </div>
       </div>
-      <div v-html="labDetail.desc" class="content-print-mobile"></div>
+      <div v-html='labDetail.desc.replace(/src="media/g, `src="${imgDomain}`)' class="content-print-mobile"></div>
     </div>
     <div class="teachers" v-show="labDetail.employers && labDetail.employers.length">
       <el-tabs v-model="teacherTab">
@@ -140,7 +140,7 @@ export default {
       border-bottom: 0.01rem solid #f5f5fc;
       .img {
         width: 3.35rem;
-        height: 2rem;
+        height: 1.85rem;
         border-radius: 0.02rem;
       }
       .base-info {

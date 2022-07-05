@@ -23,25 +23,24 @@ export default {
     }
   },
   created() {},
-  methods: {
-    menu() {
-      console.log(titles)
-    }
+  methods: {},
+  mounted() {
+    window.scrollTo(0, 0)
   },
   computed: {
     titles() {
       let menuIds = this.$route.query.menuIds
       let menuList = this.$store.state.config.menuList
       let titleArr = []
-      menuIds.split(',').forEach(id => {
+      menuIds.split(',').forEach((id) => {
         titleArr.push(this.$utils.findMenuTitle(menuList, id))
       })
       return titleArr
     },
   },
   watch: {
-    '$route.query.key': function () {
-      // this.fetchCategories()
+    '$route.query.menuIds': function () {
+      window.scrollTo(0, 0)
     },
   },
 }

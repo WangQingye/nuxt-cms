@@ -1,11 +1,9 @@
 <template>
   <div class="home">
-    <!-- <client-only> -->
+    <!-- 顶部banner -->
     <HomeSwiper :list="bannerList" />
-    <!-- </client-only> -->
     <div class="main-container">
-      <!-- <el-row class="menu-list" :gutter="20"> -->
-      <!-- <el-col v-for="menu in menuList" :key="menu.url" :span="4"> -->
+      <!-- 快捷菜单 -->
       <el-row class="menu-list" :gutter="8">
         <el-col v-for="menu in menuList" :key="menu.link" :span="4">
           <div class="single-menu" @click="$utils.goLink(menu.link)">
@@ -18,55 +16,52 @@
           </div>
         </el-col>
       </el-row>
-      <!-- </el-col> -->
-      <!-- </el-row> -->
+      <!-- 中部新闻 -->
       <el-row class="news" :gutter="20">
         <img class="back" src="~/static/imgs/home/list-back.png">
         <el-col :span="14" class="left">
-          <BigTitle cn-text="中心要闻" en-text="SIC NEWS" showMoreUrl />
+          <BigTitle cn-text="中心要闻" en-text="SIC NEWS" showMoreUrl :newsId="homeNewsId" />
           <el-carousel :interval="3000" class="swiper" height="400px">
-            <el-carousel-item v-for="item in newsList" :key="item.id">
-              <div class="swiper-item" :style="{backgroundImage:`url(${item.cover})`}">
+            <el-carousel-item v-for="item in homeNewsList.slice(0,3)" :key="item.id">
+              <div class="swiper-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="clickNews('中心要闻', item.id)">
                 <p class="desc" v-html="item.title">{{ item.title }}</p>
               </div>
             </el-carousel-item>
           </el-carousel>
           <div class="list-container">
-            <div class="list-item" v-for="item in news" :key="item.id">
-              <el-tag type="warning">{{item.tag}}</el-tag>
-              <p class="desc">{{item.desc}}</p>
-              <p class="date">{{item.date}}</p>
+            <div class="list-item" v-for="item in homeNewsList.slice(3)" :key="item.id" @click="clickNews('中心要闻', item.id)">
+              <el-tag type="warning">{{item.tags[0]}}</el-tag>
+              <p class="desc">{{item.title}}</p>
+              <p class="date">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</p>
             </div>
           </div>
         </el-col>
         <el-col :span="10" class="right">
-          <BigTitle cn-text="通知公告" en-text="NOTIFICATION" showMoreUrl/>
+          <BigTitle cn-text="通知公告" en-text="NOTIFICATION" showMoreUrl :newsId="homeNoticeId" />
           <div class="list-container" style="height: 100%">
-            <div class="list-item" v-for="item in news" :key="item.id">
-              <el-tag type="primary">{{item.date}}</el-tag>
-              <p class="desc desc-1">{{item.desc}}</p>
+            <div class="list-item" v-for="item in homeNoticeList" :key="item.id" @click="clickNews('通知公告', item.id)">
+              <el-tag type="primary">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
+              <p class="desc desc-1">{{item.title}}</p>
             </div>
           </div>
         </el-col>
       </el-row>
-      <div class="activity" :style="{backgroundImage:`url(${ad1})`}">
-        <div class="title">
-          <p>
-            <!-- 第六届中国国际“互联网+”大学生创新创业大赛上海赛区 暨“青年红色筑梦之旅”活动正式启动 -->
-          </p>
-        </div>
-        <!-- <img class="img" src="~/static/imgs/sucaibg.jpg" alt="link" /> -->
-        <i class="el-icon-arrow-right link-arrow"></i>
-      </div>
+      <!-- 中部广告 -->
+      <el-carousel :interval="3000" height="260px" arrow="never" indicator-position="none">
+        <el-carousel-item v-for="item in middleBanner" :key="item.id">
+          <div class="activity" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="$utils.goLink(item.event_link)">
+            <i class="el-icon-arrow-right link-arrow"></i>
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+      <!-- 底部新闻板块 -->
       <div class="sub-news" v-for="subNew in subNews" :key="subNew.name">
         <BigTitle :cn-text="subNew.name" :en-text="subNew.enName" />
         <el-row class="sub-new-list" :gutter="20">
           <el-col v-for="(newItem,index) in subNew.news" :key="newItem.id" :span="newItem.span">
-            <!-- <div class="sub-item" :style="{backgroundImage:`url(${newItem.img})`}"> -->
             <div class="sub-item" @click="$utils.goLink(newItem.link)">
               <div class="back-img" :style="{backgroundImage:`url(${$utils.cloudImg(newItem.cover)})`}"></div>
               <div class="back-mask"></div>
-              <!-- <img class="back-img" :src="newItem.img" alt=""> -->
               <div class="bottom">
                 <p class="name">{{newItem.name}}</p>
                 <span class="link" v-show="!index">点击查看<i class="el-icon-arrow-right"></i></span>
@@ -76,15 +71,27 @@
         </el-row>
       </div>
     </div>
+    <!-- 底部链接 -->
     <div class="bottom-links">
       <img src="~/static/imgs/home/logo_02@2x.png" class="icon" />
       <el-row class="links-wrapper" :gutter="20">
         <el-col v-for="links in bottomLinkList" :key="links.title" :span="6">
           <div class="links">
             <p class="link-title">{{links.title}}</p>
-            <p class="link" v-for="link in links.links" :key="link.name" @click="$utils.goLink(link.link)">
-              {{link.name}}
-            </p>
+            <template v-for="link in links.links">
+              <el-popover :key="link.name" v-if="link.wechatQrImg" placement="bottom-start" width="200" trigger="hover">
+                <p class="link" slot="reference" :key="link.name" @click="$utils.goLink(link.link)">
+                  {{link.name}}
+                </p>
+                <img :src="link.wechatQrImg|cloudImage" style="width:200px;height:200px" />
+              </el-popover>
+              <p class="link" v-else-if="link.name=='联系我们'" :key="link.name" @click="goMenu('合作联系')">
+                {{link.name}}
+              </p>
+              <p class="link" v-else :key="link.name" @click="$utils.goLink(link.link)">
+                {{link.name}}
+              </p>
+            </template>
           </div>
         </el-col>
       </el-row>
@@ -263,15 +270,23 @@ export default {
         },
       ],
       bannerList: [],
+      middleBanner: [],
+      homeNewsId: '',
+      homeNoticeId: '',
+      homeNewsList: [],
+      homeNoticeList: [],
     }
   },
   async asyncData(context) {
+    // banner
     let banner = await context.app.$api.banner.bannerList({ type: 'home' })
     let middleBanner = await context.app.$api.banner.bannerList({
       type: 'home_middle',
     })
+    // 顶部链接
     let quickLink = await context.app.$api.banner.getQuickLink()
     let friendLink = await context.app.$api.banner.getFriendLink()
+    // 新闻
     let chuangye = await context.app.$api.banner.getHotPoint({
       type: 'chuangye',
     })
@@ -298,12 +313,30 @@ export default {
         media[i].span = span
       }
     }
-    console.log('ql', quickLink)
-    console.log('fl', friendLink)
-    console.log('middle', middleBanner)
-    console.log('chuangye', chuangye)
+    let homeNewsId = context.app.store.state.config.webConfig.find(
+      (c) => c.key == 'home_news'
+    )
+    const data = await context.app.$api.news.newsList({
+      page: 1,
+      limit: 10,
+      category_id: homeNewsId.value,
+    })
+    let homeNewsList = data.list
+    let homeNoticeId = context.app.store.state.config.webConfig.find(
+      (c) => c.key == 'home_notice'
+    )
+    const data1 = await context.app.$api.news.newsList({
+      page: 1,
+      limit: 10,
+      category_id: homeNoticeId.value,
+    })
+    let homeNoticeList = data1.list
+    let wechatQrImg = context.app.store.state.config.webConfig.find(
+      (c) => c.key == 'wechat_qr'
+    )
     return {
       bannerList: banner,
+      middleBanner,
       menuList: quickLink,
       bottomLinkList: [
         {
@@ -318,12 +351,8 @@ export default {
           title: '关注我们',
           links: [
             {
-              name: '微信公众号',
-              url: '321312',
-            },
-            {
               name: '上海交通大学学生创新中心',
-              url: '321312',
+              wechatQrImg: wechatQrImg.value,
             },
           ],
         },
@@ -345,23 +374,53 @@ export default {
         {
           name: '创业学院',
           enName: 'ENTREPRENEURSHIP',
-          news: chuangye.slice(0,3),
+          news: chuangye.slice(0, 3),
         },
         {
           name: '学生风采',
           enName: 'STUDENT',
-          news: student.slice(0,3),
+          news: student.slice(0, 3),
         },
         {
           name: '媒体聚焦',
           enName: 'MEDIA FOUCUS',
-          news: media.slice(0,3),
+          news: media.slice(0, 3),
         },
       ],
+      homeNewsId: homeNewsId.value,
+      homeNoticeId: homeNoticeId.value,
+      homeNewsList,
+      homeNoticeList,
     }
   },
   mounted() {},
-  methods: {},
+  methods: {
+    clickNews(menuTitle, newsId) {
+      let ids = this.$utils.findMenuIdsByTitle(
+        this.$store.state.config.menuList,
+        menuTitle
+      )
+      this.$router.push(`/content/news-detail?menuIds=${ids}&params=${newsId}`)
+    },
+    goMenu(title) {
+      let ids = this.$utils.findMenuIdsByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
+      let item = this.$utils.findMenuItemByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
+      let subPage = this.$utils.typeToPages[item.event_type]
+      if (!subPage) {
+        this.$message.error('暂无联系方式')
+        return
+      }
+      this.$router.push(
+        `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
+      )
+    },
+  },
   computed: {},
 }
 </script>
@@ -446,9 +505,10 @@ export default {
           .swiper-item {
             width: 100%;
             // padding-bottom: 50%;
+            cursor: pointer;
             border-radius: 4px 4px 0 0;
             position: relative;
-            background-size: 100% 100%;
+            background-size: cover;
             height: 400px;
             .desc {
               position: absolute;
@@ -533,7 +593,7 @@ export default {
       position: relative;
       width: 100%;
       padding-bottom: 16%;
-      background-size: 100% 100%;
+      background-size: cover;
       .title {
         position: absolute;
         left: 0;

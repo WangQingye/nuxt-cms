@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile-home">
+  <div class="mobile-home" v-show="show">
     <HeaderMobile />
     <nuxt-child style="position: relative; z-index: 1;box-sizing:border-box;"></nuxt-child>
     <FooterMobile />
@@ -11,6 +11,7 @@ export default {
   name: 'MobileHome',
   data() {
     return {
+      show: false
     }
   },
   async asyncData(context) {
@@ -30,6 +31,8 @@ export default {
     } catch (error) {
       console.log('noname')
     }
+    // 解决HTML先于CSS加载的问题
+    this.show = true
   },
 }
 </script>

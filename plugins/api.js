@@ -2,20 +2,33 @@ import bannerModule from '~/api/banner'
 import newsModule from '~/api/news'
 import userModule from '~/api/user'
 import departmentModule from '~/api/department'
-import { Message } from "element-ui";
-export default function ({ $axios }, inject) {
+import {
+  Message
+} from "element-ui";
+import Vue from "vue";
+export default function ({
+  $axios,
+  redirect
+}, inject) {
   const apiModules = {}
   $axios.onRequest((config) => {
-  	// 相关配置
+    // 相关配置
   })
   $axios.onResponse((response) => {
-  	// 相关配置
+    // 相关配置
     if (response.data.message == 'success') {
       return Promise.resolve(response.data.data)
     } else {
       Message.error(response.data.message)
-      return Promise.resolve(response.data.data)
+      return Promise.reject(response.data.data)
+      // redirect()
+      // throw new Error(response.data.message)
       // return Promise.reject(response.data.message)
+    }
+  })
+  $axios.onError(error => {
+    if (error.code === 404) {
+      redirect('/404')
     }
   })
   apiModules.banner = bannerModule($axios)

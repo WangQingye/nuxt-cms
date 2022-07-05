@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { tokenName } from '@/config'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Main',
@@ -15,11 +17,42 @@ export default {
   },
   mounted() {
     try {
-      window.document.title = this.$store.state.config.webConfig.find(c => c.key == 'name').value
+      window.document.title = this.$store.state.config.webConfig.find(
+        (c) => c.key == 'name'
+      ).value
     } catch (error) {
       console.log('noname')
     }
-  }
+    let token = localStorage.getItem(tokenName)
+    if (token) {
+      this.$store.dispatch('user/getUserInfo')
+    }
+  },
+  methods: {
+    ...mapActions({
+      login: 'user/login',
+      profile: 'user/getUserInfo'
+    }),
+    handleLogin(code, state) {
+      this.login({
+        code,
+        state
+      }).then(_ => {
+        this.profile()
+      })
+    },
+  },
+  watch: {
+    $route: {
+      handler(route) {
+        const { code, state } = route.query
+        if (code && state) {
+          this.handleLogin(code, state)
+        }
+      },
+      immediate: true,
+    },
+  },
 }
 </script>
 

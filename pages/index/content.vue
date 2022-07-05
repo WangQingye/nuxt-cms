@@ -131,6 +131,9 @@ export default {
       return arr
     }
   },
+  mounted() {
+    window.scrollTo(0,0)
+  },
   methods: {
     onMenuSelect(subMenuId) {
       let title = this.$utils.findMenuTitle(this.$store.state.config.menuList, subMenuId)      
@@ -146,13 +149,13 @@ export default {
   },
   watch: {
     '$route.query.menuIds': function (val) {
-      console.log(val)
       let ids = val.split(',')
       let {menuItem, menuId, subMenuId, subMenuItem} = this.$utils.getContentPageMenuData(this.$store.state.config.menuList, ids[0], ids[ids.length - 1])
       this.menuItem = menuItem
       this.menuId = menuId
       this.subMenuId = subMenuId
       this.subMenuItem = subMenuItem
+      window.scrollTo(0,0)
     },
   },
 }

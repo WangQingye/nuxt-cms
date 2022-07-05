@@ -23,7 +23,7 @@
           <p class="position" v-show="labDetail.email">邮件地址：{{labDetail.email}}</p>
         </div>
       </div>
-      <div v-html="labDetail.desc" class="content-print"></div>
+      <div v-html='labDetail.desc.replace(/src="media/g, `src="${imgDomain}`)' class="content-print"></div>
     </div>
     <div class="teachers" v-show="labDetail.employers && labDetail.employers.length">
       <el-tabs v-model="teacherTab">
