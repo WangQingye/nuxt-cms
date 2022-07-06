@@ -88,13 +88,13 @@ export default {
       this.labDetail = data
       // 业务部门需要请求动态和人员
       if (data.type == 1) {
-        const newsData = await context.app.$api.department.deparmentNews({
+        const newsData = await this.$api.department.deparmentNews({
           page: 1,
           limit: 10,
           id: this.$route.query.params,
         })
         this.newsList = newsData
-        const personData = await context.app.$api.department.deparmentPerson({
+        const personData = await this.$api.department.deparmentPerson({
           page: 1,
           limit: 4,
           key: data.personnel_tag,
@@ -107,8 +107,7 @@ export default {
     '$route.query.params': {
       handler: function (val) {
         if (val) this.fetchData()
-      },
-      immediate: true,
+      }
     },
   },
 }
