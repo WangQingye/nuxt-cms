@@ -12,15 +12,18 @@
     <div class="search-container">
       <div class="left">
         <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-          <el-tab-pane label="文章" name="first"></el-tab-pane>
-          <el-tab-pane label="人员" name="second"></el-tab-pane>
+          <el-tab-pane label="文章" name="news"></el-tab-pane>
+          <el-tab-pane label="人员" name="person"></el-tab-pane>
         </el-tabs>
         <PageList :page-size="pageSize" :total="total" @fetchData="fetchData" v-loading="isLoading">
-          <el-empty v-if="(!newsItems.length && activeTab == 'first') || (!personItems.length && activeTab == 'second')" description="暂无内容"></el-empty>
-          <div class="items" v-show="activeTab == 'first'">
+          <div class="items" v-show="activeTab == 'news'">
+            <el-empty v-if="!newsItems.length" description="暂无内容"></el-empty>
             <NewsItemList class="list-way-item" v-for="(news, index) in newsItems" :key="index" :itemData="news" />
           </div>
-          <div class="items-person" v-show="activeTab == 'second'">
+          <div class="items-person" v-show="activeTab == 'person'">
+            <div style="background: white; width: 100%">
+              <el-empty style="margin: 0 auto" v-if="!personItems.length" description="暂无内容"></el-empty>
+            </div>
             <PersonItem class="person-item" v-for="(person, index) in personItems" :key="index" :itemData="person" />
           </div>
         </PageList>
@@ -30,7 +33,7 @@
           <p class="title">历史搜索</p>
           <div v-if="historyItems.length">
             <div class="item" v-for="(item,index) in historyItems" :key="index">
-              <span class="text">{{item.text}}</span>
+              <span class="text" @click="clickHistoryItem(item.text)">{{item.text}}</span>
               <span>{{item.date|parseTime('{m}-{d}')}}</span>
             </div>
             <p class="clear" @click="clearHistory">全部清除</p>
@@ -50,75 +53,23 @@ export default {
   name: 'searchPage',
   data() {
     return {
-      activeTab: 'first',
+      activeTab: 'news',
       searchText: '',
-      pageSize: 2,
       total: 10,
       isLoading: false,
       historyItems: [],
-      newsItems: [
-        {
-          thumb:
-            'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          title: '返回中心首页返回中心首页返回中心首页',
-          digest:
-            'dasd返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页as',
-        },
-        {
-          thumb:
-            'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          title: '返回中心首页返回中心首页返回中心首页',
-          digest:
-            'dasd返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页as',
-        },
-        {
-          thumb:
-            'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          title: '返回中心首页返回中心首页返回中心首页',
-          digest:
-            'dasd返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页as',
-        },
-        {
-          thumb:
-            'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          title: '返回中心首页返回中心首页返回中心首页',
-          digest:
-            'dasd返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页as',
-        },
-        {
-          thumb:
-            'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          title: '返回中心首页返回中心首页返回中心首页',
-          digest:
-            'dasd返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页返回中心首页as',
-        },
-      ],
-      personItems: [
-        {
-          img: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          name: '武星域',
-          position: '院长助理 \\ 副教授 航空航天学院',
-          desc: '发动机推进与本科教学实验室建设',
-        },
-        {
-          img: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          name: '武星域',
-          position: '院长助理 \\ 副教授 航空航天学院',
-          desc: '发动机推进与本科教学实验室建设',
-        },
-        {
-          img: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-          name: '武星域',
-          position: '院长助理 \\ 副教授 航空航天学院',
-          desc: '发动机推进与本科教学实验室建设',
-        },
-      ],
+      newsItems: [],
+      personItems: [],
     }
   },
-  // async asyncData(context) {
-  //   let data = await context.app.$api.banner.getWebConfig()
-  //   context.store.commit('config/setWebConfig', data)
-  // },
+  async asyncData(context) {
+    const { total, list } = await this.$api.news.newsSearch({
+      page: 1,
+      limit: 7,
+      search: context.route.query.text,
+    })
+    return { total, newsItems: list }
+  },
   mounted() {
     if (this.$route.query.text) {
       this.searchText = this.$route.query.text
@@ -132,8 +83,39 @@ export default {
       this.addSearchHistory()
       this.getSearchHistory()
     },
-    handleTabClick() {},
-    fetchData() {},
+    clickHistoryItem(text) {
+      this.activeTab = 'news'
+      this.searchText = text
+      this.handleTabClick()
+    },
+    handleTabClick() {
+      this.page = 1
+      this.newsItems = []
+      this.personItems = []
+      this.fetchData()
+    },
+    async fetchData(page = 1) {
+      this.isLoading = true
+      if (this.activeTab == 'news') {
+        const { total, list } = await this.$api.news.newsSearch({
+          page,
+          limit: this.pageSize,
+          search: this.searchText,
+        })
+        this.total = total
+        this.newsItems = list
+      }
+      if (this.activeTab == 'person') {
+        const { total, list } = await this.$api.department.personSearch({
+          page,
+          limit: this.pageSize,
+          search: this.searchText,
+        })
+        this.total = total
+        this.personItems = list
+      }
+      this.isLoading = false
+    },
     getSearchHistory() {
       if (process.browser) {
         this.historyItems = JSON.parse(
@@ -157,6 +139,11 @@ export default {
         'INNOVATION_SEARCH_HISTORY',
         JSON.stringify(this.historyItems)
       )
+    },
+  },
+  computed: {
+    pageSize() {
+      return this.activeTab == 'news' ? 7 : 15
     },
   },
 }
@@ -243,6 +230,7 @@ export default {
           @include flex-between(flex-start);
           margin-bottom: 10px;
           .text {
+            cursor: pointer;
             flex: 1;
             margin-right: 20px;
             @include ellipsisBasic(2);
@@ -254,7 +242,7 @@ export default {
           padding: 15px 0;
           text-align: center;
           cursor: pointer;
-          transition: all .5s ease-in-out;
+          transition: all 0.5s ease-in-out;
           &:hover {
             color: $--color-primary;
           }

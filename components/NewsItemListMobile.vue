@@ -1,19 +1,11 @@
 <template>
-  <div class='list-item'
-    @click="$router.push(`/content/news-detail?params=${itemData.id}&menuIds=${$route.query.menuIds}`)">
-    <img class="img"
-      :src="itemData.thumb|cloudImage"
-      alt="logo"
-      :onerror="$utils.getDefaultImg()">
+  <div class='list-item' @click="clickNew">
+    <img class="img" :src="itemData.thumb|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
     <div class="right">
       <div class="top">
         <div class="top-left">
-          <el-tag class="tag"
-            type="primary" v-if="itemData.isNew">新</el-tag>
-          <el-tag class="tag"
-            type="primary"
-            v-if="itemData.is_top"
-            style="float: right"><i class="el-icon-top icon"></i>置顶
+          <el-tag class="tag" type="primary" v-if="itemData.isNew">新</el-tag>
+          <el-tag class="tag" type="primary" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
           </el-tag>
         </div>
         <span class="time">{{itemData.publish_at|parseTime('{m}-{d}')}}</span>
@@ -45,7 +37,19 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    clickNew() {
+      let menuIds = this.$utils.findMenuIdsByEventLink(
+        this.$store.state.config.menuList,
+        this.itemData.category_id
+      )
+      this.$router.push(
+        `/content/news-detail?params=${this.itemData.id}&menuIds=${menuIds.join(
+          ','
+        )}`
+      )
+    },
+  },
 }
 </script>
 <style scoped lang='scss'>
@@ -99,7 +103,7 @@ export default {
         }
       }
       .time {
-        font-size:0.1rem;
+        font-size: 0.1rem;
         color: #999;
         position: absolute;
         right: 0;

@@ -250,6 +250,41 @@ function findMenuIdsByTitle(menuList, title) {
   ids = ids.reverse()
   return ids
 }
+
+
+function findMenuIdByEventLink(arr, eventLink) {
+  let itemId = undefined
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    if (a.event_link == eventLink) {
+      if (itemId == undefined) itemId = a.id
+      break;
+    } else if (a.children) {
+      if (itemId == undefined) itemId = findMenuIdByEventLink(a.children, eventLink)
+    }
+  }
+  return itemId
+}
+
+function findMenuIdsByEventLink(arr, eventLink) {
+  let itemId = findMenuIdByEventLink(arr, eventLink)
+  let ids = []
+  ids.push(itemId)
+  let parentId;
+  for (let i = 0; i < 4; i++) {
+    parentId = findMenuParentId(arr, itemId)
+    if (parentId && parentId != 0) {
+      ids.push(parentId)
+      itemId = parentId
+    }
+  }
+  ids = ids.reverse()
+  if (ids[0]) {
+    return ids
+  } else {
+    return [arr[1].id]
+  }
+}
 const typeToPages = {
   'newsTo': 'news-list',
   'pageTo': 'news-detail',
@@ -278,6 +313,8 @@ export default function ({ $axios }, inject) {
     goLink,
     findMenuTitle,
     findMenuIdsByTitle,
-    findMenuItemByTitle
+    findMenuItemByTitle,
+    findMenuIdsByEventLink,
+    findMenuIdByTitle
   })
 }

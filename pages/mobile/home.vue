@@ -270,6 +270,7 @@ export default {
     background: $--color-primary;
     padding-top: 0.8rem;
     padding-left: 0.2rem;
+    padding-right: 0.2rem;
     box-sizing: border-box;
     color: white;
     background-size: cover;

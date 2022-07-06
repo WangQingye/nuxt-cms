@@ -14,7 +14,7 @@ export default $axios => ({
   // 获取用户信息
   userProfile(params) {
     return $axios({
-      url: '/user/profile', method: 'get', params
+      url: '/user/profile', method: 'get', params, noTip: true
     })
   },
   // 退出登录

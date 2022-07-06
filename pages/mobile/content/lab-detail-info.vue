@@ -15,17 +15,17 @@
       </div>
       <div v-html='labDetail.desc.replace(/src="media/g, `src="${imgDomain}`)' class="content-print-mobile"></div>
     </div>
-    <div class="teachers" v-show="labDetail.employers && labDetail.employers.length">
-      <el-tabs v-model="teacherTab">
-        <el-tab-pane label="中心教师" name="teacher"></el-tab-pane>
+    <div class="teachers" v-show="personList.length">
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="中心教师" name="active"></el-tab-pane>
       </el-tabs>
       <div class="items">
-        <PersonItemMobile class="person-item" type="list" v-for="item in labDetail.employers" :key="item.id" :itemData="item" />
+        <PersonItemMobile class="person-item" type="list" v-for="item in personList" :key="item.id" :itemData="item" />
       </div>
     </div>
     <div class="news" v-show="newsList.length">
-      <el-tabs v-model="teacherTab">
-        <el-tab-pane label="部门动态" name="teacher"></el-tab-pane>
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="部门动态" name="active"></el-tab-pane>
       </el-tabs>
       <div class="items">
         <NewsItemListMobile class="list-way-item" v-for="item in newsList" :key="item.id" :itemData="item" />
@@ -52,8 +52,9 @@ export default {
         content: '<p>实验室介绍</p><p>实验室介绍</p><p>实验室介绍</p>',
       },
       imgDomain,
-      teacherTab: 'teacher',
+      activeTab: 'active',
       newsList: [],
+      personList: [],
     }
   },
   async asyncData(context) {
@@ -61,16 +62,23 @@ export default {
       id: context.route.query.params,
     })
     let newsList = []
-    if (data.category_id != undefined) {
-      const { list } = await context.app.$api.news.newsList({
+    let personList = []
+    // 业务部门需要请求动态和人员
+    if (data.type == 1) {
+      const newsData = await context.app.$api.department.deparmentNews({
         page: 1,
         limit: 10,
-        category_id: data.category_id,
-        tag: '',
+        id: context.route.query.params,
       })
-      newsList = list
+      newsList = newsData
+      const personData = await context.app.$api.department.deparmentPerson({
+        page: 1,
+        limit: 4,
+        key: data.personnel_tag,
+      })
+      personList = personData.list
     }
-    return { labDetail: data, newsList }
+    return { labDetail: data, newsList, personList }
   },
   methods: {
     async fetchData() {
@@ -78,14 +86,20 @@ export default {
         id: this.$route.query.params,
       })
       this.labDetail = data
-      if (this.labDetail.category_id != undefined) {
-        const { list } = await this.$api.news.newsList({
+      // 业务部门需要请求动态和人员
+      if (data.type == 1) {
+        const newsData = await context.app.$api.department.deparmentNews({
           page: 1,
           limit: 10,
-          category_id: this.labDetail.category_id,
-          tag: '',
+          id: this.$route.query.params,
         })
-        this.newsList = list
+        this.newsList = newsData
+        const personData = await context.app.$api.department.deparmentPerson({
+          page: 1,
+          limit: 4,
+          key: data.personnel_tag,
+        })
+        this.personList = personData.list
       }
     },
   },
@@ -94,6 +108,7 @@ export default {
       handler: function (val) {
         if (val) this.fetchData()
       },
+      immediate: true,
     },
   },
 }
@@ -140,7 +155,6 @@ export default {
       border-bottom: 0.01rem solid #f5f5fc;
       .img {
         width: 3.35rem;
-        height: 1.85rem;
         border-radius: 0.02rem;
       }
       .base-info {

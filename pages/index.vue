@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <Header />
-    <nuxt-child style="padding-top: 80px;"></nuxt-child>
+    <nuxt-child style="padding-top: 80px"></nuxt-child>
     <Footer />
   </div>
 </template>

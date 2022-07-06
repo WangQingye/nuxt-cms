@@ -29,4 +29,10 @@ export default $axios => ({
       url: '/article/detail', method: 'post', data, needToken: false
     })
   },
+  // 新闻搜索
+  newsSearch(data) {
+    return $axios({
+      url: '/news/search', method: 'post', data, needToken: false
+    })
+  },
 })

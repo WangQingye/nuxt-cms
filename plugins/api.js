@@ -5,6 +5,9 @@ import departmentModule from '~/api/department'
 import {
   Message
 } from "element-ui";
+import {
+  tokenName
+} from '@/config'
 import Vue from "vue";
 export default function ({
   $axios,
@@ -13,13 +16,18 @@ export default function ({
   const apiModules = {}
   $axios.onRequest((config) => {
     // 相关配置
+    let token;
+    if (!process.server) {
+      token = localStorage.getItem(tokenName)
+    }
+    if (token) config.headers[tokenName] = token
   })
   $axios.onResponse((response) => {
     // 相关配置
     if (response.data.message == 'success') {
       return Promise.resolve(response.data.data)
     } else {
-      Message.error(response.data.message)
+      if (!response.config.noTip) Message.error(response.data.message)
       return Promise.reject(response.data.data)
       // redirect()
       // throw new Error(response.data.message)

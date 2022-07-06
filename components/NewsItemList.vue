@@ -1,5 +1,5 @@
 <template>
-  <div class='list-item' @click="$router.push(`/content/news-detail?params=${itemData.id}&menuIds=${$route.query.menuIds}`)">
+  <div class='list-item' @click="clickNew">
     <img class="img" :src="itemData.thumb|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
     <div class="right">
       <div class="top">
@@ -30,7 +30,12 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    clickNew() {
+      let menuIds = this.$utils.findMenuIdsByEventLink(this.$store.state.config.menuList, this.itemData.category_id)
+      this.$router.push(`/content/news-detail?params=${this.itemData.id}&menuIds=${menuIds.join(',')}`)
+    }
+  },
 }
 </script>
 <style scoped lang='scss'>

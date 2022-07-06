@@ -13,22 +13,20 @@
         </span>
       </p>
       <p>
-        <span @click="handleCommand('/')" class="link">投诉建议</span>
-        <span @click="handleCommand('/')" class="link"> | OA入口</span>
-        <span @click="handleCommand('/')" class="link"> | 用户指南</span>
+        <span v-for="(link,index) in footerLinksRight" class="link" :key="index" @click="$utils.goLink(link.link)">{{link.title}} <span v-show="index != footerLinksRight.length - 1"> | </span></span>
       </p>
     </div>
   </div>
 </template>
 <script>
+import { footerLinksRight } from '@/config'
 export default {
   data() {
-    return {}
+    return {
+      footerLinksRight
+    }
   },
   methods: {
-    handleCommand(url) {
-      window.open(url, '_blank')
-    },
   },
 }
 </script>
@@ -53,6 +51,9 @@ export default {
     .link {
       cursor: pointer;
       color: #999999;
+      &:hover {
+        color: $--color-primary;
+      }
     }
   }
 }

@@ -7,7 +7,12 @@
       <div class="mobile-menu">
         <div class="top-container">
           <div class="top">
-            <el-button style="width: 1.64rem" type="primary">用户登录</el-button>
+            <div class="user" v-if="user.id" @click="$utils.goLink(userCenter)">
+              <el-avatar :size="'0.31rem'" :src="user.avatar|cloudImage"></el-avatar>
+              <span class="name">{{user.nickname}}</span>
+              <i class="el-icon-arrow-right icon"></i>
+            </div>
+            <el-button style="width: 1.64rem" type="primary" v-else @click="handleUlogin">用户登录</el-button>
             <i class="el-icon-close close" @click="drawerVisible = false"></i>
           </div>
           <el-input prefix-icon="el-icon-search" placeholder="搜索" v-model="searchText" @keyup.enter.native="goSearch"></el-input>
@@ -27,7 +32,9 @@
                 <el-submenu v-if="subItem.children && subItem.children.length" :index="String(subItem.id)" :key="subItem.id">
                   <template slot="title">
                     <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -12px;">
-                      <i class="el-icon-location"></i>
+                      <!-- <i class="el-icon-location"></i> -->
+                      <img class="icon" v-if="subItem.icon" :src="subItem.icon|cloudImage" alt="icon">
+                      <i v-else style="font-size:0.16rem"  class="el-icon-tickets"></i>
                       <span class="second-title">{{subItem.name}}</span>
                     </div>
                   </template>
@@ -83,6 +90,7 @@
 <script>
 import logo1 from '~/static/imgs/home/logo_01@2x.png'
 import logo2 from '~/static/imgs/home/logo_02@2x.png'
+import { userCenter } from '@/config'
 export default {
   name: 'MobileHeader',
   // mixins: [authorizeMixin],
@@ -90,6 +98,7 @@ export default {
     return {
       logo1,
       logo2,
+      userCenter,
       drawerVisible: false,
       searchText: '',
     }
@@ -108,7 +117,6 @@ export default {
         return
       }
       this.drawerVisible = false
-      console.log(subPage)
       this.$router.push(
         `/mobile/content/${subPage}?menuIds=${indexPath.join(',')}&params=${subItem.event_link}&singlePage=1`
       )
@@ -117,6 +125,11 @@ export default {
       this.drawerVisible = false
       this.$router.push(`/mobile/search?text=${this.searchText}`)
     },
+    async handleUlogin() {
+      let callback = window.location.href
+      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
+      window.location.href = authorize_url
+    },
   },
   computed: {
     menuList() {
@@ -124,6 +137,9 @@ export default {
     },
     isHomePage() {
       return this.$route.name == 'mobile-home'
+    },
+    user() {
+      return this.$store.state.user.user
     },
   },
   watch: {
@@ -178,6 +194,18 @@ export default {
     .top {
       @include flex-between;
       margin-bottom: 0.21rem;
+      .user {
+        @include flex-between;
+        color: #4D4D4D;
+        .name {
+          font-size: 0.12rem;
+          font-weight: 500;
+          margin: 0 0.06rem 0 0.1rem
+        }
+        .icon {
+          font-size: 0.1rem;
+        }
+      }
       .close {
         font-size: 0.15rem;
         width: 0.31rem;
@@ -229,6 +257,12 @@ export default {
     .first-title {
       font-size: 0.14rem;
       color: #999;
+    }
+    .icon {
+      height:0.14rem;
+      width:0.14rem;
+      margin-right: 0.1rem;
+      margin-left: 0.05rem;
     }
     .second-title {
       font-size: 0.12rem;

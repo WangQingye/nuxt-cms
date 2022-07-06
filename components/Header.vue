@@ -2,18 +2,10 @@
   <div :class="['header', isHomePage && !showSearch ? '':'header-hover']" v-show="!isSearchPage">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
-        <span class="link">OA入口</span>
-        ·
-        <span class="link">常见问题</span>
-        ·
-        <span class="link">用户指南</span>
-        ·
-        <span class="link">成绩查询</span>
+        <span v-for="(link,index) in headerLinksLeft" class="link" :key="index" @click="$utils.goLink(link.link)">{{link.title}}<span v-show="index != headerLinksLeft.length - 1"> ·</span></span>
       </div>
       <div>
-        <span class="link">旧版网站</span>
-        ·
-        <span class="link">内容搜索</span>
+        <span v-for="(link,index) in headerLinksRight" class="link" :key="index" @click="$utils.goLink(link.link)">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></span>
       </div>
     </div>
     <div class="header-bottom">
@@ -43,7 +35,7 @@
           </template>
           <i class="el-icon-search search-icon" @click="showSearch = !showSearch"></i>
         </div>
-        <el-dropdown placement="bottom-start" v-if="isLogin">
+        <el-dropdown placement="bottom-start" v-if="user.id">
           <span class="el-dropdown-link">
             <el-avatar :size="36" :src="user.avatar|cloudImage"></el-avatar>
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -52,9 +44,9 @@
             <div class="header-dropdown">
               <div class="user-info">
                 <p class="nickname">{{ user.nickname }}</p>
-                <p class="user-type">学生用户</p>
+                <p class="user-type">{{ $store.state.user.userType[user.cate] }}</p>
               </div>
-              <div class="option" @click="$router.push('/user/main')">
+              <div class="option" @click="$utils.goLink(userCenter)">
                 <i class="el-icon-user"></i>
                 <p class="option-text">个人中心</p>
               </div>
@@ -82,11 +74,10 @@
 </template>
 
 <script>
-// import { AuthorizeCode } from '@/api/user'
-// import { authorizeMixin } from '@/mixins/authorize'
-
 import logo1 from '~/static/imgs/home/logo_01@2x.png'
 import logo2 from '~/static/imgs/home/logo_02@2x.png'
+import { mapActions } from 'vuex'
+import { headerLinksLeft, headerLinksRight, userCenter } from '@/config'
 export default {
   name: 'Header',
   // mixins: [authorizeMixin],
@@ -94,18 +85,23 @@ export default {
     return {
       logo1,
       logo2,
+      headerLinksLeft,
+      headerLinksRight,
+      userCenter,
       activeName: 'home',
-      isLogin: false,
       showHeaderTop: true,
       searchText: '',
       showSearch: false,
       isHomePage: false,
-      isSearchPage: false
+      isSearchPage: false,
     }
   },
   computed: {
     menuList() {
       return this.$store.state.config.menuList
+    },
+    user() {
+      return this.$store.state.user.user
     },
   },
   mounted() {
@@ -120,9 +116,9 @@ export default {
     }
   },
   methods: {
-    // ...mapActions({
-    //   logout: 'user/logout',
-    // }),
+    ...mapActions({
+      logout: 'user/logout',
+    }),
     handleClick(tab, child) {
       let c
       // 如果有下一级，那么默认跳到下一级的第一个选项
@@ -132,14 +128,21 @@ export default {
         c = child
       }
       let title = c.name
-      let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, title)
-      let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
+      let ids = this.$utils.findMenuIdsByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
+      let item = this.$utils.findMenuItemByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
       let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
-        this.$message.error('未找到菜单地址，请检查配置')
-        return
+        throw new Error('未找到菜单地址，请检查配置')
       }
-      this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
+      this.$router.push(
+        `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
+      )
     },
     async handleUlogin() {
       let callback = window.location.href
@@ -147,8 +150,8 @@ export default {
       window.location.href = authorize_url
     },
     async handleLogout() {
-      // await this.logout()
-      // await this.$router.push('/')
+      await this.logout()
+      await this.$router.push('/')
     },
     close() {
       window.close()
@@ -229,6 +232,8 @@ export default {
 
       .header-tabs {
         height: 80px;
+        position: relative;
+        z-index: 2;
         .tab {
           width: 80px;
           // padding: 0 20px;
@@ -244,11 +249,16 @@ export default {
           font-weight: bold;
           cursor: pointer;
           line-height: 80px;
-          margin-right:10px;
-          margin-left:20px;
+          margin-right: 10px;
+          margin-left: 20px;
         }
       }
-
+      ::v-deep .el-dropdown {
+        margin-left: -40px;
+        margin-right: -60px;
+        position: relative;
+        z-index: 1;
+      }
       .el-dropdown-link {
         z-index: 2;
         height: 80px;
@@ -310,7 +320,7 @@ export default {
   .header-top,
   .header-bottom {
     backdrop-filter: blur(0px);
-    background-color: rgba(255, 255, 255, 0.9);;
+    background-color: rgba(255, 255, 255, 0.9);
 
     color: #4d4d4d;
     border-bottom: none;

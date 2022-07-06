@@ -1,36 +1,27 @@
 <template>
   <div class="mobile-search">
     <div class="search-input">
-      <el-input prefix-icon="el-icon-search"
-        placeholder="搜索"
-        v-model="searchText"
-        @keyup.enter.native="goSearch">
+      <el-input prefix-icon="el-icon-search" placeholder="搜索" v-model="searchText" @keyup.enter.native="clickSearch">
         <template slot="suffix">
-          <span class="cancel">取消</span>
+          <span class="cancel" @click="searchText = ''">取消</span>
         </template>
       </el-input>
     </div>
     <div class="news-list">
-      <el-tabs style="margin-left:-0.15rem" v-model="newsActiveName"
-        @tab-click="handleClick">
-        <el-tab-pane v-for="tag in newsTags"
-          :key="tag"
-          :label="tag"
-          :name="tag"></el-tab-pane>
+      <el-tabs style="margin-left:-0.15rem" v-model="activeTab" @tab-click="handleTabClick">
+        <el-tab-pane label="文章" name="news"></el-tab-pane>
+        <el-tab-pane label="人员" name="person"></el-tab-pane>
       </el-tabs>
-      <PageListMobile :page-size="pageSize"
-        :total="total"
-        @fetchData="fetchData">
-        <div class="items" v-if="newsActiveName == '文章'">
-          <NewsItemListMobile class="list-way-item"
-            v-for="i in 10"
-            :key="i" />
+      <PageListMobile :page-size="pageSize" :total="total" @fetchData="fetchData">
+        <div class="items" v-if="activeTab == 'news'">
+          <el-empty v-if="!newsItems.length" description="暂无内容"></el-empty>
+          <NewsItemListMobile class="list-way-item" v-for="(news, index) in newsItems" :key="index" :itemData="news" />
         </div>
-        <div class="items" v-if="newsActiveName == '人员'">
-          <PersonItemMobile class="person-item"
-            type="search"
-            v-for="i in 10"
-            :key="i" />
+        <div class="items" v-if="activeTab == 'person'">
+          <div style="background: white; width: 100%">
+            <el-empty style="margin: 0 auto" v-if="!personItems.length" description="暂无内容"></el-empty>
+          </div>
+          <PersonItemMobile class="person-item" v-for="(person, index) in personItems" :key="index" :itemData="person" />
         </div>
       </PageListMobile>
     </div>
@@ -40,55 +31,100 @@
 // import { newsList, categoryTag } from '@/api/news'
 
 export default {
+  name: 'searchPageMobile',
   data() {
     return {
-      newsActiveName: '文章',
-      showListWay: false,
+      activeTab: 'news',
+      searchText: '',
+      total: 10,
       isLoading: false,
+      historyItems: [],
       newsItems: [],
-      newsTags: [
-        '文章',
-        '人员'
-      ],
-      pageSize: 10,
-      total: 11,
+      personItems: [],
+    }
+  },
+  async asyncData(context) {
+    const { total, list } = await context.app.$api.news.newsSearch({
+      page: 1,
+      limit: 7,
+      search: context.route.query.text,
+    })
+    return { total, newsItems: list }
+  },
+  mounted() {
+    if (this.$route.query.text) {
+      this.searchText = this.$route.query.text
+      this.addSearchHistory()
+      this.fetchData()
     }
   },
   methods: {
-    async fetchData(page = 1) {
-      // const {
-      //   data: { total, list },
-      // } = await newsList({
-      //   page,
-      //   limit: this.pageSize,
-      //   category_id: this.$route.query.key,
-      //   // 查全部则tag传空字符串
-      //   tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
-      // })
-      this.total = total
-      // this.newsItems = list
-      this.isLoading = false
+    clickSearch() {
+      this.fetchData()
+      this.addSearchHistory()
+      this.getSearchHistory()
     },
-    async fetchTags(key) {
-      this.isLoading = true
+    clickHistoryItem(text) {
+      this.activeTab = 'news'
+      this.searchText = text
+      this.handleTabClick()
+    },
+    handleTabClick() {
+      this.page = 1
       this.newsItems = []
-      const { data } = await categoryTag({ category_id: key })
-      this.newsTags = ['全部', ...data]
-      this.newsActiveName = '全部'
+      this.personItems = []
       this.fetchData()
     },
-    handleClick() {
-      // this.isLoading = true
-      // this.newsItems = []
-      // this.fetchData()
+    async fetchData(page = 1) {
+      this.isLoading = true
+      if (this.activeTab == 'news') {
+        const { total, list } = await this.$api.news.newsSearch({
+          page,
+          limit: this.pageSize,
+          search: this.searchText,
+        })
+        this.total = total
+        this.newsItems = list
+      }
+      if (this.activeTab == 'person') {
+        const { total, list } = await this.$api.department.personSearch({
+          page,
+          limit: this.pageSize,
+          search: this.searchText,
+        })
+        this.total = total
+        this.personItems = list
+      }
+      this.isLoading = false
+    },
+    getSearchHistory() {
+      if (process.browser) {
+        this.historyItems = JSON.parse(
+          window.localStorage.getItem('INNOVATION_SEARCH_HISTORY')
+        )
+      }
+    },
+    addSearchHistory() {
+      this.historyItems.unshift({
+        text: this.searchText,
+        date: new Date().getTime(),
+      })
+      window.localStorage.setItem(
+        'INNOVATION_SEARCH_HISTORY',
+        JSON.stringify(this.historyItems.slice(0, 4))
+      )
+    },
+    clearHistory() {
+      this.historyItems = []
+      window.localStorage.setItem(
+        'INNOVATION_SEARCH_HISTORY',
+        JSON.stringify(this.historyItems)
+      )
     },
   },
-  watch: {
-    '$route.query.key': {
-      handler: function (val) {
-        if (val) this.fetchTags(val)
-      },
-      immediate: true,
+  computed: {
+    pageSize() {
+      return this.activeTab == 'news' ? 7 : 15
     },
   },
 }
@@ -97,6 +133,8 @@ export default {
 .mobile-search {
   background: $--color-primary-light;
   padding-top: 0.5rem;
+  min-height: calc(100vh - 0.5rem);
+  background: white;
   .search-input {
     height: 0.72rem;
     display: flex;

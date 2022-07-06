@@ -1,12 +1,12 @@
 <template>
-  <div @click="$router.push(`/content/person-detail?params=${itemData.id}&menuIds=${$route.query.menuIds}`)">
+  <div @click="clickPerson">
     <div class='person-item-search' v-if="type === 'search'">
       <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <p class="position">{{itemData.job_content}}</p>
-        <p class="position">{{itemData.intro}}</p>
+        <p class="position">{{itemData.post}}</p>
       </div>
     </div>
     <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${$utils.cloudImg(itemData.avatar)})`}">
@@ -15,7 +15,7 @@
         <div class="line"></div>
         <div class="bottom">
           <p class="position">{{itemData.job_content}}</p>
-          <p class="position">{{itemData.intro}}</p>
+          <p class="position">{{itemData.post}}</p>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <p class="position">{{itemData.job_content}}</p>
-        <p class="position">{{itemData.job_content1}}</p>
+        <p class="position">{{itemData.post}}</p>
         <p class="desc">{{itemData.intro}}</p>
       </div>
       <!-- <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span> -->
@@ -54,7 +54,25 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    clickPerson() {
+      if (this.$route.query.menuIds) {
+        this.$router.push(
+          `/content/person-detail?params=${this.itemData.id}&menuIds=${this.$route.query.menuIds}`
+        )
+      } else {
+        let menuIds = this.$utils.findMenuIdsByEventLink(
+          this.$store.state.config.menuList,
+          this.itemData.tags[0].tag
+        )
+        this.$router.push(
+          `/content/person-detail?params=${
+            this.itemData.id
+          }&menuIds=${menuIds.join(',')}`
+        )
+      }
+    },
+  },
 }
 </script>
 <style scoped lang='scss'>
@@ -119,7 +137,11 @@ export default {
       background: $--color-primary;
     }
     .bottom {
-      background-image: linear-gradient(to top , rgba(0,0,0,.5), rgba(0,0,0,0));
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0)
+      );
       width: 100%;
       padding: 0.13rem;
       box-sizing: border-box;

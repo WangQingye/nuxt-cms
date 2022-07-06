@@ -1,6 +1,6 @@
 <template>
   <div class='error'>
-    <el-empty :image-size="400" :image="img404"	:description="error.statusCode === 404 ? '页面不存在' : '未知错误'">
+    <el-empty :image-size="400" :image="img404"	:description="error.statusCode === 404 ? '页面不存在' : error.message">
       <el-button type="primary" @click="$router.push('/')">{{time}}s 后返回首页</el-button>
     </el-empty>
   </div>
@@ -18,6 +18,7 @@ export default {
   mounted() {
     this.time = 5
     this.goBack()
+    console.log(this.error)
   },
   methods: {
     goBack() {

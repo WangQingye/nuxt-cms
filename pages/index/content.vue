@@ -11,7 +11,8 @@
             <el-submenu v-if="item.children && item.children.length" :index="String(item.id)" :key="item.id">
               <template slot="title">
                 <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold">
-                  <i class="el-icon-location"></i>
+                  <img v-if="item.icon" class="icon" style="width: 20px;height: 20px;margin-right:8px" :src="item.icon|cloudImage" alt="icon">
+                  <i v-else style="font-weight:bold" class="el-icon-tickets"></i>
                   <span>{{item.name}}</span>
                 </div>
               </template>
@@ -141,8 +142,7 @@ export default {
       let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
       let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
-        this.$message.error('未找到菜单地址，请检查配置')
-        return
+        throw new Error('未找到菜单地址，请检查配置')
       }
       this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
     }
@@ -155,6 +155,12 @@ export default {
       this.menuId = menuId
       this.subMenuId = subMenuId
       this.subMenuItem = subMenuItem
+      window.scrollTo(0,0)
+      window.document.title = this.$store.state.config.webConfig.find(
+        (c) => c.key == 'name'
+      ).value + '-' + this.subMenuItem.name
+    },
+    '$route.query.params': function (val) {
       window.scrollTo(0,0)
     },
   },

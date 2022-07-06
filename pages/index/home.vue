@@ -99,36 +99,9 @@
   </div>
 </template>
 <script>
-// import { getIndexNews, getIndexDevice, getIndexModel } from '@/api/banner'
-// import { mapActions } from 'vuex'
-import icon1 from '~/static/imgs/home/entry_01.png'
-import icon2 from '~/static/imgs/home/entry_02.png'
-import icon3 from '~/static/imgs/home/entry_03.png'
-import icon4 from '~/static/imgs/home/entry_04.png'
-import icon5 from '~/static/imgs/home/entry_05.png'
-import icon6 from '~/static/imgs/home/entry_06.png'
-import news1 from '~/static/imgs/home/news-1.jpg'
-import news2 from '~/static/imgs/home/news-2.jpg'
-import ad1 from '~/static/imgs/home/ad1.jpg'
-import b1 from '~/static/imgs/home/b-1.jpg'
-import b2 from '~/static/imgs/home/b-2.jpg'
-import b3 from '~/static/imgs/home/b-3.jpg'
-import b4 from '~/static/imgs/home/b-4.jpg'
-import b5 from '~/static/imgs/home/b-5.jpg'
-import b6 from '~/static/imgs/home/b-6.jpg'
-import b7 from '~/static/imgs/home/b-7.jpg'
-import b8 from '~/static/imgs/home/b-8.jpg'
-import b9 from '~/static/imgs/home/b-9.jpg'
 export default {
-  // components: {
-  //   BigTitle,
-  //   NewsItem,
-  //   ModelItem,
-  //   HomeSwiper,
-  // },
   data() {
     return {
-      ad1,
       news: [
         {
           tag: '党建工作',
@@ -151,61 +124,7 @@ export default {
           date: '2022-02-28',
         },
       ],
-      services: [],
-      modelItems: [],
-      menuList: [
-        {
-          icon: icon1,
-          name: '设备申请',
-          desc: '中心设备预约使用中心中心设备预约使用中心',
-        },
-        {
-          icon: icon2,
-          name: '设备申请',
-          desc: '中心设备预约使用中心',
-        },
-        {
-          icon: icon3,
-          name: '设备申请',
-          desc: '中心设备预约使用中心',
-        },
-        {
-          icon: icon4,
-          name: '设备申请',
-          desc: '中心设备预约使用中心',
-        },
-        {
-          icon: icon5,
-          name: '设备申请',
-          desc: '中心设备预约使用中心',
-        },
-        {
-          icon: icon6,
-          name: '设备申请',
-          desc: '中心设备预约使用中心',
-        },
-      ],
-      newsList: [
-        {
-          title: '新闻标题',
-          cover: news1,
-        },
-        {
-          title: '新闻标题1',
-          cover: news2,
-        },
-      ],
-      swiperOptions: {
-        loop: true,
-        autoplay: {
-          disableOnInteraction: false,
-          delay: 5000,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-      },
+      menuList: [],
       subNews: [],
       bottomLinkList: [
         {

@@ -44,9 +44,7 @@ const actions = {
     commit,
     dispatch
   }, params) {
-    const {
-      data
-    } = await this.$api.user.login(params)
+    const data = await this.$api.user.login(params)
     console.log(data)
     if (data.id) {
       commit('setUserInfo', data)

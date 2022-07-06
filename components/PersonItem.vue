@@ -1,20 +1,20 @@
 <template>
-  <div @click="$router.push(`/content/person-detail?params=${itemData.id}&menuIds=${$route.query.menuIds}`)">
+  <div @click="clickPerson">
     <div class='person-item-search' v-if="type === 'search'">
       <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
         <p class="position">{{itemData.job_content}}</p>
-        <p class="position">{{itemData.intro}}</p>
+        <p class="position">{{itemData.post}}</p>
       </div>
     </div>
-    <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${itemData.avatar})`}">
+    <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${$utils.cloudImg(itemData.avatar)})`}">
       <div class="info">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <div class="bottom">
           <p class="position">{{itemData.job_content}}</p>
-          <p class="position">{{itemData.intro}}</p>
+          <p class="position">{{itemData.post}}</p>
         </div>
       </div>
     </div>
@@ -55,7 +55,16 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    clickPerson() {
+      if (this.$route.query.menuIds) {
+        this.$router.push(`/content/person-detail?params=${this.itemData.id}&menuIds=${this.$route.query.menuIds}`)
+      } else {        
+        let menuIds = this.$utils.findMenuIdsByEventLink(this.$store.state.config.menuList, this.itemData.tags[0].tag)
+        this.$router.push(`/content/person-detail?params=${this.itemData.id}&menuIds=${menuIds.join(',')}`)
+      }
+    },
+  },
 }
 </script>
 <style scoped lang='scss'>
@@ -89,7 +98,7 @@ export default {
       font-size: 13px;
       color: #4d4d4d;
       line-height: 21px;
-      @include ellipsisBasic(2);
+      @include ellipsisBasic(1);
     }
   }
 }
@@ -104,6 +113,7 @@ export default {
     bottom: 0;
     padding-top: 20px;
     color: white;
+    width: 100%;
     .name {
       padding: 0 20px;
       font-size: 20px;
