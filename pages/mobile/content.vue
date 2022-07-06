@@ -39,7 +39,7 @@ export default {
     },
   },
   watch: {
-    '$route.query.menuIds': function () {
+    '$route': function () {
       window.scrollTo(0, 0)
     },
   },
@@ -53,7 +53,7 @@ export default {
   .top {
     height: 0.72rem;
     width: 100%;
-    background-size: contain;
+    background-size: cover;
     .top-title {
       line-height: 0.72rem;
       font-size: 0.21rem;

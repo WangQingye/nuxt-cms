@@ -8,7 +8,7 @@
         <div class="top-container">
           <div class="top">
             <div class="user" v-if="user.id" @click="$utils.goLink(userCenter)">
-              <el-avatar :size="'0.31rem'" :src="user.avatar|cloudImage"></el-avatar>
+              <el-avatar :src="user.avatar|cloudImage"></el-avatar>
               <span class="name">{{user.nickname}}</span>
               <i class="el-icon-arrow-right icon"></i>
             </div>
@@ -77,8 +77,8 @@
           </template>
         </el-menu>
         <div class="links">
-          <div class="link" v-for="i in 3" :key="i">
-            <span class="text-container"><i class="circle"></i><span class="text">OA入口
+          <div class="link" v-for="(link,index) in footerLinksRight" :key="index" @click="$utils.goLink(link.link)">
+            <span class="text-container"><i class="circle"></i><span class="text">{{link.title}}
               </span></span>
             <i class="el-icon-arrow-right icon"></i>
           </div>
@@ -90,7 +90,7 @@
 <script>
 import logo1 from '~/static/imgs/home/logo_01@2x.png'
 import logo2 from '~/static/imgs/home/logo_02@2x.png'
-import { userCenter } from '@/config'
+import { userCenter, footerLinksRight } from '@/config'
 export default {
   name: 'MobileHeader',
   // mixins: [authorizeMixin],
@@ -98,6 +98,7 @@ export default {
     return {
       logo1,
       logo2,
+      footerLinksRight,
       userCenter,
       drawerVisible: false,
       searchText: '',
