@@ -38,7 +38,7 @@ export default {
         code,
         state
       }).then(_ => {
-        let newQuery = JSON.parse(JSON.stringify(this.$route.query)) 
+        let newQuery = JSON.parse(JSON.stringify(this.$route.query))
         delete newQuery.code
         delete newQuery.state
         this.$router.replace({ query: newQuery })
@@ -63,7 +63,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   width: 100%;
-  min-width: 1440px;
+  min-width: 1400px;
   position: relative;
   // 纯色
   background: linear-gradient(to bottom, $--color-primary 760px, #fbfbfa 760px);

@@ -137,12 +137,14 @@ export default {
   },
   methods: {
     onMenuSelect(subMenuId) {
-      let title = this.$utils.findMenuTitle(this.$store.state.config.menuList, subMenuId)      
+      let title = this.$utils.findMenuTitle(this.$store.state.config.menuList, subMenuId)
       let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, title)
       let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
       let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
-        throw new Error('未找到菜单地址，请检查配置')
+        // throw new Error('未找到菜单地址，请检查配置')
+        this.$message.error('未找到菜单地址，请检查配置')
+        return
       }
       this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
     }

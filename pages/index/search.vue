@@ -42,7 +42,7 @@
             <p style="text-align:center;padding-bottom:20px;">暂无历史</p>
           </div>
         </div>
-        <p class="back-button">返回中心首页</p>
+        <p class="back-button" @click="$router.push('/')">返回中心首页</p>
       </div>
     </div>
   </div>
@@ -152,7 +152,7 @@ export default {
 <style lang="scss" scoped>
 .search-page {
   width: 100%;
-  min-width: 1440px;
+  min-width: 1400px;
   padding-top: 0 !important;
   .search-top {
     width: 100%;

@@ -138,7 +138,9 @@ export default {
       )
       let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
-        throw new Error('未找到菜单地址，请检查配置')
+        this.$message.error('未找到菜单地址，请检查配置')
+        return
+        // throw new Error('未找到菜单地址，请检查配置')
       }
       this.$router.push(
         `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
@@ -180,7 +182,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
-  min-width: 1440px;
+  min-width: 1400px;
   z-index: 4;
   transition: all 0.2s ease-in-out;
   backdrop-filter: blur(3px);
@@ -244,6 +246,9 @@ export default {
           text-align: center;
           display: inline-block;
           color: white;
+          &:hover {
+            color: $--color-primary !important;
+          }
         }
         .search-icon {
           font-size: 20px;
@@ -341,6 +346,9 @@ export default {
     .header-tabs {
       .tab {
         color: #4d4d4d !important;
+          &:hover {
+            color: $--color-primary !important;
+          }
       }
     }
     .el-dropdown-link {
