@@ -90,7 +90,7 @@
 <script>
 import logo1 from '~/static/imgs/home/logo_01@2x.png'
 import logo2 from '~/static/imgs/home/logo_02@2x.png'
-import { userCenter, footerLinksRight } from '@/config'
+import { userCenter, footerLinksRight, tokenName } from '@/config'
 export default {
   name: 'MobileHeader',
   // mixins: [authorizeMixin],
@@ -129,6 +129,7 @@ export default {
     async handleUlogin() {
       let callback = window.location.href
       const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
+      localStorage.removeItem(tokenName)
       window.location.href = authorize_url
     },
   },

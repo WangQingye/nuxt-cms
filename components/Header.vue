@@ -77,7 +77,7 @@
 import logo1 from '~/static/imgs/home/logo_01@2x.png'
 import logo2 from '~/static/imgs/home/logo_02@2x.png'
 import { mapActions } from 'vuex'
-import { headerLinksLeft, headerLinksRight, userCenter } from '@/config'
+import { headerLinksLeft, headerLinksRight, userCenter, tokenName } from '@/config'
 export default {
   name: 'Header',
   // mixins: [authorizeMixin],
@@ -147,6 +147,7 @@ export default {
     async handleUlogin() {
       let callback = window.location.href
       const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
+      localStorage.removeItem(tokenName)
       window.location.href = authorize_url
     },
     async handleLogout() {

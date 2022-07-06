@@ -33,7 +33,9 @@ const getters = {
 const mutations = {
   setUserInfo(state, data) {
     state.user = data
-    if (data.access_token) localStorage.setItem(tokenName, data.access_token)
+    if (data.access_token && !process.server) {
+      localStorage.setItem(tokenName, data.access_token)
+    } 
   },
   setToken(state, token) {
     state.token = token
@@ -45,7 +47,6 @@ const actions = {
     dispatch
   }, params) {
     const data = await this.$api.user.login(params)
-    console.log(data)
     if (data.id) {
       commit('setUserInfo', data)
     } else {
