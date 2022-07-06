@@ -63,7 +63,7 @@ export default {
     }
   },
   async asyncData(context) {
-    const { total, list } = await this.$api.news.newsSearch({
+    const { total, list } = await context.app.$api.news.newsSearch({
       page: 1,
       limit: 7,
       search: context.route.query.text,

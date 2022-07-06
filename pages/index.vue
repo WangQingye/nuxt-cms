@@ -38,6 +38,10 @@ export default {
         code,
         state
       }).then(_ => {
+        let newQuery = JSON.parse(JSON.stringify(this.$route.query)) 
+        delete newQuery.code
+        delete newQuery.state
+        this.$router.replace({ query: newQuery })
         this.profile()
       })
     },
