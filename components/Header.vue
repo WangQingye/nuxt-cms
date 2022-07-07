@@ -2,10 +2,10 @@
   <div :class="['header', isHomePage && !showSearch ? '':'header-hover']" v-show="!isSearchPage">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
-        <span v-for="(link,index) in headerLinksLeft" class="link" :key="index" @click="$utils.goLink(link.link)">{{link.title}}<span v-show="index != headerLinksLeft.length - 1"> ·</span></span>
+        <a v-for="(link,index) in headerLinksLeft" class="link" :key="index" @click="$utils.goLink(link.link)" :href="link.link">{{link.title}}<a v-show="index != headerLinksLeft.length - 1"> ·</a></a>
       </div>
       <div>
-        <span v-for="(link,index) in headerLinksRight" class="link" :key="index" @click="$utils.goLink(link.link)">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></span>
+        <a v-for="(link,index) in headerLinksRight" class="link" :key="index" @click="$utils.goLink(link.link)" :href="link.link">{{link.title}}<a v-show="index != headerLinksRight.length - 1"> ·</a></a>
       </div>
     </div>
     <div class="header-bottom">
@@ -15,21 +15,21 @@
       <div class="header-right">
         <div class="header-tabs">
           <template v-for="tab in menuList">
-            <p class="tab" :key="tab.id" v-if="tab.event_type == 'navigationTo'" @click="$router.push(tab.event_link)">
+            <a class="tab tab-link" :key="tab.id" v-if="tab.event_type == 'navigationTo'" @click="$router.push(tab.event_link)" :href="tab.event_link">
               {{tab.name}}
-            </p>
+            </a>
             <el-popover v-else placement="bottom" trigger="hover" :key="tab.id">
               <div>
                 <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.name">
-                  <p v-show="tabChild.name" class="tab-title">
+                  <span v-show="tabChild.name" class="tab-title">
                     <i class="el-icon-date" style="margin-right: 5px"></i>
                     {{tabChild.name}}
-                  </p>
-                  <p class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)">{{child.name}}</p>
+                  </span>
+                  <a class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)" :href="getLinkHref(child)" :title="child.name">{{child.name}}</a>
                 </div>
               </div>
               <span slot="reference" class="tab">
-                <span class="tab">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+                <a class="tab">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></a>
               </span>
             </el-popover>
           </template>
@@ -77,7 +77,12 @@
 import logo1 from '~/static/imgs/home/logo_01@2x.png'
 import logo2 from '~/static/imgs/home/logo_02@2x.png'
 import { mapActions } from 'vuex'
-import { headerLinksLeft, headerLinksRight, userCenter, tokenName } from '@/config'
+import {
+  headerLinksLeft,
+  headerLinksRight,
+  userCenter,
+  tokenName,
+} from '@/config'
 export default {
   name: 'Header',
   // mixins: [authorizeMixin],
@@ -119,6 +124,28 @@ export default {
     ...mapActions({
       logout: 'user/logout',
     }),
+    getLinkHref(child) {
+      let c
+      // 如果有下一级，那么默认跳到下一级的第一个选项
+      if (child.children && child.children.length) {
+        c = child.children[0]
+      } else {
+        c = child
+      }
+      let title = c.name
+      let ids = this.$utils.findMenuIdsByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
+      let item = this.$utils.findMenuItemByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
+      let subPage = this.$utils.typeToPages[item.event_type]
+      if (subPage) {
+        return `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
+      }
+    },
     handleClick(tab, child) {
       let c
       // 如果有下一级，那么默认跳到下一级的第一个选项
@@ -199,6 +226,8 @@ export default {
     transition: all 0.2s ease-in-out;
     .link {
       // transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      color: white;
     }
     .link:hover {
       color: $--color-primary;
@@ -246,6 +275,7 @@ export default {
           text-align: center;
           display: inline-block;
           color: white;
+          text-decoration: none;
           &:hover {
             color: $--color-primary !important;
           }
@@ -327,13 +357,16 @@ export default {
   .header-bottom {
     backdrop-filter: blur(0px);
     background-color: rgba(255, 255, 255, 0.9);
-
     color: #4d4d4d;
     border-bottom: none;
     backdrop-filter: blur(0px);
   }
   .header-top {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .link {
+      color: #4d4d4d;
+    }
   }
 
   .header-bottom {
@@ -346,9 +379,9 @@ export default {
     .header-tabs {
       .tab {
         color: #4d4d4d !important;
-          &:hover {
-            color: $--color-primary !important;
-          }
+        &:hover {
+          color: $--color-primary !important;
+        }
       }
     }
     .el-dropdown-link {
@@ -460,6 +493,9 @@ export default {
     height: 34px;
     line-height: 34px;
     cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: #1a1a1a;
     // background-color:
   }
   .tab-link:hover {

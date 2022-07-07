@@ -13,19 +13,19 @@
                 <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold">
                   <img v-if="item.icon" class="icon" style="width: 20px;height: 20px;margin-right:8px" :src="item.icon|cloudImage" alt="icon">
                   <i v-else style="font-weight:bold" class="el-icon-tickets"></i>
-                  <span>{{item.name}}</span>
+                  <a>{{item.name}}</a>
                 </div>
               </template>
               <template v-for="subItem in item.children">
                 <!-- 二级 -->
                 <el-submenu v-if="subItem.children && subItem.children.length" :index="String(subItem.id)" :key="subItem.id">
                   <template slot="title">
-                    <span style="padding-left:12px;">{{subItem.name}}</span>
+                    <a style="padding-left:12px;">{{subItem.name}}</a>
                   </template>
                   <el-menu-item v-for="thirdItem in subItem.children" :index="String(thirdItem.id)" :key="thirdItem.id">
                     <template slot="title">
                       <div class="item-line">
-                        <span>{{thirdItem.name}}</span>
+                        <a>{{thirdItem.name}}</a>
                         <el-tag class="tag" type="primary" v-if="thirdItem.num">
                           {{thirdItem.num}}
                         </el-tag>
@@ -35,7 +35,7 @@
                 </el-submenu>
                 <el-menu-item v-else :index="String(subItem.id)" :key="subItem.id">
                   <div class="item-line">
-                    <span>{{subItem.name}}</span>
+                    <a>{{subItem.name}}</a>
                     <el-tag class="tag" type="primary" v-if="subItem.num">
                       {{subItem.num}}
                     </el-tag>
@@ -106,12 +106,33 @@ export default {
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
     let ids = context.query.menuIds.split(',')
-    let {menuItem, menuId, subMenuId, subMenuItem} = context.app.$utils.getContentPageMenuData(context.app.store.state.config.menuList, ids[0], ids[ids.length - 1])
+    let { menuItem, menuId, subMenuId, subMenuItem } =
+      context.app.$utils.getContentPageMenuData(
+        context.app.store.state.config.menuList,
+        ids[0],
+        ids[ids.length - 1]
+      )
     return {
       menuItem,
       menuId,
       subMenuId,
-      subMenuItem
+      subMenuItem,
+    }
+  },
+  head() {
+    let title =
+      this.$store.state.config.webConfig.find((c) => c.key == 'name').value +
+      '-' +
+      this.subMenuItem.name
+    return {
+      title: title,
+      meta: [
+        {
+          hid: 'description',
+          name: title,
+          content: title,
+        },
+      ],
     }
   },
   created() {
@@ -120,9 +141,9 @@ export default {
   computed: {
     defaultOpen() {
       let arr = []
-      this.menuItem.children.forEach(m => {
+      this.menuItem.children.forEach((m) => {
         arr.push(String(m.id))
-        m.children.forEach(mc => {
+        m.children.forEach((mc) => {
           // 子菜单也自动打开
           if (mc.children) {
             arr.push(String(mc.id))
@@ -130,40 +151,53 @@ export default {
         })
       })
       return arr
-    }
+    },
   },
   mounted() {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   },
   methods: {
     onMenuSelect(subMenuId) {
-      let title = this.$utils.findMenuTitle(this.$store.state.config.menuList, subMenuId)
-      let ids = this.$utils.findMenuIdsByTitle(this.$store.state.config.menuList, title)
-      let item = this.$utils.findMenuItemByTitle(this.$store.state.config.menuList, title)
+      let title = this.$utils.findMenuTitle(
+        this.$store.state.config.menuList,
+        subMenuId
+      )
+      let ids = this.$utils.findMenuIdsByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
+      let item = this.$utils.findMenuItemByTitle(
+        this.$store.state.config.menuList,
+        title
+      )
       let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
         // throw new Error('未找到菜单地址，请检查配置')
         this.$message.error('未找到菜单地址，请检查配置')
         return
       }
-      this.$router.push(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
-    }
+      this.$router.push(
+        `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
+      )
+    },
   },
   watch: {
     '$route.query.menuIds': function (val) {
       let ids = val.split(',')
-      let {menuItem, menuId, subMenuId, subMenuItem} = this.$utils.getContentPageMenuData(this.$store.state.config.menuList, ids[0], ids[ids.length - 1])
+      let { menuItem, menuId, subMenuId, subMenuItem } =
+        this.$utils.getContentPageMenuData(
+          this.$store.state.config.menuList,
+          ids[0],
+          ids[ids.length - 1]
+        )
       this.menuItem = menuItem
       this.menuId = menuId
       this.subMenuId = subMenuId
       this.subMenuItem = subMenuItem
-      window.scrollTo(0,0)
-      window.document.title = this.$store.state.config.webConfig.find(
-        (c) => c.key == 'name'
-      ).value + '-' + this.subMenuItem.name
+      window.scrollTo(0, 0)
     },
     '$route.query.params': function (val) {
-      window.scrollTo(0,0)
+      window.scrollTo(0, 0)
     },
   },
 }
@@ -201,7 +235,8 @@ export default {
       margin-right: 5%;
       ::v-deep .el-menu {
         border-right: none;
-        .el-menu-item,.el-submenu__title {
+        .el-menu-item,
+        .el-submenu__title {
           font-size: 15px !important;
         }
       }

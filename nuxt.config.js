@@ -1,10 +1,10 @@
+import {
+  defaultWebSiteName
+} from './config'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '',
-    htmlAttrs: {
-      lang: 'en',
-    },
+    title: defaultWebSiteName,
     meta: [{
         charset: 'utf-8'
       },
@@ -71,6 +71,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/],
+    extractCSS: true,
   },
   router: {
     middleware: ["device"],

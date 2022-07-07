@@ -11,7 +11,7 @@
       <el-tag class="tag" type="primary" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
       </el-tag>
     </div>
-    <p class='title'>{{ itemData.title }}</p>
+    <a class='title' :href="getLink()" :title="itemData.title">{{ itemData.title }}</a>
     <p class='desc'>{{ itemData.digest }}</p>
   </div>
 </template>
@@ -38,6 +38,15 @@ export default {
     return {}
   },
   methods: {
+    getLink() {
+      let menuIds = this.$utils.findMenuIdsByEventLink(
+        this.$store.state.config.menuList,
+        this.itemData.category_id
+      )
+      return `/content/news-detail?params=${
+        this.itemData.id
+      }&menuIds=${menuIds.join(',')}`
+    },
     clickNew() {
       let menuIds = this.$utils.findMenuIdsByEventLink(
         this.$store.state.config.menuList,
@@ -145,6 +154,8 @@ export default {
     overflow: hidden;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    text-decoration: none;
+    color: #1a1a1a;
   }
 
   .desc {

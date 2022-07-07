@@ -28,13 +28,6 @@ export default {
     }
     changeSize()
     window.addEventListener('resize', changeSize, false)
-    try {
-      window.document.title = this.$store.state.config.webConfig.find(
-        (c) => c.key == 'name'
-      ).value
-    } catch (error) {
-      console.log('noname')
-    }
     // 解决HTML先于CSS加载的问题
     this.show = true
     // 登录

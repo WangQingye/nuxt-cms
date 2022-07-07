@@ -2,38 +2,24 @@
   <div :class="['news-detail']">
     <span class="date" v-show="!isSinglePage">{{news.publish_at|parseTime('{y}年{m}月{d}日')}}</span>
     <div class="top">
-      <el-tag class='tag'
-        style="margin-right: 10px"
-        v-for="(tag,index ) in news.tags"
-        :key="index">{{
+      <el-tag class='tag' style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
             tag
           }}
       </el-tag>
     </div>
-    <div id="content-print-mobile"
-      class="content-print-mobile">
+    <div id="content-print-mobile" class="content-print-mobile">
       <p class="news-title">
         {{ news.title || news.name }}
       </p>
-      <div class="detail"
-        ref="detail"
-        v-if="news.content"
-        v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
-    <div class="bottom"
-      v-show="!isSinglePage">
+    <div class="bottom" v-show="!isSinglePage">
       <div class="left">
-        <el-tag class='tag'
-          type="info"
-          style="margin-right: 10px">
+        <el-tag class='tag' type="info" style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
         </el-tag>
-        <el-tag class='tag'
-          size="mini"
-          :type="liked ? 'success' : 'info'"
-          style="cursor:pointer"
-          @click="clickLike">
+        <el-tag class='tag' size="mini" :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
           <i class="font_family icon-dianzan" />
           {{ news.like_num }}
         </el-tag>
@@ -54,6 +40,18 @@ export default {
       liked: false,
       imgDomain,
       isSinglePage: false,
+    }
+  },
+  head() {
+    return {
+      title: this.news.title || this.news.name,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'My custom description',
+        },
+      ],
     }
   },
   async asyncData(context) {
@@ -162,10 +160,10 @@ export default {
 .news-detail {
   width: 100%;
   .date {
-      font-size: 0.1rem;
-      color: #999999;
-      float: right;
-      margin-top: -0.54rem;
+    font-size: 0.1rem;
+    color: #999999;
+    float: right;
+    margin-top: -0.54rem;
   }
   .top {
     @include flex-between;

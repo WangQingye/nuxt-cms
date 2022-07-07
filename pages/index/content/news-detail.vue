@@ -64,6 +64,18 @@ export default {
       isSinglePage: false,
     }
   },
+  head() {
+    return {
+      title: this.news.title || this.news.name,
+      meta: [
+        {
+          hid: 'description',
+          name: this.news.title || this.news.name,
+          content: this.news.title || this.news.name,
+        },
+      ],
+    }
+  },
   async asyncData(context) {
     let data
     let isSinglePage = false

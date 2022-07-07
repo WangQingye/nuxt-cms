@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" v-show="show">
     <Header />
     <nuxt-child style="padding-top: 80px"></nuxt-child>
     <Footer />
@@ -12,32 +12,46 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'Main',
+  data() {
+    return {
+      show: false,
+    }
+  },
+  head() {
+    let title = this.$store.state.config.webConfig.find(
+      (c) => c.key == 'name'
+    ).value
+    return {
+      title: title,
+      meta: [
+        {
+          hid: 'description',
+          name: title,
+          content: title,
+        },
+      ],
+    }
+  },
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
   },
   mounted() {
-    try {
-      window.document.title = this.$store.state.config.webConfig.find(
-        (c) => c.key == 'name'
-      ).value
-    } catch (error) {
-      console.log('noname')
-    }
     let token = localStorage.getItem(tokenName)
     if (token) {
       this.$store.dispatch('user/getUserInfo')
     }
+    this.show = true
   },
   methods: {
     ...mapActions({
       login: 'user/login',
-      profile: 'user/getUserInfo'
+      profile: 'user/getUserInfo',
     }),
     handleLogin(code, state) {
       this.login({
         code,
-        state
-      }).then(_ => {
+        state,
+      }).then((_) => {
         let newQuery = JSON.parse(JSON.stringify(this.$route.query))
         delete newQuery.code
         delete newQuery.state
