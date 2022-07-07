@@ -2,10 +2,10 @@
   <div :class="['header', isHomePage && !showSearch ? '':'header-hover']" v-show="!isSearchPage">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
-        <a v-for="(link,index) in headerLinksLeft" class="link" :key="index" @click="$utils.goLink(link.link)" :href="link.link">{{link.title}}<a v-show="index != headerLinksLeft.length - 1"> ·</a></a>
+        <a v-for="(link,index) in headerLinksLeft" class="link" :key="index" :href="link.link" target="_blank">{{link.title}}<span v-show="index != headerLinksLeft.length - 1" > ·</span></a>
       </div>
       <div>
-        <a v-for="(link,index) in headerLinksRight" class="link" :key="index" @click="$utils.goLink(link.link)" :href="link.link">{{link.title}}<a v-show="index != headerLinksRight.length - 1"> ·</a></a>
+        <a v-for="(link,index) in headerLinksRight" class="link" :key="index" :href="link.link" target="_blank">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></a>
       </div>
     </div>
     <div class="header-bottom">
@@ -366,6 +366,10 @@ export default {
 
     .link {
       color: #4d4d4d;
+    }
+    .link:hover {
+      color: $--color-primary;
+      cursor: pointer;
     }
   }
 
