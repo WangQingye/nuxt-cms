@@ -10,12 +10,20 @@
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
-        <img class="department-item"
-          :src="department.cover|cloudImage"
-          :alt="department.name"
-          v-for="(department,index) in departmentItems"
-          :key="index"
-          @click="$router.push(`/content/lab-detail-info?params=${department.id}&menuIds=${$route.query.menuIds}`)">
+        <template v-for="(department,index) in departmentItems">
+          <NuxtLink class="department-item"
+            :key="index"
+            :to="getLink(department)"
+            v-if="department.type != 3">
+            <img :src="department.cover|cloudImage"
+              :alt="department.name">
+          </NuxtLink>
+          <img v-else
+            class="department-item"
+            :key="index"
+            :src="department.cover|cloudImage"
+            :alt="department.name">
+        </template>
       </div>
     </PageListMobile>
   </div>
@@ -26,19 +34,7 @@
 export default {
   data() {
     return {
-      departmentItems: [
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-        'https://tse1-mm.cn.bing.net/th/id/OIP-C.c9Flw6mbOMJxUo-rLx9EmgHaEO?w=306&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-      ],
+      departmentItems: [],
       pageSize: 10,
       total: 0,
     }
@@ -63,6 +59,9 @@ export default {
       })
       this.departmentItems = list
       this.total = total
+    },
+    getLink(department) {
+      return `/content/lab-detail-info?params=${department.id}&menuIds=${this.$route.query.menuIds}`
     },
   },
   watch: {
@@ -102,6 +101,9 @@ export default {
       margin-right: 4%;
       margin-bottom: 0.12rem;
       cursor: pointer;
+      img {
+        width: 100%;
+      }
       // &:hover {
       //   box-shadow: 0px 10px 8px 0px rgba(214, 202, 202, 0.25);
       // }
