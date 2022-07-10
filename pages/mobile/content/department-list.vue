@@ -42,7 +42,7 @@ export default {
   async asyncData(context) {
     let { total, list } = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
-      page: 1,
+      page: Number(context.route.query.page) || 1,
       limit: 6,
     })
     return {

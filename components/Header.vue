@@ -2,10 +2,10 @@
   <div :class="['header', isHomePage && !showSearch ? '':'header-hover']" v-show="!isSearchPage">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
-        <a v-for="(link,index) in headerLinksLeft" class="link" :key="index" :href="link.link" target="_blank">{{link.title}}<span v-show="index != headerLinksLeft.length - 1" > ·</span></a>
+        <NuxtLink v-for="(link,index) in headerLinksLeft" class="link" :key="index" :to="link.link">{{link.title}}<span v-show="index != headerLinksLeft.length - 1" > ·</span></NuxtLink>
       </div>
       <div>
-        <a v-for="(link,index) in headerLinksRight" class="link" :key="index" :href="link.link" target="_blank">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></a>
+        <NuxtLink v-for="(link,index) in headerLinksRight" class="link" :key="index" :to="link.link">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></NuxtLink>
       </div>
     </div>
     <div class="header-bottom">
@@ -15,9 +15,9 @@
       <div class="header-right">
         <div class="header-tabs">
           <template v-for="tab in menuList">
-            <a class="tab tab-link" :key="tab.id" v-if="tab.event_type == 'navigationTo'" @click="$router.push(tab.event_link)" :href="tab.event_link">
+            <NuxtLink class="tab tab-link" :key="tab.id" v-if="tab.event_type == 'navigationTo'" @click="$router.push(tab.event_link)" :to="tab.event_link">
               {{tab.name}}
-            </a>
+            </NuxtLink>
             <el-popover v-else placement="bottom" trigger="hover" :key="tab.id">
               <div>
                 <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.name">
@@ -25,12 +25,10 @@
                     <i class="el-icon-date" style="margin-right: 5px"></i>
                     {{tabChild.name}}
                   </span>
-                  <a class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)" :href="getLinkHref(child)" :title="child.name">{{child.name}}</a>
+                  <NuxtLink class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)" :to="getLinkHref(child)" :title="child.name">{{child.name}}</NuxtLink>
                 </div>
               </div>
-              <span slot="reference" class="tab">
-                <a class="tab">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></a>
-              </span>
+                <span class="tab" slot="reference">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
             </el-popover>
           </template>
           <i class="el-icon-search search-icon" @click="showSearch = !showSearch"></i>
@@ -143,7 +141,10 @@ export default {
       )
       let subPage = this.$utils.typeToPages[item.event_type]
       if (subPage) {
+        console.log(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
         return `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
+      } else {
+        return '#'
       }
     },
     handleClick(tab, child) {
@@ -269,7 +270,7 @@ export default {
         .tab {
           width: 80px;
           // padding: 0 20px;
-          margin: 0 20px;
+          margin: 0 16px;
           cursor: pointer;
           font-size: 15px;
           text-align: center;
@@ -383,6 +384,7 @@ export default {
     .header-tabs {
       .tab {
         color: #4d4d4d !important;
+        text-align: center;
         &:hover {
           color: $--color-primary !important;
         }
@@ -436,6 +438,9 @@ export default {
 }
 </style>
 <style lang="scss">
+.el-popover__reference-wrapper {
+  text-align: center;
+}
 .header-dropdown {
   width: 160px;
 
