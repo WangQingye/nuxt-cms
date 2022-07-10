@@ -5,7 +5,7 @@
     </p>
     <PageList :page-size="pageSize"
       :total="total"
-      @fetchData="fetchData">
+      @fetchData="fetchData" ref="pageList">
       <!-- <div class="items" v-if="departmentItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
@@ -77,9 +77,8 @@ export default {
   watch: {
     '$route.query.params': {
       handler: function (val) {
-        if (val) this.fetchData()
-      },
-      immediate: true,
+        if (val) this.$refs.pageList.reInit()
+      }
     },
   },
 }

@@ -1,7 +1,8 @@
 <template>
   <div class='page-list'>
     <slot></slot>
-    <ul class="my-pagination" v-show="totalPage > 1">
+    <ul class="my-pagination"
+      v-show="totalPage > 1">
       <li>共 {{total}} 条</li>
       <li @click="prev">
         <NuxtLink :to="getLink(-1)"
@@ -30,9 +31,7 @@
       <li>
         <el-input v-model="jumpPage"
           class="jump-input"
-          :minlength="1"
-          :maxlength="100"
-          :step="1">
+          type="number">
         </el-input>
       </li>
       <li>
@@ -61,19 +60,27 @@ export default {
     }
   },
   methods: {
+    reInit() {
+      this.currentPage = 1
+      this.$emit('fetchData', this.currentPage)
+    },
     prev() {
       if (this.currentPage == 1) return
-      this.currentPage -= 1
-      this.$route.query.page = Number(this.currentPage)
+      this.currentPage = Number(this.currentPage) - 1
       this.$emit('fetchData', this.currentPage)
     },
     next() {
       if (this.currentPage == this.totalPage) return
-      this.currentPage += 1
-      this.$route.query.page = Number(this.currentPage)
+      this.currentPage = Number(this.currentPage) + 1
       this.$emit('fetchData', this.currentPage)
     },
     jump() {
+      if (this.jumpPage > this.totalPage) {
+        this.jumpPage = this.totalPage
+      }
+      if (this.jumpPage < 1) {
+        this.jumpPage = 1
+      }
       this.currentPage = Number(this.jumpPage)
       this.$emit('fetchData', this.currentPage)
     },
@@ -98,12 +105,15 @@ export default {
   mounted() {
     if (this.$route.query.page) {
       this.currentPage = this.$route.query.page
-    } else {
-      const query = JSON.parse(JSON.stringify(this.$route.query))
-      query.page = 1
-      this.$router.replace({ path: this.$route.path, query })
     }
   },
+  watch: {
+    currentPage(val) {
+      const query = JSON.parse(JSON.stringify(this.$route.query))
+      query.page = val
+      this.$router.replace({ path: this.$route.path, query })
+    }
+  }
 }
 </script>
 <style lang='scss'>
@@ -139,6 +149,18 @@ export default {
       line-height: 24px;
       cursor: pointer;
       font-weight: normal;
+    }
+    .el-input__inner {
+      padding: 0 5px;
+      text-align: center;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield !important;
     }
   }
 }

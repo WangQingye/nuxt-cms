@@ -4,7 +4,7 @@
       <p class="name">{{departmentDetail.name}}</p>
       <p class="desc">{{departmentDetail.desc}}</p>
     </div>
-    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
+    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData" ref="pageList">
       <div class="items">
         <PersonItem class="person-item" type="department" v-for="person in departmentDetail.personList" :itemData="person" :key="person.id" />
       </div>
@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     async fetchData(page = 1) {
+      console.log(page)
       const { total, list } = await this.$api.department.deparmentPerson({
         page,
         limit: this.pageSize,
@@ -52,21 +53,26 @@ export default {
       })
       this.total = total
       this.departmentDetail.personList = list
+      console.log(this.departmentDetail.personList)
     },
     async getInfo() {
       let detail = await this.$api.department.deparmentDetail({
         key: this.$route.query.params,
       })
-      let { total, list } = await this.$api.department.deparmentPerson({
-        key: this.$route.query.params,
-        page: 1,
-        limit: 6,
-      })
-      this.departmentDetail = {
-        ...detail,
-        personList: list,
-      }
-      this.total = total
+      this.departmentDetail.name = detail.name
+      this.departmentDetail.desc = detail.desc
+      this.$refs.pageList.reInit()
+
+      // let { total, list } = await this.$api.department.deparmentPerson({
+      //   key: this.$route.query.params,
+      //   page: 1,
+      //   limit: this.pageSize,
+      // })
+      // this.departmentDetail = {
+      //   ...detail,
+      //   personList: list,
+      // }
+      // this.total = total
     },
   },
   watch: {
