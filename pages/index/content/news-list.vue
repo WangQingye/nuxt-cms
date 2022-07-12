@@ -11,7 +11,7 @@
         </div>
       </el-button>
     </div>
-    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData">
+    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData" ref="pageList">
       <div class="items" v-if="newsItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div>
@@ -46,7 +46,7 @@ export default {
     })
     let {list, total} = await context.app.$api.news.newsList({
       category_id: context.query.params,
-      page: 1,
+      page: Number(context.route.query.page) || 1,
       limit: 10,
       tag: '',
     })
@@ -75,12 +75,12 @@ export default {
       const data = await this.$api.news.newsTag({ category_id: key })
       this.newsTags = ['全部', ...data]
       this.newsActiveName = '全部'
-      this.fetchData()
+      this.$refs.pageList.reInit()
     },
     handleClick() {
       this.isLoading = true
       this.newsItems = []
-      this.fetchData()
+      this.$refs.pageList.reInit()
     },
   },
   watch: {
@@ -88,7 +88,6 @@ export default {
       handler: function (val) {
         if (val) this.fetchTags(val)
       },
-      immediate: true,
     },
   },
 }

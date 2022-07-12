@@ -79,5 +79,6 @@ export default {
   },
   router: {
     middleware: ["device"],
+    prefetchLinks: false
   },
 }
