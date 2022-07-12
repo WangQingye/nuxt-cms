@@ -191,25 +191,20 @@ export default {
     })
     let student = await context.app.$api.banner.getHotPoint({ type: 'student' })
     let media = await context.app.$api.banner.getHotPoint({ type: 'media' })
-    let homeNewsId = context.app.store.state.config.webConfig.find(
-      (c) => c.key == 'home_news'
-    )
+    let homeNewsId = context.app.store.state.config.webConfig.home_news
     const data = await context.app.$api.news.newsList({
       page: 1,
       limit: 10,
       category_id: homeNewsId.value,
     })
     let homeNewsList = data.list
-    let homeNoticeId = context.app.store.state.config.webConfig.find(
-      (c) => c.key == 'home_notice'
-    )
+    let homeNoticeId = context.app.store.state.config.webConfig.home_notice
     const data1 = await context.app.$api.news.newsList({
       page: 1,
       limit: 10,
       category_id: homeNoticeId.value,
     })
     let homeNoticeList = data1.list
-    console.log('homeNoticeList', homeNoticeList)
     return {
       bannerList: banner,
       middleBanner,
@@ -255,7 +250,7 @@ export default {
       )
       this.$router.push(`/content/news-detail?menuIds=${ids}&params=${newsId}`)
     },
-  }
+  },
 }
 </script>
 

@@ -121,7 +121,7 @@ export default {
   },
   head() {
     let title =
-      this.$store.state.config.webConfig.find((c) => c.key == 'name').value +
+      this.$store.state.config.webConfig.name +
       '-' +
       this.subMenuItem.name
     return {

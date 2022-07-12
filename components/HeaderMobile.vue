@@ -1,7 +1,7 @@
 <template>
   <div :class="['mobile-header', isHomePage ? 'home-header' : '']">
-    <img class="header-logo" v-if="isHomePage" :src="logo1" @click="$router.push('/mobile/home')" alt="logo">
-    <img class="header-logo" @click="$router.push('/mobile/home')" v-else :src="logo2" />
+    <img class="header-logo" v-if="isHomePage" :src="$store.state.config.webConfig.logo2|cloudImage" @click="$router.push('/mobile/home')" alt="logo">
+    <img class="header-logo" @click="$router.push('/mobile/home')" v-else :src="$store.state.config.webConfig.logo|cloudImage" />
     <i class="el-icon-s-fold icon" @click="drawerVisible = true" />
     <el-drawer title="我是标题" :visible.sync="drawerVisible" :with-header="false" append-to-body size="3.08rem">
       <div class="mobile-menu">
@@ -88,16 +88,12 @@
   </div>
 </template>
 <script>
-import logo1 from '~/static/imgs/home/logo_01@2x.png'
-import logo2 from '~/static/imgs/home/logo_02@2x.png'
 import { userCenter, footerLinksRight, tokenName } from '@/config'
 export default {
   name: 'MobileHeader',
   // mixins: [authorizeMixin],
   data() {
     return {
-      logo1,
-      logo2,
       footerLinksRight,
       userCenter,
       drawerVisible: false,

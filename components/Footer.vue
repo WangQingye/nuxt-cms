@@ -2,14 +2,11 @@
   <div class='footer'>
     <div class='content'>
       <p>
-        <span>
-          © {{ (new Date).getFullYear() }} 上海交通大学学生创新中心
+        <span v-if="$store.state.config.webConfig.copyright">
+          {{ $store.state.config.webConfig.copyright }}
         </span>
-        <span v-if="$store.state.config.webConfig.beian" @click="handleCommand($store.state.config.webConfig.beian)" class="link">
+        <span v-if="$store.state.config.webConfig.beian">
           | {{ $store.state.config.webConfig.beian }}
-        </span>
-        <span v-if="$store.state.config.webConfig.copyright" @click="handleCommand($store.state.config.webConfig.copyright)" class="link">
-          | {{ $store.state.config.webConfig.copyright }}
         </span>
       </p>
       <p>

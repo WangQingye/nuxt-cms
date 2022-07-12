@@ -9,9 +9,9 @@
       </div>
     </div>
     <div class="header-bottom">
-      <img class="header-logo header-logo1" v-if="isHomePage" :src="logo1" alt="logo" @click="$router.push('/')">
-      <img class="header-logo header-logo2" v-if="isHomePage" :src="logo2" alt="logo" @click="$router.push('/')">
-      <img class="header-logo" v-if="!isHomePage" :src="logo2" alt="logo" @click="$router.push('/')">
+      <img class="header-logo header-logo1" v-if="isHomePage" :src="$store.state.config.webConfig.logo2|cloudImage" alt="logo" @click="$router.push('/')">
+      <img class="header-logo header-logo2" v-if="isHomePage" :src="$store.state.config.webConfig.logo|cloudImage" alt="logo" @click="$router.push('/')">
+      <img class="header-logo" v-if="!isHomePage" :src="$store.state.config.webConfig.logo|cloudImage" alt="logo" @click="$router.push('/')">
       <div class="header-right">
         <div class="header-tabs">
           <template v-for="tab in menuList">
@@ -74,8 +74,6 @@
 </template>
 
 <script>
-import logo1 from '~/static/imgs/home/logo_01@2x.png'
-import logo2 from '~/static/imgs/home/logo_02@2x.png'
 import { mapActions } from 'vuex'
 import {
   headerLinksLeft,
@@ -88,8 +86,6 @@ export default {
   // mixins: [authorizeMixin],
   data() {
     return {
-      logo1,
-      logo2,
       headerLinksLeft,
       headerLinksRight,
       userCenter,

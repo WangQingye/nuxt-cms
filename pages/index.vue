@@ -18,9 +18,7 @@ export default {
     }
   },
   head() {
-    let title = this.$store.state.config.webConfig.find(
-      (c) => c.key == 'name'
-    ).value
+    let title = this.$store.state.config.webConfig.name
     return {
       title: title,
       meta: [

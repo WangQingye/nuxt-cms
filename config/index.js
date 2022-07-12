@@ -46,5 +46,7 @@ module.exports = {
     }
   ],
   // 个人用户中心
-  userCenter: 'http://account.u-auth.com/'
+  userCenter: 'http://account.u-auth.com/',
+  // 主题色
+  themeColor: '#0048FF'
 }

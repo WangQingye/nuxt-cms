@@ -4,17 +4,11 @@
     <HomeSwiper :list="bannerList" />
     <div class="main-container">
       <!-- 快捷菜单 -->
-      <el-row class="menu-list"
-        :gutter="8">
-        <el-col v-for="menu in menuList"
-          :key="menu.link"
-          :span="4">
-          <div class="single-menu"
-            @click="$utils.goLink(menu.link)">
+      <el-row class="menu-list" :gutter="8">
+        <el-col v-for="menu in menuList" :key="menu.link" :span="4">
+          <div class="single-menu" @click="$utils.goLink(menu.link)">
             <div class="top">
-              <img class="menu-icon"
-                :src="menu.icon|cloudImage"
-                alt="icon" />
+              <img class="menu-icon" :src="menu.icon|cloudImage" alt="icon" />
               <i class="el-icon-arrow-right" />
             </div>
             <p class="name">{{menu.name}}</p>
@@ -23,52 +17,29 @@
         </el-col>
       </el-row>
       <!-- 中部新闻 -->
-      <el-row class="news"
-        :gutter="20">
-        <img class="back"
-          src="~/static/imgs/home/list-back.png">
-        <el-col :span="14"
-          class="left">
-          <BigTitle cn-text="中心要闻"
-            en-text="SIC NEWS"
-            showMoreUrl
-            :newsId="homeNewsId" />
-          <el-carousel :interval="3000"
-            class="swiper"
-            height="400px">
-            <el-carousel-item v-for="item in homeNewsList.slice(0,3)"
-              :key="item.id">
-              <div class="swiper-item"
-                :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}"
-                @click="clickNews('中心要闻', item.id)">
-                <p class="desc"
-                  v-html="item.title">{{ item.title }}</p>
+      <el-row class="news" :gutter="20">
+        <img class="back" src="~/static/imgs/home/list-back.png">
+        <el-col :span="14" class="left">
+          <BigTitle cn-text="中心要闻" en-text="SIC NEWS" showMoreUrl :newsId="homeNewsId" />
+          <el-carousel :interval="3000" class="swiper" height="400px">
+            <el-carousel-item v-for="item in homeNewsList.slice(0,3)" :key="item.id">
+              <div class="swiper-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="clickNews('中心要闻', item.id)">
+                <p class="desc" v-html="item.title">{{ item.title }}</p>
               </div>
             </el-carousel-item>
           </el-carousel>
           <div class="list-container">
-            <div class="list-item"
-              v-for="item in homeNewsList.slice(3)"
-              :key="item.id"
-              @click="clickNews('中心要闻', item.id)">
+            <div class="list-item" v-for="item in homeNewsList.slice(3)" :key="item.id" @click="clickNews('中心要闻', item.id)">
               <el-tag type="warning">{{item.tags[0]}}</el-tag>
               <p class="desc">{{item.title}}</p>
               <p class="date">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</p>
             </div>
           </div>
         </el-col>
-        <el-col :span="10"
-          class="right">
-          <BigTitle cn-text="通知公告"
-            en-text="NOTIFICATION"
-            showMoreUrl
-            :newsId="homeNoticeId" />
-          <div class="list-container"
-            style="height: 100%">
-            <div class="list-item"
-              v-for="item in homeNoticeList"
-              :key="item.id"
-              @click="clickNews('通知公告', item.id)">
+        <el-col :span="10" class="right">
+          <BigTitle cn-text="通知公告" en-text="NOTIFICATION" showMoreUrl :newsId="homeNoticeId" />
+          <div class="list-container" style="height: 100%">
+            <div class="list-item" v-for="item in homeNoticeList" :key="item.id" @click="clickNews('通知公告', item.id)">
               <el-tag type="primary">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
               <p class="desc desc-1">{{item.title}}</p>
             </div>
@@ -76,39 +47,24 @@
         </el-col>
       </el-row>
       <!-- 中部广告 -->
-      <el-carousel :interval="3000"
-        height="260px"
-        arrow="never"
-        indicator-position="none">
-        <el-carousel-item v-for="item in middleBanner"
-          :key="item.id">
-          <div class="activity"
-            :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}"
-            @click="$utils.goLink(item.event_link)">
+      <el-carousel :interval="3000" height="260px" arrow="never" indicator-position="none">
+        <el-carousel-item v-for="item in middleBanner" :key="item.id">
+          <div class="activity" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="$utils.goLink(item.event_link)">
             <i class="el-icon-arrow-right link-arrow"></i>
           </div>
         </el-carousel-item>
       </el-carousel>
       <!-- 底部新闻板块 -->
-      <div class="sub-news"
-        v-for="subNew in subNews"
-        :key="subNew.name">
-        <BigTitle :cn-text="subNew.name"
-          :en-text="subNew.enName" />
-        <el-row class="sub-new-list"
-          :gutter="20">
-          <el-col v-for="(newItem,index) in subNew.news"
-            :key="newItem.id"
-            :span="newItem.span">
-            <div class="sub-item"
-              @click="$utils.goLink(newItem.link)">
-              <div class="back-img"
-                :style="{backgroundImage:`url(${$utils.cloudImg(newItem.cover)})`}"></div>
+      <div class="sub-news" v-for="subNew in subNews" :key="subNew.name">
+        <BigTitle :cn-text="subNew.name" :en-text="subNew.enName" />
+        <el-row class="sub-new-list" :gutter="20">
+          <el-col v-for="(newItem,index) in subNew.news" :key="newItem.id" :span="newItem.span">
+            <div class="sub-item" @click="$utils.goLink(newItem.link)">
+              <div class="back-img" :style="{backgroundImage:`url(${$utils.cloudImg(newItem.cover)})`}"></div>
               <div class="back-mask"></div>
               <div class="bottom">
                 <p class="name">{{newItem.name}}</p>
-                <span class="link"
-                  v-show="!index">点击查看<i class="el-icon-arrow-right"></i></span>
+                <span class="link" v-show="!index">点击查看<i class="el-icon-arrow-right"></i></span>
               </div>
             </div>
           </el-col>
@@ -117,40 +73,22 @@
     </div>
     <!-- 底部链接 -->
     <div class="bottom-links">
-      <img src="~/static/imgs/home/logo_02@2x.png"
-        class="icon" />
-      <el-row class="links-wrapper"
-        :gutter="20">
-        <el-col v-for="links in bottomLinkList"
-          :key="links.title"
-          :span="6">
+      <img :src="$store.state.config.webConfig.logo|cloudImage" class="icon" />
+      <el-row class="links-wrapper" :gutter="20">
+        <el-col v-for="links in bottomLinkList" :key="links.title" :span="6">
           <div class="links">
             <p class="link-title">{{links.title}}</p>
             <template v-for="link in links.links">
-              <el-popover :key="link.name"
-                v-if="link.wechatQrImg"
-                placement="bottom-start"
-                width="200"
-                trigger="hover">
-                <p class="link"
-                  slot="reference"
-                  :key="link.name"
-                  @click="$utils.goLink(link.link)">
+              <el-popover :key="link.name" v-if="link.wechatQrImg" placement="bottom-start" width="200" trigger="hover">
+                <p class="link" slot="reference" :key="link.name" @click="$utils.goLink(link.link)">
                   {{link.name}}
                 </p>
-                <img :src="link.wechatQrImg|cloudImage"
-                  style="width:200px;height:200px" />
+                <img :src="link.wechatQrImg|cloudImage" style="width:200px;height:200px" />
               </el-popover>
-              <p class="link"
-                v-else-if="link.name=='联系我们'"
-                :key="link.name"
-                @click="goMenu('合作联系')">
+              <p class="link" v-else-if="link.name=='联系我们'" :key="link.name" @click="goMenu('合作联系')">
                 {{link.name}}
               </p>
-              <p class="link"
-                v-else
-                :key="link.name"
-                @click="$utils.goLink(link.link)">
+              <p class="link" v-else :key="link.name" @click="$utils.goLink(link.link)">
                 {{link.name}}
               </p>
             </template>
@@ -295,27 +233,21 @@ export default {
         media[i].span = span
       }
     }
-    let homeNewsId = context.app.store.state.config.webConfig.find(
-      (c) => c.key == 'home_news'
-    )
+    let homeNewsId = context.app.store.state.config.webConfig.home_news
     const data = await context.app.$api.news.newsList({
       page: 1,
       limit: 10,
       category_id: homeNewsId.value,
     })
     let homeNewsList = data.list
-    let homeNoticeId = context.app.store.state.config.webConfig.find(
-      (c) => c.key == 'home_notice'
-    )
+    let homeNoticeId = context.app.store.state.config.webConfig.home_notice
     const data1 = await context.app.$api.news.newsList({
       page: 1,
       limit: 10,
       category_id: homeNoticeId.value,
     })
     let homeNoticeList = data1.list
-    let wechatQrImg = context.app.store.state.config.webConfig.find(
-      (c) => c.key == 'wechat_qr'
-    )
+    let wechatQrImg = context.app.store.state.config.webConfig.wechat_qr
     return {
       bannerList: banner,
       middleBanner,

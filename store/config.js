@@ -11,7 +11,13 @@ const state = () => ({
  }
  const mutations = {
    setWebConfig(state, data) {
-     state.webConfig = data
+     let obj = {}
+     data.forEach(d => {
+       if (d.value) {
+         obj[d.key] = d.value
+       }
+     })
+     state.webConfig = obj
    },
    setMenuList(state, data) {
      state.menuList = data

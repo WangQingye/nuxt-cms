@@ -1,5 +1,6 @@
 import {
-  defaultWebSiteName
+  defaultWebSiteName,
+  themeColor
 } from './config'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -31,7 +32,10 @@ export default {
       href: '//at.alicdn.com/t/font_3251212_cjw99x5fe1f.css'
     }],
   },
-
+  loading: {
+    color: '#0048FF',
+    height: '2px'
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/scss/reset.scss', 'element-ui/lib/theme-chalk/index.css'],
 

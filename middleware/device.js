@@ -14,7 +14,11 @@ export default function (context) {
   }
   // PC转移动
   if (context.isMoible && context.route.path.indexOf('mobile') == -1) {
-    context.redirect(`/mobile${context.route.fullPath}`)
+    if (context.route.path === '/invite') {
+      // 邀请页没有手机版，所以就不转了
+    } else {
+      context.redirect(`/mobile${context.route.fullPath}`)
+    }
   }
   // 移动转PC
   if (!context.isMoible && context.route.path.indexOf('mobile') > -1) {
