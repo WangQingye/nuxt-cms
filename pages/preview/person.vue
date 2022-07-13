@@ -42,7 +42,6 @@
 </template>
 <script>
 import { imgDomain } from '@/config'
-import { tokenName } from '@/config'
 export default {
   data() {
     return {
@@ -88,24 +87,6 @@ export default {
       },
       imgDomain,
       activeNames: [],
-    }
-  },
-  head() {
-    let text =
-      this.$store.state.config.webConfig.name +
-      '-' +
-      this.personDetail.dept +
-      '-' +
-      this.personDetail.name
-    return {
-      title: text,
-      meta: [
-        {
-          hid: 'description',
-          name: text,
-          content: text,
-        },
-      ],
     }
   },
   async asyncData(context) {

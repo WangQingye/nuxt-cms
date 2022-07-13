@@ -1,6 +1,6 @@
 <template>
   <div class='error'>
-    <el-empty :image-size="400" :image="img404"	:description="msg">
+    <el-empty v-show="msg" :image-size="400" :image="img404"	:description="msg">
       <el-button type="primary" @click="$router.push('/')">{{time}}s 后返回首页</el-button>
     </el-empty>
   </div>

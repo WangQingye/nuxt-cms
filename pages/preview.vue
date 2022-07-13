@@ -1,11 +1,15 @@
  <template>
   <div class='content-container' v-if="menuItem.name">
+    <div class="header">
+      <img class="header-logo" :src="$store.state.config.webConfig.logo|cloudImage" alt="logo" @click="$router.push('/')">
+      <p>当前为预览状态，仅供预览确认资料效果。</p>
+    </div>
     <div class="top" :style="`background-image: url(${contentTitleImg})`">
-      <p class="top-title">{{menuItem.name}}</p>
+      <p class="top-title">{{$route.name.indexOf('news') > -1 ? "新闻预览" : "人员信息预览"}}</p>
     </div>
     <section class='content'>
       <div class='left'>
-        <el-menu :default-openeds="defaultOpen" :default-active="subMenuId" @select="onMenuSelect">
+        <el-menu :default-openeds="defaultOpen">
           <template v-for="item in menuItem.children">
             <!-- 一级 -->
             <el-submenu v-if="item.children && item.children.length" :index="String(item.id)" :key="item.id">
@@ -43,21 +47,12 @@
                 </el-menu-item>
               </template>
             </el-submenu>
-            <!-- <el-menu-item v-else :index="String(item.id)" :key="item.id">
-              <template slot="title">
-                <div class="item-line">
-                  <span>{{item.name}}</span>
-                  <el-tag class="tag" type="primary" v-if="item.num">
-                    {{item.num}}
-                  </el-tag>
-                </div>
-              </template>
-            </el-menu-item> -->
           </template>
         </el-menu>
       </div>
       <nuxt-child class="right"></nuxt-child>
     </section>
+    <Footer />
   </div>
 </template>
 <script>
@@ -66,77 +61,63 @@ export default {
   data() {
     return {
       menuId: '',
-      menuItem: {},
-      subMenuId: '',
+      menuItem: {
+        name: '人员信息预览',
+        children: [
+          {
+            name: '中心概况',
+            id: 1,
+            children: [
+              {
+                name: '中心简介',
+                id: 2,
+              },
+              {
+                name: '中心领导',
+                id: 3,
+              },
+              {
+                name: '业务部门',
+                id: 4,
+              },
+              {
+                name: '信息公开',
+                id: 5,
+              },
+            ],
+          },
+          {
+            name: '中心动态',
+            id: 7,
+            children: [
+              {
+                name: '中心要闻',
+                id: 8,
+              },
+              {
+                name: '通知公告',
+                id: 9,
+              }
+            ],
+          },
+        ],
+      },
       subMenuItem: {},
       contentTitleImg: img,
       menuActiveNames: ['news', 'equipment'],
-      newsCategories: [],
-      newsTypes: [
-        {
-          name: '制造中心新闻',
-          newNum: 5,
-          key: '1',
-        },
-        {
-          name: '制造中心',
-          newNum: 2,
-          key: 'news2',
-        },
-        {
-          name: '帮助与教程',
-          newNum: 1,
-          key: 'news3',
-        },
-      ],
-      equipmentTypes: [
-        {
-          name: '中心课程',
-          newNum: 0,
-          key: 'equip1',
-        },
-        {
-          name: '中心设备',
-          newNum: 0,
-          key: 'equip2',
-        },
-      ],
     }
   },
   async asyncData(context) {
-    await context.app.$utils.getInitData(context)
-    let ids = context.query.menuIds.split(',')
-    let { menuItem, menuId, subMenuId, subMenuItem } =
-      context.app.$utils.getContentPageMenuData(
-        context.app.store.state.config.menuList,
-        ids[0],
-        ids[ids.length - 1]
+    const isMoible =
+      /(Android|webOS|iPhone|iPod|tablet|BlackBerry|Mobile)/i.test(
+        context.userAgent
       )
-    return {
-      menuItem,
-      menuId,
-      subMenuId,
-      subMenuItem,
+        ? true
+        : false
+    if (isMoible) {
+      context.redirect('/error?msg=请用电脑端打开此页面')
     }
-  },
-  head() {
-    let title =
-      this.$store.state.config.webConfig.name +
-      '-' +
-      this.subMenuItem.name
-    return {
-      title: title,
-      meta: [
-        {
-          hid: 'description',
-          name: title,
-          content: title,
-        },
-      ],
-    }
-  },
-  created() {
-    // this.fetchCategories()
+    await context.app.$utils.getInitData(context)
   },
   computed: {
     defaultOpen() {
@@ -156,46 +137,8 @@ export default {
   mounted() {
     window.scrollTo(0, 0)
   },
-  methods: {
-    onMenuSelect(subMenuId) {
-      let title = this.$utils.findMenuTitle(
-        this.$store.state.config.menuList,
-        subMenuId
-      )
-      let ids = this.$utils.findMenuIdsByTitle(
-        this.$store.state.config.menuList,
-        title
-      )
-      let item = this.$utils.findMenuItemByTitle(
-        this.$store.state.config.menuList,
-        title
-      )
-      let subPage = this.$utils.typeToPages[item.event_type]
-      if (!subPage) {
-        // throw new Error('未找到菜单地址，请检查配置')
-        this.$message.error('未找到菜单地址，请检查配置')
-        return
-      }
-      this.$router.push(
-        `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
-      )
-    },
-  },
+  methods: {},
   watch: {
-    '$route.query.menuIds': function (val) {
-      let ids = val.split(',')
-      let { menuItem, menuId, subMenuId, subMenuItem } =
-        this.$utils.getContentPageMenuData(
-          this.$store.state.config.menuList,
-          ids[0],
-          ids[ids.length - 1]
-        )
-      this.menuItem = menuItem
-      this.menuId = menuId
-      this.subMenuId = subMenuId
-      this.subMenuItem = subMenuItem
-      window.scrollTo(0, 0)
-    },
     '$route.query.params': function (val) {
       window.scrollTo(0, 0)
     },
@@ -204,7 +147,30 @@ export default {
 </script>
 <style scoped lang='scss'>
 .content-container {
-  min-height: calc(100vh - 161px);
+  min-height: 100vh;
+  padding-top: 80px;
+  .header {
+    height: 80px;
+    padding: 0 10%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 2;
+    position: fixed;
+    color: #4d4d4d;
+    top: 0;
+    left: 0;
+    font-size: 14px;
+    width: 100%;
+    .header-logo {
+      height: 38px;
+      z-index: 2;
+      cursor: pointer;
+    }
+  }
   .top {
     width: 100%;
     height: 250px;
@@ -213,7 +179,7 @@ export default {
     padding-top: 170px;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position:center center;
+    background-position: center center;
     margin-top: -80px;
     .top-title {
       font-size: 36px;

@@ -16,6 +16,8 @@ export default function (context) {
   if (context.isMoible && context.route.path.indexOf('mobile') == -1) {
     if (context.route.path === '/invite') {
       // 邀请页没有手机版，所以就不转了
+    } else if (context.route.path.indexOf('preview') > -1) {
+      // 预览页没有手机版，所以就不转了
     } else {
       context.redirect(`/mobile${context.route.fullPath}`)
     }
