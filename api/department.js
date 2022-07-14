@@ -23,6 +23,18 @@ export default $axios => ({
       url: '/personnel/search', method: 'post', data
     })
   },  
+  // 人员邀请信息
+  personInvite(data) {
+    return $axios({
+      url: '/personnel/invite', method: 'post', data
+    })
+  },
+  // 人员信息更新
+  personUpdate(data) {
+    return $axios({
+      url: '/personnel/update', method: 'post', data
+    })
+  },
   // 机构列表
   deparmentList(data) {
     return $axios({

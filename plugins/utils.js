@@ -31,9 +31,7 @@ function getDefaultImg(event) {
 async function getInitData(context) {
   if (context.app.store.state.config.menuList.length == 0) {
     let config = await context.app.$api.banner.getWebConfig()
-    console.log('config', config)
     let navigation = await context.app.$api.banner.getNavigation()
-    console.log('navigation', JSON.parse(JSON.stringify(navigation)))
     context.store.commit('config/setWebConfig', config)
     context.store.commit('config/setMenuList', navigation)
     // context.store.commit('config/setMenuList', [

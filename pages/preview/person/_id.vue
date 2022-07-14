@@ -8,7 +8,7 @@
         </el-tag>
         <!-- <el-tag class='tag' type="warning">{{ personDetail.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag> -->
       </div>
-      <el-button type="warning" class="button" @click="$router.back()">关闭返回</el-button>
+      <el-button type="warning" class="button" @click="close">关闭</el-button>
     </div>
     <div class="detial">
       <div class="base">
@@ -91,15 +91,20 @@ export default {
   },
   async asyncData(context) {
     let data = await context.app.$api.department.personDetail({
-      id: context.route.query.params,
+      id: context.params.id,
     })
     let activeNames = data.labels.map((labal, index) => {
       return index
     })
+    console.log('person', data)
     return { personDetail: data, activeNames }
   },
   mounted() {},
-  methods: {},
+  methods: {
+    close() {
+      window.close()
+    }
+  },
 }
 </script>
 <style lang='scss'>

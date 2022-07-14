@@ -1,11 +1,8 @@
-import {
-  defaultWebSiteName,
-  themeColor
-} from './config'
+var config = require('./config')
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: defaultWebSiteName,
+    title: config.defaultWebSiteName,
     meta: [{
         charset: 'utf-8'
       },
@@ -33,7 +30,7 @@ export default {
     }],
   },
   loading: {
-    color: '#0048FF',
+    color: config.themeColor,
     height: '2px'
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -43,7 +40,10 @@ export default {
   plugins: ['@/plugins/element-ui', '@/plugins/api', '@/plugins/filters', {
     src: '~/plugins/swiper.js',
     ssr: false
-  }, '@/plugins/utils', ],
+  }, '@/plugins/utils', {
+    src: '~/plugins/cropper.js',
+    ssr: false
+  }, ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -68,8 +68,7 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     // baseURL: 'http://ma.vispp.cn/api',
-    baseURL: 'http://cms.vispp.cn/api',
-
+    baseURL: config.baseUrl,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

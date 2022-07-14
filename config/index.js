@@ -1,6 +1,7 @@
 module.exports = {
   defaultWebSiteName: '上海交通大学学生创新中心',
   imgDomain: 'http://cms.vispp.cn/media',
+  baseUrl: 'http://cms.vispp.cn/api',
   tokenName: 'AccessToken',
   // 顶部细条菜单左侧
   headerLinksLeft: [{

@@ -19,7 +19,7 @@ export default {
   mounted() {
     this.time = 5
     this.goBack()
-    this.msg = this.error.statusCode === 404 ? '页面不存在' : error.message
+    this.msg = this.error.statusCode === 404 ? '页面不存在' : this.error.message
     if (this.$route.query.msg) {
       this.msg = this.$route.query.msg
     }

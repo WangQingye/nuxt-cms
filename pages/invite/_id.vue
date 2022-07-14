@@ -9,12 +9,12 @@
     </div>
     <section class="step step-1" v-if="!showInfo">
       <div class="wrapper">
-        <p class="title">某某某 资料填写邀请</p>
+        <p class="title">{{stepOneForm.name}} 资料填写邀请</p>
         <div class="form">
           <p class="label">请输入邀请码：</p>
           <el-input class="input" v-model="inviteCode"></el-input>
           <el-button type="primary" class="button" @click="goInfo">确认查看填写</el-button>
-          <p class="time">有限期至2022-08-01 12:38:11</p>
+          <p class="time">有限期至{{stepOneForm.expire_time|parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</p>
         </div>
       </div>
     </section>
@@ -28,64 +28,73 @@
           <el-form ref="form" :model="infoForm" label-width="100px" label-position="left">
             <div class="top-wrapper">
               <div class="top-left">
-                <el-form-item label="姓名" class="top-item">
-                  <el-input v-model="infoForm.name"></el-input>
+                <el-form-item label="姓名" class="top-item" required>
+                  <el-input v-model="infoForm.name" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="所属部门" class="top-item">
-                  <el-input v-model="infoForm.name"></el-input>
+                <el-form-item label="所属部门" class="top-item" required>
+                  <el-select v-model="tagsValue" multiple placeholder="请选择" disabled :clearable="false" style="width:100%">
+                    <el-option v-for="item in infoForm.tags" :key="item.key" :label="item.name" :value="item.key">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
-                <el-form-item label="主管工作" class="top-item">
-                  <el-input v-model="infoForm.name"></el-input>
+                <el-form-item label="主管工作" class="top-item" required>
+                  <el-input v-model="infoForm.job_content" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="工作内容" class="top-item">
-                  <el-input v-model="infoForm.name"></el-input>
+                <el-form-item label="工作内容" class="top-item" required>
+                  <el-input v-model="infoForm.post" disabled></el-input>
                 </el-form-item>
               </div>
-              <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false">
-                <img v-if="photoUrl" :src="photoUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+              <CropperUpload action="/file/upload" @upload-success="uploadPhotoSuccess" :fixedNumber="[140, 190]">
+                <div slot="child" class="photo">
+                  <i v-if="infoForm1.avatar" class="el-icon-delete del-image" @click.stop="infoForm1.avatar = ''" />
+                  <el-image v-if="infoForm1.avatar" class="cover" :fit="'cover'" :src="infoForm1.avatar | cloudImage" />
+                  <div v-else class="btn">
+                    <i class="el-icon-upload icon" />
+                    <span>形象照</span>
+                  </div>
+                </div>
+              </CropperUpload>
             </div>
             <div class="middle-wrapper">
               <el-row>
                 <el-col :span="12">
                   <el-form-item label="所在系所">
-                    <el-input v-model="infoForm.name"></el-input>
+                    <el-input v-model="infoForm1.dept"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item>
                     <p slot="label" style="text-align:right">办公电话</p>
-                    <el-input v-model="infoForm.name"></el-input>
+                    <el-input v-model="infoForm1.tel"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
                   <el-form-item label="电子邮件">
-                    <el-input v-model="infoForm.name"></el-input>
+                    <el-input v-model="infoForm1.email"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item>
                     <p slot="label" style="text-align:right">个人主页</p>
-                    <el-input v-model="infoForm.name"></el-input>
+                    <el-input v-model="infoForm1.homepage"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-form-item label="通讯地址">
-                <el-input v-model="infoForm.name"></el-input>
+                <el-input v-model="infoForm1.address"></el-input>
               </el-form-item>
-              <el-form-item label="人员简介">
-                <el-input type="textarea" :rows="4" maxlength="120" show-word-limit v-model="infoForm.name"></el-input>
+              <el-form-item label="人员简介" required>
+                <el-input type="textarea" :rows="4" maxlength="120" show-word-limit v-model="infoForm1.intro"></el-input>
               </el-form-item>
             </div>
           </el-form>
           <el-form ref="form1" :model="infoForm1" label-width="100px" label-position="top">
-            <el-form-item label="教育背景">
-              <el-input type="textarea" :rows="5" maxlength="1000" show-word-limit v-model="infoForm.name"></el-input>
+            <el-form-item :label="label.name" v-for="label in infoForm1.labels" :key="label.key">
+              <el-input style="white-space: pre-line;" type="textarea" :rows="5" maxlength="1000" show-word-limit v-model="label.content"></el-input>
             </el-form-item>
-            <el-form-item label="工作经历">
+            <!-- <el-form-item label="工作经历">
               <el-input type="textarea" :rows="5" maxlength="1000" show-word-limit v-model="infoForm.name"></el-input>
             </el-form-item>
             <el-form-item label="研究方向">
@@ -105,7 +114,7 @@
             </el-form-item>
             <el-form-item label="荣誉奖励">
               <el-input type="textarea" :rows="5" maxlength="1000" show-word-limit v-model="infoForm.name"></el-input>
-            </el-form-item>
+            </el-form-item> -->
           </el-form>
         </div>
       </div>
@@ -133,13 +142,10 @@ export default {
       backImg,
       inviteCode: '',
       showInfo: false,
-      infoForm: {
-        name: '',
-      },
-      infoForm1: {
-        name: '',
-      },
-      photoUrl: '',
+      stepOneForm: {},
+      infoForm: {},
+      infoForm1: {},
+      tagsValue: [],
     }
   },
   head() {
@@ -166,6 +172,15 @@ export default {
       context.redirect('/error?msg=请用电脑端打开此页面')
     }
     await context.app.$utils.getInitData(context)
+    let stepOneForm = {}
+    if (context.params.id) {
+      stepOneForm = await context.app.$api.department.personInvite({
+        urlcode: context.params.id,
+      })
+    }
+    return {
+      stepOneForm,
+    }
   },
   mounted() {
     this.show = true
@@ -175,19 +190,65 @@ export default {
     isMoible(UA) {
       return
     },
-    goInfo() {
+    async goInfo() {
       if (!this.inviteCode) {
         this.$message.error('请输入邀请码')
         return
       }
+      let info = await this.$api.department.personInvite({
+        urlcode: this.$route.params.id,
+        code: this.inviteCode,
+      })
+      this.infoForm = JSON.parse(JSON.stringify(info))
+      info.labels.forEach((label) => {
+        if (label.content) {
+          label.content = label.content.replace(/\\n/g, '\n')
+          label.content = label.content.slice(1)
+          label.content = label.content.slice(0, -1)
+        }
+      })
+      console.log(info.labels)
+      this.infoForm1 = JSON.parse(JSON.stringify(info))
+      this.tagsValue = this.infoForm1.tags.map((t) => t.key)
       this.showInfo = true
     },
-    preview() {
-      window.open('/preview/person?params=785ab934b9d94affbe7a2924d4c34682','_blank')
+    async preview() {
+      console.log(this.infoForm1)
+      let res = await this.$api.department.personUpdate({
+        urlcode: this.$route.params.id,
+        code: this.inviteCode,
+        ...this.infoForm1,
+      })
+      if (res.id) {
+        window.open(
+          '/preview/person/785ab934b9d94affbe7a2924d4c34682',
+          '_blank'
+        )
+      }
     },
-    submit() {
-
-    }
+    uploadPhotoSuccess(res) {
+      this.infoForm1.avatar = res.filename
+    },
+    async submit() {
+      console.log(this.infoForm1)
+      let res = await this.$api.department.personUpdate({
+        urlcode: this.$route.params.id,
+        code: this.inviteCode,
+        ...this.infoForm1,
+      })
+      if (res.id) {
+        this.$confirm('保存成功！', '提示', {
+          confirmButtonText: '前往首页',
+          cancelButtonText: '留在本页',
+          type: 'success',
+        })
+          .then(() => {
+            this.$router.replace('/')
+          })
+          .catch(() => {
+          })
+      }
+    },
   },
 }
 </script>
@@ -310,9 +371,36 @@ export default {
           @include flex-between;
           padding-bottom: 15px;
           margin-bottom: 35px;
+          align-items: flex-start;
           border-bottom: 1px solid #e5e5e5;
           .top-item {
             width: 500px;
+          }
+          .photo {
+            width: 160px;
+            height: 220px;
+            border: 1px dashed #d9d9d9;
+            @include flex-between;
+            border-radius: 6px;
+            position: relative;
+            .del-image {
+              position: absolute;
+              right: 3px;
+              top: 3px;
+              z-index: 2;
+              color: grey;
+              font-size: 18px;
+              cursor: pointer;
+            }
+            .btn {
+              color: #4d4d4d;
+              .icon {
+                display: block;
+                margin-bottom: 10px;
+              }
+              width: 100%;
+              text-align: center;
+            }
           }
         }
         .middle-wrapper {

@@ -2,39 +2,26 @@
   <div :class="['news-detail']">
     <div class="top">
       <div class="left">
-        <el-tag class='tag'
-          style="margin-right: 10px"
-          v-for="(tag,index ) in news.tags"
-          :key="index">{{
+        <el-tag class='tag' style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
             tag
           }}
         </el-tag>
-        <el-tag class='tag'
-          v-show="news.publish_at">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
+        <el-tag class='tag' v-show="news.publish_at">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
       </div>
     </div>
-    <div id="content-print"
-      class="content-print">
+    <div id="content-print" class="content-print">
       <p style="font-size: 24px;font-weight: bold;color: #1a1a1a;line-height: 30px;border-bottom: 2px solid #f2f2f2;padding: 40px 0;margin-bottom: 30px;text-align: center;">
         {{ news.title || news.name }}
       </p>
-      <div ref="detail"
-        v-if="news.content"
-        v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+      <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
-    <div v-show="!isSinglePage"
-      class="bottom">
+    <div v-show="!isSinglePage" class="bottom">
       <div class="left">
-        <el-tag class='tag'
-          type="warning"
-          style="margin-right: 10px">
+        <el-tag class='tag' type="warning" style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
         </el-tag>
-        <el-tag class='tag'
-          :type="liked ? 'success' : 'info'"
-          style="cursor:pointer"
-          @click="clickLike">
+        <el-tag class='tag' :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
           <i class="font_family icon-dianzan" />
           {{ news.like_num }}
         </el-tag>
@@ -49,6 +36,7 @@ export default {
     return {
       news: {
         id: undefined,
+        tags: [],
       },
       // 是否已经点过赞
       liked: false,
@@ -59,16 +47,17 @@ export default {
   },
   async asyncData(context) {
     let data
-    let isSinglePage = false
-    if (context.route.query.singlePage == 1) {
+    let isSinglePage
+    if (context.route.params.page == 'news') {
+      isSinglePage = false
+      data = await context.app.$api.news.newsDetail({
+        id: context.route.params.id,
+      })
+    } else {
       data = await context.app.$api.news.articleDetail({
-        id: context.route.query.params,
+        id: context.route.params.id,
       })
       isSinglePage = true
-    } else {
-      data = await context.app.$api.news.newsDetail({
-        id: context.route.query.params,
-      })
     }
     return { news: data, isSinglePage }
   },
@@ -85,20 +74,20 @@ export default {
       wind.document.body.innerHTML = printHtml
       wind.print()
     },
-    async clickLike() {
-    },
+    async clickLike() {},
     async getInfo() {
       let data
-      let isSinglePage = false
-      if (this.$route.query.singlePage == 1) {
+      let isSinglePage
+      if (this.$route.params.page == 'news') {
+        data = await this.$api.news.newsDetail({
+          id: this.$route.query.params,
+        })
+        isSinglePage = false
+      } else {
         data = await this.$api.news.articleDetail({
           id: this.$route.query.params,
         })
         isSinglePage = true
-      } else {
-        data = await this.$api.news.newsDetail({
-          id: this.$route.query.params,
-        })
       }
       this.news = data
       this.isSinglePage = isSinglePage
@@ -109,7 +98,6 @@ export default {
       handler: function (val) {
         if (val) this.getInfo(val)
       },
-      immediate: true,
     },
   },
 }
