@@ -1,32 +1,15 @@
 <template>
   <!-- eslint-disable -->
   <div :class="$options.name">
-    <el-dialog :before-close="handleClose" destroy-on-close :title="title" :visible.sync="dialogVisible" width="660px">
+    <el-dialog :before-close="handleClose" destroy-on-close :visible.sync="dialogVisible" width="3.5rem" :show-close="false">
       <div class="cropper-container">
         <div class="cropper-el">
           <vue-cropper ref="cropper" :can-move="option.canMove" :can-move-box="option.canMoveBox" :fixed-box="option.fixedBox" :full="option.full" :img="cropperImg" :info="true" :auto-crop="option.autoCrop" :original="option.original" :auto-crop-width="option.autoCropWidth" :output-size="option.size" :auto-crop-height="option.autoCropHeight" :output-type="option.outputType" :center-box="option.centerBox" :high="option.high" :info-true="option.infoTrue" :enlarge="option.enlarge" :fixed="option.fixed" :fixed-number="option.fixedNumber" @realTime="realTime" />
         </div>
-        <!-- 预览 -->
-        <div class="prive-el">
-          <div class="prive-style" :style="{
-              width: '300px',
-              height: (300 * fixedNumber[1]) / fixedNumber[0] + 'px',
-              margin: '0 25px',
-              display: 'flex',
-              'align-items': 'center',
-            }">
-            <p class="title">效果预览：</p>
-            <div class="wrapper">
-              <div class="preview" :style="previews.div">
-                <img :src="previews.url" :style="previews.img" />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="saveImg">确 定</el-button>
+        <el-button size="mini" @click="handleClose">取 消</el-button>
+        <el-button size="mini" type="primary" @click="saveImg">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -35,7 +18,7 @@
 <script>
 /* eslint-disable */
 export default {
-  name: 'Cropper',
+  name: 'CropperMobile',
   props: {
     dialogVisible: {
       type: Boolean,
@@ -113,50 +96,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Cropper {
+.CropperMobile {
+  ::v-deep .el-dialog {
+    margin-top: 10vh !important;
+  }
+  ::v-deep .el-dialog__header {
+    height: 0;
+    padding: 0;
+  }
+  ::v-deep .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
   .cropper-el {
-    height: 400px;
-    width: 300px;
+    height: 4rem;
+    width: 3rem;
   }
   .cropper-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    .prive-el {
-      width: 300px;
-      height: 400px;
-      flex: 1;
-      text-align: center;
-      .prive-style {
-        margin: 0 auto;
-        flex: 1;
-        height: 400px !important;
-        -webkit-flex: 1;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid #eee;
-        overflow: hidden;
-        margin-left: 40px;
-      }
-      .title {
-        margin: 10px 0;
-      }
-      .wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        margin-top: -40px;
-      }
-      .preview {
-        overflow: hidden;
-      }
-      .el-button {
-        margin-top: 20px;
-      }
-    }
   }
 }
 </style>

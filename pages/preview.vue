@@ -5,7 +5,7 @@
       <p>当前为预览状态，仅供预览确认资料效果。</p>
     </div>
     <div class="top" :style="`background-image: url(${contentTitleImg})`">
-      <p class="top-title">{{$route.name.indexOf('news') > -1 ? "新闻预览" : "人员信息预览"}}</p>
+      <p class="top-title">{{$route.path.indexOf('person') > -1 ? "人员信息预览" : "新闻预览"}}</p>
     </div>
     <section class='content'>
       <div class='left'>

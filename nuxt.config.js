@@ -75,7 +75,9 @@ export default {
   build: {
     transpile: [/^element-ui/],
     extractCSS: true,
+    publicPath: '/frontend/'
   },
+  globalName: 'frontend',
   router: {
     middleware: ["device"],
     prefetchLinks: false

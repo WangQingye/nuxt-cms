@@ -1,31 +1,29 @@
 <template>
   <div :class="['news-detail']">
     <div class="top">
-      <div class="left">
-        <el-tag class='tag' style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
+      <el-tag class='tag' style="margin-right: 10px" v-for="(tag,index ) in news.tags" :key="index">{{
             tag
           }}
-        </el-tag>
-        <el-tag class='tag' v-show="news.publish_at">{{ news.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag>
-      </div>
+      </el-tag>
     </div>
-    <div id="content-print" class="content-print">
-      <p style="font-size: 24px;font-weight: bold;color: #1a1a1a;line-height: 30px;border-bottom: 2px solid #f2f2f2;padding: 40px 0;margin-bottom: 30px;text-align: center;">
+    <div id="content-print-mobile" class="content-print-mobile">
+      <p class="news-title">
         {{ news.title || news.name }}
       </p>
-      <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
-    <div v-show="!isSinglePage" class="bottom">
+    <div class="bottom" v-show="!isSinglePage">
       <div class="left">
-        <el-tag class='tag' type="warning" style="margin-right: 10px">
+        <el-tag class='tag' type="info" style="margin-right: 10px">
           <i class="el-icon-view" />
           {{ news.views }}
         </el-tag>
-        <el-tag class='tag' :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
+        <el-tag class='tag' size="mini" :type="liked ? 'success' : 'info'" style="cursor:pointer" @click="clickLike">
           <i class="font_family icon-dianzan" />
           {{ news.like_num }}
         </el-tag>
       </div>
+      <!-- <el-button type="warning" class="button" @click="!$store.state.news.isPreview && $router.back()">返回列表</el-button> -->
     </div>
   </div>
 </template>
@@ -36,12 +34,10 @@ export default {
     return {
       news: {
         id: undefined,
-        tags: [],
       },
       // 是否已经点过赞
       liked: false,
       imgDomain,
-      // 是否单页
       isSinglePage: false,
     }
   },
@@ -61,20 +57,21 @@ export default {
     }
     return { news: data, isSinglePage }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.news)
+    // this.$refs.detail.innerHTML = this.news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)
+    // const { id } = this.$route.query
+    // console.log(this.$route.query)
+    // this.$store.commit('news/setIsPreview', this.$route.name == 'news-preview')
+    // this.news.id = id
+    // if (id) {
+    //   this.fetchData()
+    // }
+  },
   methods: {
-    doPrint() {
-      var printHtml = document.getElementById('content-print').innerHTML //这个元素的样式需要用内联方式，不然在新开打印对话框中没有样式
-      console.log(printHtml)
-      var wind = window.open(
-        '',
-        'newwindow',
-        'height=300, width=700, top=100, left=100, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no'
-      )
-      wind.document.body.innerHTML = printHtml
-      wind.print()
+    async clickLike() {
+      return
     },
-    async clickLike() {},
     async getInfo() {
       let data
       let isSinglePage
@@ -98,16 +95,16 @@ export default {
       handler: function (val) {
         if (val) this.getInfo(val)
       },
+      immediate: true,
     },
   },
 }
 </script>
 <style lang='scss'>
-.content-print {
-  border-bottom: 1px solid #f2f2f2;
+.content-print-mobile {
+  line-height: 0.25rem;
+  font-size: 0.15rem;
   padding: 0;
-  padding-bottom: 50px;
-  line-height: 25px;
   img {
     max-width: 100%;
     height: auto;
@@ -115,59 +112,72 @@ export default {
   h1 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 23px;
+    font-size: 0.23rem;
   }
   h2 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 20px;
+    font-size: 0.2rem;
   }
   h3 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 18px;
+    font-size: 0.18rem;
   }
   h4 {
     color: #444444;
     line-height: 1;
-    letter-spacing: 0.2px;
-    font-size: 17px;
+    font-size: 0.17rem;
   }
 }
 </style>
 <style scoped lang='scss'>
 .news-detail {
   width: 100%;
-
+  .date {
+    font-size: 0.1rem;
+    color: #999999;
+    float: right;
+    margin-top: -0.54rem;
+  }
   .top {
-    padding-top: 10px;
     @include flex-between;
+    justify-content: flex-start;
+    margin-bottom: 0.3rem;
+    .tag {
+      margin-right: 0.05rem;
+    }
   }
-
+  .news-title {
+    font-size: 0.21rem;
+    text-align: left;
+    color: #1a1a1a;
+    margin-bottom: 0.2rem;
+  }
+  .detail {
+    border-top: 0.01rem #f5f5fc solid;
+    border-bottom: 0.01rem #f5f5fc solid;
+    padding: 0.1rem 0 0.3rem 0;
+  }
   .bottom {
-    margin-top: 40px;
+    margin-top: 0.15rem;
+    margin-bottom: 0.3rem;
     @include flex-between;
-  }
-  .bottom-1 {
-    margin-top: 40px;
-    @include flex-between;
-    justify-content: flex-end;
   }
 
   .tag {
-    height: 34px;
-    line-height: 34px;
+    height: 0.3rem;
+    line-height: 0.3rem;
     border: none;
+    padding: 0 0.1rem;
+    box-sizing: border-box;
 
     i {
-      font-size: 15px;
-      line-height: 34px;
+      font-size: 0.14rem;
+      line-height: 0.3rem;
       font-weight: bold;
       vertical-align: middle;
-      margin-right: 5px;
+      margin-right: 0.1rem;
     }
   }
 

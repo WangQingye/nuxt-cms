@@ -162,15 +162,6 @@ export default {
     }
   },
   async asyncData(context) {
-    const isMoible =
-      /(Android|webOS|iPhone|iPod|tablet|BlackBerry|Mobile)/i.test(
-        context.userAgent
-      )
-        ? true
-        : false
-    if (isMoible) {
-      context.redirect('/error?msg=请用电脑端打开此页面')
-    }
     await context.app.$utils.getInitData(context)
     let stepOneForm = {}
     if (context.params.id) {
@@ -221,7 +212,7 @@ export default {
       })
       if (res.id) {
         window.open(
-          '/preview/person/785ab934b9d94affbe7a2924d4c34682',
+          `/preview/person/${res.id}`,
           '_blank'
         )
       }
@@ -259,6 +250,7 @@ export default {
   min-width: 1400px;
   min-height: 100vh;
   height: auto;
+  background-attachment: fixed;
   .header {
     height: 80px;
     padding: 0 10%;
@@ -387,7 +379,7 @@ export default {
               position: absolute;
               right: 3px;
               top: 3px;
-              z-index: 2;
+              z-index: 1;
               color: grey;
               font-size: 18px;
               cursor: pointer;

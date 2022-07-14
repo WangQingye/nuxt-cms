@@ -8,27 +8,29 @@
         </el-tag>
         <!-- <el-tag class='tag' type="warning">{{ personDetail.publish_at|parseTime('{y}年{m}月{d}日') }}</el-tag> -->
       </div>
-      <el-button type="warning" class="button" @click="close">关闭</el-button>
+      <!-- <el-button type="warning" class="button" @click="$router.back()">关闭返回</el-button> -->
     </div>
     <div class="detial">
-      <div class="base">
+      <div class="base base-1">
         <img class="img" :src="personDetail.avatar|cloudImage" alt="">
         <div class="base-info">
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
           <p class="position">{{personDetail.job_content}}</p>
-          <p class="position" style="margin-bottom: 20px">{{personDetail.post}}</p>
+          <p class="position" style="margin-bottom: 0.2rem">{{personDetail.post}}</p>
+        </div>
+      </div>
+      <div class="base" style="margin-bottom: 0.1rem; padding-top: 0.1rem; font-size:0.12rem; color:#1A1A1A">
+        <div class="base-info">
           <p class="position" v-show="personDetail.dept">所在部门：{{personDetail.dept}}</p>
           <p class="position" v-show="personDetail.tel">办公电话：{{personDetail.tel}}</p>
           <p class="position" v-show="personDetail.address">通讯地址：{{personDetail.address}}</p>
           <p class="position" v-show="personDetail.email">电子邮件：{{personDetail.email}}</p>
-          <p class="position" v-show="personDetail.homepage">个人主页：{{personDetail.homepage}}</p>
+          <p class="position" v-show="personDetail.homepage">个人主页：{{personDetail.homepage }}</p>
         </div>
       </div>
-      <div class="intro">
-        <p class="title">简介</p>
-        <p class="text">{{personDetail.intro}}</p>
-      </div>
+      <p class="desc">{{personDetail.intro}}
+      </p>
       <el-collapse v-model="activeNames">
         <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">
           <template slot="title">
@@ -86,12 +88,12 @@ export default {
         ],
       },
       imgDomain,
-      activeNames: [],
+      activeNames: [0, 1, 2, 3, 4],
     }
   },
   async asyncData(context) {
     let data = await context.app.$api.department.personDetail({
-      id: context.params.id,
+      id: context.route.params.id,
     })
     let activeNames = data.labels.map((labal, index) => {
       return index
@@ -99,19 +101,14 @@ export default {
     return { personDetail: data, activeNames }
   },
   mounted() {},
-  methods: {
-    close() {
-      window.close()
-    }
-  },
+  methods: {},
 }
 </script>
 <style lang='scss'>
 .content-print {
-  border-bottom: 1px solid #f2f2f2;
+  line-height: 0.25rem;
+  font-size: 0.15rem;
   padding: 0;
-  padding-bottom: 50px;
-  line-height: 25px;
   img {
     max-width: 100%;
     height: auto;
@@ -119,33 +116,29 @@ export default {
   h1 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 23px;
+    font-size: 0.23rem;
   }
   h2 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 20px;
+    font-size: 0.2rem;
   }
   h3 {
     color: #444444;
     line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 18px;
+    font-size: 0.18rem;
   }
   h4 {
     color: #444444;
     line-height: 1;
-    letter-spacing: 0.2px;
-    font-size: 17px;
+    font-size: 0.17rem;
   }
 }
 </style>
 <style scoped lang='scss'>
 .person-detail {
   width: 100%;
-
+  margin-bottom: 0.2rem;
   .top {
     @include flex-between;
   }
@@ -154,55 +147,51 @@ export default {
     .base {
       @include flex-between(flex-start);
       justify-content: flex-start;
-      margin-bottom: 60px;
       .img {
-        width: 250px;
-        height: 340px;
-        border-radius: 5px;
-        margin-right: 70px;
+        width: 1.11rem;
+        height: 1.51rem;
+        border-radius: 0.04rem;
+        margin-right: 0.14rem;
       }
       .base-info {
-        margin-top: 60px;
+        padding-top: 0.14rem;
         .name {
-          font-size: 30px;
+          font-size: 0.15rem;
           font-weight: bold;
-          color: #1a1a1a;
+          color: #4d4d4d;
         }
         .line {
-          width: 20px;
-          height: 2px;
+          width: 0.14rem;
+          height: 0.01rem;
           background: $--color-primary;
-          margin-top: 20px;
-          margin-bottom: 15px;
+          margin-top: 0.08rem;
+          margin-bottom: 0.11rem;
         }
         .position {
-          font-size: 15px;
-          color: #1a1a1a;
-          line-height: 24px;
+          font-size: 0.1rem;
+          color: #4d4d4d;
+          line-height: 0.18rem;
         }
       }
     }
-    .intro {
-      margin-bottom: 30px;
-      .title {
-        font-size: 15px;
-        font-weight: bold;
-        color: #1a1a1a;
-        line-height: 24px;
-        margin-bottom: 10px;
+    .base-1 {
+      padding-bottom: 0.2rem;
+      border-bottom: 0.01rem solid #f5f5fc;
+      .position {
+        line-height: 0.15rem;
       }
-      .text {
-        font-size: 14px;
-        font-weight: 400;
-        color: #999999;
-        line-height: 18px;
-      }
+    }
+    .desc {
+      margin: 0.2rem 0;
+      color: #4d4d4d;
+      line-height: 0.18rem;
     }
   }
   .tag {
     height: 34px;
     line-height: 34px;
     border: none;
+    margin-bottom:0.05rem;
 
     i {
       font-size: 15px;
