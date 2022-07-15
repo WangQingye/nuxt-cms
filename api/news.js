@@ -2,7 +2,7 @@ export default $axios => ({
   // 新闻详情
   newsDetail(data) {
     return $axios({
-      url: '/news/detail', method: 'post', data, needToken: false
+      url: '/news/detail', method: 'post', data, goError: true
     })
   },
   // 新闻标签
@@ -26,7 +26,7 @@ export default $axios => ({
   // 文章详情
   articleDetail(data) {
     return $axios({
-      url: '/article/detail', method: 'post', data, needToken: false
+      url: '/article/detail', method: 'post', data, goError: true
     })
   },
   // 新闻搜索

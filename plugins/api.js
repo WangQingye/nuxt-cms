@@ -28,15 +28,15 @@ export default function ({
       return Promise.resolve(response.data.data)
     } else {
       if (!response.config.noTip) Message.error(response.data.message)
-      return Promise.reject(response.data.data)
+      return Promise.reject(response)
       // redirect()
       // throw new Error(response.data.message)
       // return Promise.reject(response.data.message)
     }
   })
   $axios.onError(error => {
-    if (error.code === 404) {
-      redirect('/404')
+    if (error.config.goError) {
+      redirect(`/error?msg=${error.data.message}`)
     }
   })
   apiModules.banner = bannerModule($axios)

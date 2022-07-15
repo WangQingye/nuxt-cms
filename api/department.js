@@ -2,7 +2,7 @@ export default $axios => ({
   // 部门详情
   deparmentDetail(data) {
     return $axios({
-      url: '/department/detail', method: 'post', data
+      url: '/department/detail', method: 'post', data, goError: true
     })
   },
   // 部门人员
@@ -14,7 +14,7 @@ export default $axios => ({
   // 人员详情
   personDetail(data) {
     return $axios({
-      url: '/personnel/detail', method: 'post', data
+      url: '/personnel/detail', method: 'post', data, goError: true
     })
   },
   // 人员搜索
