@@ -167,7 +167,7 @@ export default {
     return {
       show: false,
       backImg,
-      inviteCode: 'wt6r',
+      inviteCode: '',
       showInfo: false,
       stepOneForm: {},
       infoForm: {},
