@@ -187,7 +187,7 @@ export default {
         code: this.inviteCode,
       })
       this.infoForm = JSON.parse(JSON.stringify(info))
-      info.labels.forEach((label) => {
+      info.labels && info.labels.forEach((label) => {
         if (label.content) {
           label.content = label.content.replace(/\\n/g, '\n')
           label.content = label.content.slice(1)
@@ -195,7 +195,7 @@ export default {
         }
       })
       this.infoForm1 = JSON.parse(JSON.stringify(info))
-      this.tagsValue = this.infoForm1.tags.map((t) => t.key)
+      this.tagsValue = this.infoForm1.tags && this.infoForm1.tags.map((t) => t.key)
       this.showInfo = true
     },
     async preview() {
