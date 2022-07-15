@@ -422,11 +422,12 @@ export default {
               top: 3px;
               z-index: 1;
               color: grey;
-              font-size: 18px;
+              font-size: 0.18rem;
               cursor: pointer;
             }
             .btn {
               color: #4d4d4d;
+              font-size: 0.15rem;
               .icon {
                 display: block;
                 margin-bottom: 10px;
