@@ -28,7 +28,7 @@ export default function (context) {
     if (context.route.path.indexOf('mobilePreview') > -1) {
       context.redirect(context.route.fullPath.replace('/mobilePreview', '/preview'))
     } else if (context.route.path.indexOf('mobileInvite') > -1) {
-      context.redirect(context.route.fullPath.replace('/invite', '/mobileInvite'))
+      context.redirect(context.route.fullPath.replace('/mobileInvite', '/invite'))
     } else {
       context.redirect(context.route.fullPath.replace('/mobile', ''))
     }

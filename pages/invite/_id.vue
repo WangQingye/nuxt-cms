@@ -22,7 +22,7 @@
       <div class="wrapper">
         <div class="top">
           <p class="title">注：以下带<span style="color:#FF2222">*</span>为必填项。可点击右上角保存预览查看实际展示样式，确认填写完成后点击保存提交。</p>
-          <p>不会填写？<span class="example">查看示例</span></p>
+          <!-- <p>不会填写？<span class="example">查看示例</span></p> -->
         </div>
         <div class="form">
           <el-form ref="form" :model="infoForm" label-width="100px" label-position="left">
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import backImg from '@/static/imgs/home/b-3.jpg'
+import backImg from '@/static/imgs/bg-1.jpg'
 export default {
   name: 'Invite',
   data() {
@@ -175,12 +175,8 @@ export default {
   },
   mounted() {
     this.show = true
-    console.log(this.$store.state.config)
   },
   methods: {
-    isMoible(UA) {
-      return
-    },
     async goInfo() {
       if (!this.inviteCode) {
         this.$message.error('请输入邀请码')
@@ -198,13 +194,12 @@ export default {
           label.content = label.content.slice(0, -1)
         }
       })
-      console.log(info.labels)
       this.infoForm1 = JSON.parse(JSON.stringify(info))
       this.tagsValue = this.infoForm1.tags.map((t) => t.key)
       this.showInfo = true
     },
     async preview() {
-      console.log(this.infoForm1)
+      if (!this.testForm()) return
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
@@ -220,8 +215,15 @@ export default {
     uploadPhotoSuccess(res) {
       this.infoForm1.avatar = res.filename
     },
+    testForm() {
+      if (!this.infoForm1.intro) {
+        this.$message.error('人员简介不能为空')
+        return false
+      }
+      return true
+    },
     async submit() {
-      console.log(this.infoForm1)
+      if (!this.testForm()) return 
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
@@ -251,6 +253,7 @@ export default {
   min-height: 100vh;
   height: auto;
   background-attachment: fixed;
+  background-size: 100% auto;
   .header {
     height: 80px;
     padding: 0 10%;

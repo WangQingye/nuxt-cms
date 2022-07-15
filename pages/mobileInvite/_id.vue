@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import backImg from '@/static/imgs/home/b-3.jpg'
+import backImg from '@/static/imgs/bg-1.jpg'
 export default {
   name: 'Invite',
   data() {
@@ -235,7 +235,7 @@ export default {
       this.showInfo = true
     },
     async preview() {
-      console.log(this.infoForm1)
+      if (!this.testForm()) return 
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
@@ -248,8 +248,15 @@ export default {
     uploadPhotoSuccess(res) {
       this.infoForm1.avatar = res.filename
     },
+    testForm() {
+      if (!this.infoForm1.intro) {
+        this.$message.error('人员简介不能为空')
+        return false
+      }
+      return true
+    },
     async submit() {
-      console.log(this.infoForm1)
+      if (!this.testForm()) return 
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
@@ -277,6 +284,7 @@ export default {
   min-height: 100vh;
   height: auto;
   background-attachment: fixed;
+  background-size: 100% auto;
   .header {
     height: 0.5rem;
     border-bottom: 0.01rem solid rgba(255, 255, 255, 0.1);
