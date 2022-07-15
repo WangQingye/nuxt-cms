@@ -28,8 +28,13 @@ export default function ({
       return Promise.resolve(response.data.data)
     } else {
       if (!response.config.noTip) Message.error(response.data.message)
-      return Promise.reject(response)
-      // redirect()
+      if (response.config.goError) {
+        return Promise.reject(response)
+      } else {
+        return Promise.resolve(response.data.data)
+      }
+      // redirect(`/error?msg=${error.data.message}`)
+      // return Promise.reject(response)
       // throw new Error(response.data.message)
       // return Promise.reject(response.data.message)
     }

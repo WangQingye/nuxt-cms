@@ -8,13 +8,19 @@
       </div>
     </div>
     <section class="step step-1" v-if="!showInfo">
-      <div class="wrapper">
+      <div class="wrapper" v-if="stepOneForm.urlcode">
         <p class="title">{{stepOneForm.name}} 资料填写邀请</p>
         <div class="form">
           <p class="label">请输入邀请码：</p>
           <el-input class="input" v-model="inviteCode"></el-input>
           <el-button type="primary" class="button" @click="goInfo">确认查看填写</el-button>
           <p class="time">有限期至{{stepOneForm.expire_time|parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</p>
+        </div>
+      </div>
+      <div class="wrapper" v-else>
+        <div class="form">
+          <p class="error-text">抱歉，链接已失效</p>
+          <el-button type="primary" class="button" @click="$router.push('/')">返回首页</el-button>
         </div>
       </div>
     </section>
@@ -169,6 +175,7 @@ export default {
         urlcode: context.params.id,
       })
     }
+    console.log(stepOneForm)
     return {
       stepOneForm,
     }
@@ -319,6 +326,11 @@ export default {
         font-size: 14px;
         color: #999999;
         margin-bottom: 10px;
+      }
+      .error-text {
+        text-align: center;
+        color: #999999;
+        margin: 50px 0;
       }
       .input {
         ::v-deep .el-input__inner {

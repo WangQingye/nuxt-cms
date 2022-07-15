@@ -26,7 +26,7 @@ export default $axios => ({
   // 人员邀请信息
   personInvite(data) {
     return $axios({
-      url: '/personnel/invite', method: 'post', data
+      url: '/personnel/invite', method: 'post', data, noTip: true
     })
   },
   // 人员信息更新
