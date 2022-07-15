@@ -95,7 +95,7 @@ export default {
     let data = await context.app.$api.department.personDetail({
       id: context.route.params.id,
     })
-    let activeNames = data.labels.map((labal, index) => {
+    let activeNames = data.labels && data.labels.map((labal, index) => {
       return index
     })
     return { personDetail: data, activeNames }
