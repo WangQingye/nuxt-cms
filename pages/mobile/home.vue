@@ -195,14 +195,14 @@ export default {
     const data = await context.app.$api.news.newsList({
       page: 1,
       limit: 10,
-      category_id: homeNewsId.value,
+      category_id: homeNewsId,
     })
     let homeNewsList = data.list
     let homeNoticeId = context.app.store.state.config.webConfig.home_notice
     const data1 = await context.app.$api.news.newsList({
       page: 1,
       limit: 10,
-      category_id: homeNoticeId.value,
+      category_id: homeNoticeId,
     })
     let homeNoticeList = data1.list
     return {
@@ -226,8 +226,8 @@ export default {
           news: media.slice(0, 3),
         },
       ],
-      homeNewsId: homeNewsId.value,
-      homeNoticeId: homeNoticeId.value,
+      homeNewsId: homeNewsId,
+      homeNoticeId: homeNoticeId,
       homeNewsList,
       homeNoticeList,
     }
