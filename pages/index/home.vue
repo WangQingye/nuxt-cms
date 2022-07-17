@@ -80,7 +80,7 @@
             <p class="link-title">{{links.title}}</p>
             <template v-for="link in links.links">
               <el-popover :key="link.name" v-if="link.wechatQrImg" placement="bottom-start" width="200" trigger="hover">
-                <p class="link" slot="reference" :key="link.name" @click="$utils.goLink(link.link)">
+                <p class="link" slot="reference" :key="link.name" style="text-align: left">
                   {{link.name}}
                 </p>
                 <img :src="link.wechatQrImg|cloudImage" style="width:200px;height:200px" />
@@ -629,6 +629,7 @@ export default {
       .links {
         // margin: 0 2%;
         min-width: 140px;
+        text-align: left;
         .link-title {
           font-size: 18px;
           font-weight: bold;
