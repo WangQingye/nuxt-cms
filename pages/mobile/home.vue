@@ -410,14 +410,15 @@ export default {
         .title {
           color: white;
           align-self: flex-end;
+          font-size: 0.14rem;
           padding: 0 0 0 0.15rem;
           box-sizing: border-box;
           @include ellipsisBasic(1);
-          line-height: 0.3rem;
+          line-height: 0.36rem;
           background-image: linear-gradient(
             to top,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0)
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.0)
           );
           width: 100%;
         }
