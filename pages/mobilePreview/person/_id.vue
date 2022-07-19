@@ -16,8 +16,8 @@
         <div class="base-info">
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
-          <p class="position">{{personDetail.job_content}}</p>
-          <p class="position" style="margin-bottom: 0.2rem">{{personDetail.post}}</p>
+          <p class="position">{{personDetail.post}}</p>
+          <p class="position" style="margin-bottom: 0.2rem">{{personDetail.job_content}}</p>
         </div>
       </div>
       <div class="base" style="margin-bottom: 0.1rem; padding-top: 0.1rem; font-size:0.12rem; color:#1A1A1A">

@@ -1,4 +1,7 @@
 function isMoible(UA) {
+  if (UA.indexOf('Pad') > -1 || UA.indexOf('pad') > -1) {
+    return false
+  }
   return /(Android|webOS|iPhone|iPod|tablet|BlackBerry|Mobile)/i.test(UA) ?
     true :
     false;

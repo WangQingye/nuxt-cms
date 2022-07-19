@@ -42,7 +42,7 @@
         </div>
       </div>
       <!-- 中部广告 -->
-      <el-carousel :interval="3000" height="0.54rem" arrow="never" indicator-position="none">
+      <el-carousel :interval="3000" height="0.54rem" arrow="never" indicator-position="none" v-if="middleBanner.length">
         <el-carousel-item v-for="item in middleBanner" :key="item.id">
           <div class="big-news-img" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="$utils.goLink(item.event_link)">
             <i class="el-icon-arrow-right link-arrow"></i>
@@ -406,6 +406,7 @@ export default {
         border-radius: 0.04rem;
         margin-bottom: 0.07rem;
         display: flex;
+        background-size: 100% auto;
         .title {
           color: white;
           align-self: flex-end;

@@ -1,26 +1,64 @@
 <template>
-  <div :class="['mobile-header', isHomePage ? 'home-header' : '']">
-    <img class="header-logo" v-if="isHomePage" :src="$store.state.config.webConfig.logo2|cloudImage" @click="$router.push('/mobile/home')" alt="logo">
-    <img class="header-logo" @click="$router.push('/mobile/home')" v-else :src="$store.state.config.webConfig.logo|cloudImage" />
-    <i class="el-icon-s-fold icon" @click="drawerVisible = true" />
-    <el-drawer title="我是标题" :visible.sync="drawerVisible" :with-header="false" append-to-body size="3.08rem">
+  <div :class="['mobile-header', (isHomePage && !scrolled) ? 'home-header' : '']">
+    <img class="header-logo"
+      v-if="(isHomePage && !scrolled)"
+      :src="$store.state.config.webConfig.logo2|cloudImage"
+      @click="$router.push('/mobile/home')"
+      alt="logo">
+    <img class="header-logo"
+      @click="$router.push('/mobile/home')"
+      v-else
+      :src="$store.state.config.webConfig.logo|cloudImage" />
+    <img v-if="(isHomePage && !scrolled)" src="@/static/imgs/mobile-menu1.png"
+      class="icon"
+      @click="drawerVisible = true" />
+    <img v-else src="@/static/imgs/mobile-menu.png"
+      class="icon"
+      @click="drawerVisible = true" />
+    <el-drawer title="我是标题"
+      :visible.sync="drawerVisible"
+      :with-header="false"
+      append-to-body
+      size="3.08rem">
       <div class="mobile-menu">
         <div class="top-container">
           <div class="top">
-            <div class="user" v-if="user.id" @click="$utils.goLink(userCenter)">
+            <div class="user"
+              v-if="user.id"
+              @click="$utils.goLink(userCenter)">
               <el-avatar :src="user.avatar|cloudImage"></el-avatar>
               <span class="name">{{user.nickname}}</span>
               <i class="el-icon-arrow-right icon"></i>
             </div>
-            <el-button style="width: 1.64rem" type="primary" v-else @click="handleUlogin">用户登录</el-button>
-            <i class="el-icon-close close" @click="drawerVisible = false"></i>
+            <el-button style="width: 1.64rem"
+              type="primary"
+              v-else
+              @click="handleUlogin">用户登录</el-button>
+            <i class="el-icon-close close"
+              @click="drawerVisible = false"></i>
           </div>
-          <el-input prefix-icon="el-icon-search" placeholder="搜索" v-model="searchText" @keyup.enter.native="goSearch"></el-input>
+          <el-input prefix-icon="el-icon-search"
+            placeholder="搜索"
+            v-model="searchText"
+            @keyup.enter.native="goSearch"></el-input>
         </div>
-        <el-menu class="main-menu" @select="onMenuSelect">
+        <el-menu class="main-menu"
+          @select="onMenuSelect">
           <template v-for="item in menuList">
+            <el-menu-item v-if="item.event_type == 'navigationTo'"
+              :key="item.id"
+              :index="String(item.id)">
+              <template slot="title">
+                <div class="single-link">
+                  <i class="circle"></i>
+                  <span style="font-size:0.14rem; font-weight: bold;margin-left:0.05rem">{{item.name}}</span>
+                </div>
+              </template>
+            </el-menu-item>
             <!-- 一级 -->
-            <el-submenu v-if="item.children && item.children.length" :index="String(item.id)" :key="item.id">
+            <el-submenu v-if="item.children && item.children.length"
+              :index="String(item.id)"
+              :key="item.id">
               <template slot="title">
                 <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -20px;">
                   <i class="circle"></i>
@@ -29,18 +67,27 @@
               </template>
               <template v-for="subItem in item.children">
                 <!-- 二级 -->
-                <el-submenu v-if="subItem.children && subItem.children.length" :index="String(subItem.id)" :key="subItem.id">
+                <el-submenu v-if="subItem.children && subItem.children.length"
+                  :index="String(subItem.id)"
+                  :key="subItem.id">
                   <template slot="title">
                     <div style="border-bottom: 1px solid #F2F2F2;font-weight: bold; margin-left: -12px;">
                       <!-- <i class="el-icon-location"></i> -->
-                      <img class="icon" v-if="subItem.icon" :src="subItem.icon|cloudImage" alt="icon">
-                      <i v-else style="font-size:0.16rem"  class="el-icon-tickets"></i>
+                      <img class="icon"
+                        v-if="subItem.icon"
+                        :src="subItem.icon|cloudImage"
+                        alt="icon">
+                      <i v-else
+                        style="font-size:0.16rem"
+                        class="el-icon-tickets"></i>
                       <span class="second-title">{{subItem.name}}</span>
                     </div>
                   </template>
                   <template v-for="thirdItem in subItem.children">
                     <template v-if="thirdItem.children && thirdItem.children.length">
-                      <el-menu-item v-for="fourthItem in thirdItem.children" :index="String(fourthItem.id)" :key="fourthItem.id">
+                      <el-menu-item v-for="fourthItem in thirdItem.children"
+                        :index="String(fourthItem.id)"
+                        :key="fourthItem.id">
                         <template slot="title">
                           <div class="item-line">
                             <span class="third-title">{{fourthItem.name}}</span>
@@ -48,7 +95,9 @@
                         </template>
                       </el-menu-item>
                     </template>
-                    <el-menu-item v-else :index="String(thirdItem.id)" :key="thirdItem.id">
+                    <el-menu-item v-else
+                      :index="String(thirdItem.id)"
+                      :key="thirdItem.id">
                       <template slot="title">
                         <div class="item-line">
                           <span class="third-title">{{thirdItem.name}}</span>
@@ -64,10 +113,14 @@
                     </template>
                   </el-menu-item> -->
                 </el-submenu>
-                <el-menu-item v-else :index="String(subItem.id)" :key="subItem.id">
+                <el-menu-item v-else
+                  :index="String(subItem.id)"
+                  :key="subItem.id">
                   <div class="item-line">
                     <span>{{subItem.name}}</span>
-                    <el-tag class="tag" type="primary" v-if="subItem.num">
+                    <el-tag class="tag"
+                      type="primary"
+                      v-if="subItem.num">
                       {{subItem.num}}
                     </el-tag>
                   </div>
@@ -77,7 +130,10 @@
           </template>
         </el-menu>
         <div class="links">
-          <div class="link" v-for="(link,index) in footerLinksRight" :key="index" @click="$utils.goLink(link.link)">
+          <div class="link"
+            v-for="(link,index) in footerLinksRight"
+            :key="index"
+            @click="$utils.goLink(link.link)">
             <span class="text-container"><i class="circle"></i><span class="text">{{link.title}}
               </span></span>
             <i class="el-icon-arrow-right icon"></i>
@@ -98,25 +154,40 @@ export default {
       userCenter,
       drawerVisible: false,
       searchText: '',
+      scrolled: false,
     }
   },
-  mounted() {},
+  mounted() {
+    if (process.browser) {
+      window.onscroll = () => {
+        if (window.pageYOffset > 10) {
+          this.scrolled = true
+        } else {
+          if (this.isHomePage) this.scrolled = false
+        }
+      }
+    }
+  },
   methods: {
     onMenuSelect(subMenuId, indexPath) {
       let topMenuId = indexPath[0]
-      let subItem = this.$utils.getSubMenuItem(
-        this.menuList.find((m) => m.id == topMenuId),
-        subMenuId
-      )
-      let subPage = this.$utils.typeToPages[subItem.event_type]
-      if (!subPage) {
-        this.$message.error('未找到菜单地址，请检查配置')
-        return
+      let topItem = this.menuList.find((m) => m.id == topMenuId)
+      if (topItem.event_type == 'navigationTo') {
+        this.$router.push(topItem.event_link)
+      } else {
+        let subItem = this.$utils.getSubMenuItem(topItem, subMenuId)
+        let subPage = this.$utils.typeToPages[subItem.event_type]
+        if (!subPage) {
+          this.$message.error('未找到菜单地址，请检查配置')
+          return
+        }
+        this.$router.push(
+          `/mobile/content/${subPage}?menuIds=${indexPath.join(',')}&params=${
+            subItem.event_link
+          }&singlePage=1`
+        )
       }
       this.drawerVisible = false
-      this.$router.push(
-        `/mobile/content/${subPage}?menuIds=${indexPath.join(',')}&params=${subItem.event_link}&singlePage=1`
-      )
     },
     goSearch() {
       this.drawerVisible = false
@@ -170,7 +241,8 @@ export default {
     // width: 1rem;
   }
   .icon {
-    font-size: 0.21rem;
+    width: 0.22rem;
+    height: 0.22rem;
   }
 }
 .home-header {
@@ -194,14 +266,15 @@ export default {
       margin-bottom: 0.21rem;
       .user {
         @include flex-between;
-        color: #4D4D4D;
+        color: #4d4d4d;
         .name {
           font-size: 0.12rem;
           font-weight: 500;
-          margin: 0 0.06rem 0 0.1rem
+          margin: 0 0.06rem 0 0.1rem;
         }
         .icon {
-          font-size: 0.1rem;
+          width: 0.6rem;
+          height: 0.6rem;
         }
       }
       .close {
@@ -248,6 +321,14 @@ export default {
   }
   .main-menu {
     width: 2.48rem;
+    .single-link {
+      height: 0.56rem;
+      display: flex;
+      align-items: center;
+      margin-left: -0.2rem;
+      color: #999;
+      border-bottom: 1px solid #f2f2f2;
+    }
   }
   .el-menu {
     border: none;
@@ -257,8 +338,8 @@ export default {
       color: #999;
     }
     .icon {
-      height:0.14rem;
-      width:0.14rem;
+      height: 0.14rem;
+      width: 0.14rem;
       margin-right: 0.1rem;
       margin-left: 0.05rem;
     }

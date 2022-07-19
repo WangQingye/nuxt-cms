@@ -16,8 +16,8 @@
         <div class="base-info">
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
-          <p class="position">{{personDetail.job_content}}</p>
-          <p class="position" style="margin-bottom: 0.2rem">{{personDetail.post}}</p>
+          <p class="position">{{personDetail.post}}</p>
+          <p class="position" style="margin-bottom: 0.2rem">{{personDetail.job_content}}</p>
         </div>
       </div>
       <div class="base" style="margin-bottom: 0.1rem; padding-top: 0.1rem; font-size:0.12rem; color:#1A1A1A">
@@ -95,7 +95,7 @@ export default {
     let data = await context.app.$api.department.personDetail({
       id: context.route.query.params,
     })
-    let activeNames = data.labels.map((labal, index) => {
+    let activeNames = data.labels && data.labels.map((labal, index) => {
       return index
     })
     return { personDetail: data, activeNames }

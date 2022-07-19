@@ -4,8 +4,8 @@
       <img class="img" :src="itemData.avatar|cloudImage" alt="logo" :onerror="$utils.getDefaultImg()">
       <div class="right">
         <p class="name">{{itemData.name}}</p>
-        <p class="position">{{itemData.job_content}}</p>
         <p class="position">{{itemData.post}}</p>
+        <p class="position">{{itemData.job_content}}</p>
       </div>
     </div>
     <div class='person-item-list' v-if="type === 'list'" :style="{backgroundImage:`url(${$utils.cloudImg(itemData.avatar)})`}">
@@ -13,8 +13,8 @@
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
         <div class="bottom">
-          <p class="position">{{itemData.job_content}}</p>
           <p class="position">{{itemData.post}}</p>
+          <p class="position">{{itemData.job_content}}</p>
         </div>
       </div>
     </div>
@@ -23,8 +23,8 @@
       <div class="right">
         <p class="name">{{itemData.name}}</p>
         <div class="line"></div>
-        <p class="position">{{itemData.job_content}}</p>
-        <p class="position" style="margin-bottom: 25px;">{{itemData.post}}</p>
+        <p class="position">{{itemData.post}}</p>
+        <p class="position" style="margin-bottom: 18px;">{{itemData.job_content}}</p>
         <p class="desc">{{itemData.intro}}</p>
       </div>
       <span class="link">点击查看<i class="el-icon-arrow-right" style="margin-left:10px"></i></span>
@@ -59,7 +59,7 @@ export default {
     clickPerson() {
       if (this.$route.query.menuIds) {
         this.$router.push(`/content/person-detail?params=${this.itemData.id}&menuIds=${this.$route.query.menuIds}`)
-      } else {        
+      } else {
         let menuIds = this.$utils.findMenuIdsByEventLink(this.$store.state.config.menuList, this.itemData.tags[0].tag)
         this.$router.push(`/content/person-detail?params=${this.itemData.id}&menuIds=${menuIds.join(',')}`)
       }
@@ -185,6 +185,7 @@ export default {
       font-size: 14px;
       color: #999999;
       line-height: 18px;
+      @include ellipsisBasic(4);
     }
   }
   .link {

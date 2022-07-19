@@ -16,8 +16,8 @@
         <div class="base-info">
           <p class="name">{{personDetail.name}}</p>
           <div class="line"></div>
-          <p class="position">{{personDetail.job_content}}</p>
-          <p class="position" style="margin-bottom: 20px">{{personDetail.post}}</p>
+          <p class="position">{{personDetail.post}}</p>
+          <p class="position" style="margin-bottom: 20px">{{personDetail.job_content}}</p>
           <p class="position" v-show="personDetail.dept">所在部门：{{personDetail.dept}}</p>
           <p class="position" v-show="personDetail.tel">办公电话：{{personDetail.tel}}</p>
           <p class="position" v-show="personDetail.address">通讯地址：{{personDetail.address}}</p>

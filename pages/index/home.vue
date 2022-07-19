@@ -47,7 +47,7 @@
         </el-col>
       </el-row>
       <!-- 中部广告 -->
-      <el-carousel :interval="3000" height="260px" arrow="never" indicator-position="none">
+      <el-carousel v-show="middleBanner.length" :interval="3000" height="260px" arrow="never" indicator-position="none">
         <el-carousel-item v-for="item in middleBanner" :key="item.id">
           <div class="activity" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="$utils.goLink(item.event_link)">
             <i class="el-icon-arrow-right link-arrow"></i>
