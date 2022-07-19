@@ -1,28 +1,28 @@
 <template>
   <div class="department-list">
     <p class="title">
-      {{title}}
+      {{ title }}
     </p>
     <PageList :page-size="pageSize"
-      :total="total"
-      @fetchData="fetchData" ref="pageList">
+              :total="total"
+              @fetchData="fetchData" ref="pageList">
       <!-- <div class="items" v-if="departmentItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
         <template v-for="(department,index) in departmentItems">
           <NuxtLink class="department-item"
-            :key="index"
-            :to="getLink(department)"
-            v-if="department.type != 3">
+                    :key="index"
+                    :to="getLink(department)"
+                    v-if="department.type != 3">
             <img :src="department.cover|cloudImage"
-              :alt="department.name">
+                 :alt="department.name">
           </NuxtLink>
           <img v-else
-            class="department-item"
-            :key="index"
-            :src="department.cover|cloudImage"
-            :alt="department.name">
+               class="department-item"
+               :key="index"
+               :src="department.cover|cloudImage"
+               :alt="department.name">
         </template>
       </div>
     </PageList>
@@ -35,17 +35,17 @@ export default {
   data() {
     return {
       departmentItems: [],
-      pageSize: 50,
+      pageSize: 12,
       total: 0,
       title: '部门列表',
     }
   },
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
-    let { total, list } = await context.app.$api.department.deparmentList({
+    let {total, list} = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
       page: 1,
-      limit: 50,
+      limit: context.pageSize,
     })
     let menuList = context.store.state.config.menuList
     let ids = context.route.query.menuIds.split(',')
@@ -53,15 +53,15 @@ export default {
     return {
       departmentItems: list,
       total,
-      title,
+      title
     }
   },
   methods: {
     async fetchData(page = 1) {
-      let { total, list } = await this.$api.department.deparmentList({
+      let {total, list} = await this.$api.department.deparmentList({
         type: Number(this.$route.query.params),
         page: page,
-        limit: 50,
+        limit: this.pageSize,
       })
       this.departmentItems = list
       this.total = total
@@ -86,6 +86,7 @@ export default {
 <style scoped lang='scss'>
 .department-list {
   width: 100%;
+
   .title {
     padding-top: 10px;
     font-size: 18px;
@@ -93,13 +94,16 @@ export default {
     color: #4d4d4d;
     margin-bottom: 30px;
   }
+
   .items {
     @include flex-between(flex-start);
     justify-content: flex-start;
     flex-wrap: wrap;
+
     .no-text {
       width: 100%;
     }
+
     .department-item {
       width: 24%;
       min-width: 150px;
@@ -109,9 +113,11 @@ export default {
       margin-bottom: 30px;
       cursor: pointer;
       transition: all 0.3s ease;
+
       img {
         width: 100%;
       }
+
       &:hover {
         transition-timing-function: ease-in-out;
         box-shadow: 0px 10px 8px 0px rgba(214, 202, 202, 0.25);
