@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       departmentItems: [],
-      pageSize: 10,
+      pageSize: 50,
       total: 0,
       title: '部门列表',
     }
@@ -45,7 +45,7 @@ export default {
     let { total, list } = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
       page: 1,
-      limit: 6,
+      limit: 50,
     })
     let menuList = context.store.state.config.menuList
     let ids = context.route.query.menuIds.split(',')
@@ -61,7 +61,7 @@ export default {
       let { total, list } = await this.$api.department.deparmentList({
         type: Number(this.$route.query.params),
         page: page,
-        limit: 6,
+        limit: 50,
       })
       this.departmentItems = list
       this.total = total
