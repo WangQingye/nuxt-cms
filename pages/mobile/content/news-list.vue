@@ -55,7 +55,7 @@ export default {
       const { total, list } = await this.$api.news.newsList({
         page,
         limit: this.pageSize,
-        category_id: this.$route.query.key,
+        category_id: this.$route.query.params,
         // 查全部则tag传空字符串
         tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
       })

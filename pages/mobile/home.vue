@@ -390,6 +390,7 @@ export default {
         .title {
           @include ellipsisBasic(1);
           font-size: 0.12rem;
+          line-height: 0.16rem;
           font-weight: bold;
           color: #4d4d4d;
         }

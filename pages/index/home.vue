@@ -21,15 +21,15 @@
         <img class="back" src="~/static/imgs/home/list-back.png">
         <el-col :span="14" class="left">
           <BigTitle cn-text="中心要闻" en-text="SIC NEWS" showMoreUrl :newsId="homeNewsId" />
-          <el-carousel :interval="3000" class="swiper" height="400px">
-            <el-carousel-item v-for="item in homeNewsList.slice(0,3)" :key="item.id">
+          <el-carousel :interval="3000" class="swiper" height="350px">
+            <el-carousel-item v-for="item in homeNewsList.slice(0,5)" :key="item.id">
               <div class="swiper-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}" @click="clickNews('中心要闻', item.id)">
                 <p class="desc" v-html="item.title">{{ item.title }}</p>
               </div>
             </el-carousel-item>
           </el-carousel>
           <div class="list-container">
-            <div class="list-item" v-for="item in homeNewsList.slice(3)" :key="item.id" @click="clickNews('中心要闻', item.id)">
+            <div class="list-item" v-for="item in homeNewsList.slice(5)" :key="item.id" @click="clickNews('中心要闻', item.id)">
               <el-tag type="warning">{{item.tags[0]}}</el-tag>
               <p class="desc">{{item.title}}</p>
               <p class="date">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</p>
@@ -424,7 +424,7 @@ export default {
             border-radius: 4px 4px 0 0;
             position: relative;
             background-size: cover;
-            height: 400px;
+            height: 350px;
             .desc {
               position: absolute;
               left: 40px;
@@ -439,6 +439,7 @@ export default {
           ::v-deep .el-carousel__indicators--horizontal {
             left: 90%;
             bottom: 2%;
+            width: 140px;
             .el-carousel__button {
               width: 5px;
               height: 5px;
@@ -478,6 +479,8 @@ export default {
           align-items: center;
           border-bottom: 1px solid #f2f4f7;
           padding: 10px 20px;
+          height: 70px;
+          box-sizing: border-box;
           .desc {
             @include ellipsisBasic(2);
             font-size: 16px;

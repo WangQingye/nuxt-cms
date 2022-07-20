@@ -91,13 +91,13 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="主管工作"
+                <el-form-item label="副标题1"
                   class="top-item"
                   required>
                   <el-input v-model="infoForm.job_content"
                     disabled></el-input>
                 </el-form-item>
-                <el-form-item label="工作内容"
+                <el-form-item label="副标题2"
                   class="top-item"
                   required>
                   <el-input v-model="infoForm.post"
@@ -123,7 +123,7 @@
               <el-form-item label="通讯地址">
                 <el-input v-model="infoForm1.address"></el-input>
               </el-form-item>
-              <el-form-item label="人员简介"
+              <el-form-item label="工作内容或个人简介"
                 required>
                 <el-input type="textarea"
                   :rows="4"
@@ -255,7 +255,7 @@ export default {
     },
     testForm() {
       if (!this.infoForm1.intro) {
-        this.$message.error('人员简介不能为空')
+        this.$message.error('工作内容或个人简介不能为空')
         return false
       }
       return true
