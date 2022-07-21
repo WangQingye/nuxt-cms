@@ -9,12 +9,12 @@
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper> -->
-  <el-carousel :interval="3000" height="760px" class="swiper" arrow="never">
+  <el-carousel :interval="3000" height="760px" class="swiper" arrow="never" trigger="click">
     <el-carousel-item v-for="(item,index) in list" :key="index">
       <div class="first-swiper" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
         <p class="big-text" v-html="item.title">{{ item.title }}</p>
         <p class="small-text">{{ item.sub_title }}</p>
-        <p class="button" v-if="item.event_name" @click="clickBanner(item)">{{ item.event_name }}</p>
+        <p class="button" v-if="item.event_name" @click="$utils.goLink(item.event_link)">{{ item.event_name }}</p>
       </div>
     </el-carousel-item>
   </el-carousel>
@@ -73,13 +73,13 @@ export default {
   //     console.log(this.list)
   // },
   methods: {
-    clickBanner(banner) {
-      let subPage = this.$utils.typeToPages[banner.event_type]
-      subPage = this.$utils.typeToPages[banner.event_type]
-      this.$router.push(
-        `/content/${subPage}?param=${banner.event_link}`
-      )
-    },
+    // clickBanner(banner) {
+    //   let subPage = this.$utils.typeToPages[banner.event_type]
+    //   subPage = this.$utils.typeToPages[banner.event_type]
+    //   this.$router.push(
+    //     `/content/${subPage}?param=${banner.event_link}`
+    //   )
+    // },
   },
 }
 </script>

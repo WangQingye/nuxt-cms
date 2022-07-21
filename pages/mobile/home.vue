@@ -5,7 +5,7 @@
         <div class="carousel-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
           <p class="big-text" v-html="item.title">{{ item.title }}</p>
           <p class="small-text">{{ item.sub_title }}</p>
-          <p class="button" v-if="item.event_name" @click="$router.push(item.event_link)">{{ item.event_name }}</p>
+          <p class="button" v-if="item.event_name" @click="$utils.goLink(item.event_link)">{{ item.event_name }}</p>
         </div>
       </el-carousel-item>
     </el-carousel>
