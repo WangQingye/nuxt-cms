@@ -74,20 +74,22 @@ export default {
     let newsList = []
     let personList = []
     // 业务部门需要请求动态和人员
-    if (data.type == 1) {
+    // if (data.type == 1) {
       const newsData = await context.app.$api.department.deparmentNews({
         page: 1,
         limit: 10,
         id: context.route.query.params,
       })
       newsList = newsData
-      const personData = await context.app.$api.department.deparmentPerson({
-        page: 1,
-        limit: 4,
-        key: data.personnel_tag,
-      })
-      personList = personData.list
-    }
+      if (data.personnel_tag) {
+        const personData = await context.app.$api.department.deparmentPerson({
+          page: 1,
+          limit: 4,
+          key: data.personnel_tag,
+        })
+        personList = personData.list
+      }
+    // }
     return { labDetail: data, newsList, personList }
   },
   methods: {
