@@ -60,11 +60,11 @@
         <el-row class="sub-new-list" :gutter="20">
           <el-col v-for="(newItem,index) in subNew.news" :key="newItem.id" :span="newItem.span">
             <div class="sub-item" @click="$utils.goLink(newItem.link)">
+              <span class="link">点击查看<i class="el-icon-arrow-right"></i></span>
               <div class="back-img" :style="{backgroundImage:`url(${$utils.cloudImg(newItem.cover)})`}"></div>
               <div class="back-mask"></div>
               <div class="bottom">
                 <p class="name">{{newItem.name}}</p>
-                <span class="link" v-show="!index">点击查看<i class="el-icon-arrow-right"></i></span>
               </div>
             </div>
           </el-col>
@@ -579,6 +579,19 @@ export default {
           background: rgba(0, 0, 0, 0.2);
           transition: all 0.5s ease-in-out;
         }
+        .link {
+          position: absolute;
+          z-index: 3;
+          right: 20px;
+          top: 15px;
+          color: #fefefe;
+          font-size: 12px;
+          transition: all 0.5s ease-in-out;
+          &:hover {
+            color: $--color-primary;
+            // text-decoration: underline;
+          }
+        }
         .bottom {
           @include flex-between;
           width: 100%;
@@ -592,15 +605,7 @@ export default {
           z-index: 3;
           .name {
             font-size: 20px;
-          }
-          .link {
-            color: #fefefe;
-            font-size: 12px;
-            transition: all 0.5s ease-in-out;
-            &:hover {
-              color: $--color-primary;
-              // text-decoration: underline;
-            }
+            @include ellipsisBasic(1);
           }
         }
         &:hover {
