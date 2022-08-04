@@ -30,7 +30,7 @@ export default {
         '标签7',
         '标签8',
       ],
-      pageSize: 10,
+      pageSize: 12,
       total: 11
     }
   },
@@ -41,7 +41,7 @@ export default {
     let {list, total} = await context.app.$api.news.newsList({
       category_id: context.query.params,
       page: 1,
-      limit: 10,
+      limit: 12,
       tag: '',
     })
     return {
