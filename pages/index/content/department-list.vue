@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       departmentItems: [],
-      pageSize: 12,
+      pageSize: 32,
       total: 0,
       title: '部门列表',
     }
@@ -44,8 +44,8 @@ export default {
     await context.app.$utils.getInitData(context)
     let {total, list} = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
-      page: 1,
-      limit: context.pageSize,
+      page: context.route.query.page ? Number(context.route.query.page) : 1,
+      limit: 32,
     })
     let menuList = context.store.state.config.menuList
     let ids = context.route.query.menuIds.split(',')

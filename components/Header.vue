@@ -137,7 +137,6 @@ export default {
       )
       let subPage = this.$utils.typeToPages[item.event_type]
       if (subPage) {
-        console.log(`/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`)
         return `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
       } else {
         return '#'
@@ -172,9 +171,11 @@ export default {
     },
     async handleUlogin() {
       let callback = window.location.href
-      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
-      localStorage.removeItem(tokenName)
-      window.location.href = authorize_url
+      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })      
+      if (authorize_url) {
+        localStorage.removeItem(tokenName)
+        window.location.href = authorize_url
+      }
     },
     async handleLogout() {
       await this.logout()

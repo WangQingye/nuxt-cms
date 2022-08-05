@@ -58,7 +58,6 @@ export default {
   methods: {
     // submit 之后会触发此方法
     httpRequest(request) {
-      console.log(request)
       const { action, data, filename } = request
       // 新建formDate对象
       let formData = new FormData()

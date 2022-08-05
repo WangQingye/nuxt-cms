@@ -65,7 +65,6 @@ export default {
   methods: {
     doPrint() {
       var printHtml = document.getElementById('content-print').innerHTML //这个元素的样式需要用内联方式，不然在新开打印对话框中没有样式
-      console.log(printHtml)
       var wind = window.open(
         '',
         'newwindow',

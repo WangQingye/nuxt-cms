@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     async fetchData(page = 1) {
-      console.log(page)
       const { total, list } = await this.$api.department.deparmentPerson({
         page,
         limit: this.pageSize,
@@ -53,7 +52,6 @@ export default {
       })
       this.total = total
       this.departmentDetail.personList = list
-      console.log(this.departmentDetail.personList)
     },
     async getInfo() {
       let detail = await this.$api.department.deparmentDetail({

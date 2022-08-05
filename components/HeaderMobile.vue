@@ -195,9 +195,11 @@ export default {
     },
     async handleUlogin() {
       let callback = window.location.href
-      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
-      localStorage.removeItem(tokenName)
-      window.location.href = authorize_url
+      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })      
+      if (authorize_url) {
+        localStorage.removeItem(tokenName)
+        window.location.href = authorize_url
+      }
     },
   },
   computed: {

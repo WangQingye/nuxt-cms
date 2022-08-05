@@ -93,7 +93,6 @@ export default {
     let data = await context.app.$api.department.personDetail({
       id: context.params.id,
     })
-    console.log(data)
     let activeNames = data.labels && data.labels.map((labal, index) => {
       return index
     })

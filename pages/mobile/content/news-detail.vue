@@ -71,7 +71,6 @@ export default {
     return { news: data, isSinglePage }
   },
   mounted() {
-    console.log(this.news)
     // this.$refs.detail.innerHTML = this.news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)
     // const { id } = this.$route.query
     // console.log(this.$route.query)

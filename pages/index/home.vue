@@ -248,7 +248,6 @@ export default {
     })
     let homeNoticeList = data1.list
     let wechatQrImg = context.app.store.state.config.webConfig.wechat_qr
-    console.log(context.app.store.state.config.webConfig)
     return {
       bannerList: banner,
       middleBanner,

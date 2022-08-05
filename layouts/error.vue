@@ -23,7 +23,6 @@ export default {
     if (this.$route.query.msg) {
       this.msg = this.$route.query.msg
     }
-    console.log(this.error)
   },
   methods: {
     goBack() {
