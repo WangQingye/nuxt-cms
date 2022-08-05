@@ -11,7 +11,10 @@
       <p class="news-title">
         {{ news.title || news.name }}
       </p>
-      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>      
+      <!-- <div>
+        <sapn class="attachment">附件1：<span class="name">HPC培训.pdf</span></sapn>
+      </div> -->
     </div>
     <div class="bottom" v-show="!isSinglePage">
       <div class="left">
@@ -128,6 +131,7 @@ export default {
 .content-print-mobile {
   line-height: 0.25rem;
   font-size: 0.15rem;
+  border-bottom: 0.01rem #f5f5fc solid;
   padding: 0;
   img {
     max-width: 100%;
@@ -180,8 +184,23 @@ export default {
   }
   .detail {
     border-top: 0.01rem #f5f5fc solid;
-    border-bottom: 0.01rem #f5f5fc solid;
     padding: 0.1rem 0 0.3rem 0;
+  }
+  .attachment {
+    padding: 0.12rem 0.2rem 0.12rem 0.15rem;
+    border-radius: 0.04rem;
+    display: inline-block;
+    box-sizing: border-box;
+    background-color: $--color-primary-light;
+    color: #4d4d4d;
+    margin-bottom: 0.1rem;
+    .name {
+      color: $--color-primary;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
   .bottom {
     margin-top: 0.15rem;

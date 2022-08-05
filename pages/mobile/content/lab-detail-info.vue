@@ -65,37 +65,40 @@ export default {
     let personList = []
     // 业务部门需要请求动态和人员
     // if (data.type == 1) {
-      const newsData = await context.app.$api.department.deparmentNews({
+    const newsData = await context.app.$api.department.deparmentNews({
+      page: 1,
+      limit: 10,
+      id: context.route.query.params,
+    })
+    newsList = newsData
+    if (data.personnel_tag) {
+      const personData = await context.app.$api.department.deparmentPerson({
         page: 1,
-        limit: 10,
-        id: context.route.query.params,
+        limit: 4,
+        key: data.personnel_tag,
       })
-      newsList = newsData
-      if (data.personnel_tag) {
-        const personData = await context.app.$api.department.deparmentPerson({
-          page: 1,
-          limit: 4,
-          key: data.personnel_tag,
-        })
-      }
-      personList = personData.list
+    }
+    personList = personData.list
     // }
     return { labDetail: data, newsList, personList }
   },
   methods: {
     async fetchData() {
+      this.newsList = []
+      this.personList = []
       let data = await this.$api.department.labDetail({
         id: this.$route.query.params,
       })
       this.labDetail = data
       // 业务部门需要请求动态和人员
-      if (data.type == 1) {
-        const newsData = await this.$api.department.deparmentNews({
-          page: 1,
-          limit: 10,
-          id: this.$route.query.params,
-        })
-        this.newsList = newsData
+      // if (data.type == 1) {
+      const newsData = await this.$api.department.deparmentNews({
+        page: 1,
+        limit: 10,
+        id: this.$route.query.params,
+      })
+      this.newsList = newsData
+      if (data.personnel_tag) {
         const personData = await this.$api.department.deparmentPerson({
           page: 1,
           limit: 4,
@@ -103,6 +106,7 @@ export default {
         })
         this.personList = personData.list
       }
+      // }
     },
   },
   watch: {

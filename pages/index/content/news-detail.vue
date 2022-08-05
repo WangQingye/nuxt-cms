@@ -25,6 +25,9 @@
       <div ref="detail"
         v-if="news.content"
         v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+        <div style="margin-top: 50px;">
+          <sapn class="attachment">附件1：<span class="name">HPC培训.pdf</span></sapn>
+        </div>
     </div>
     <div v-show="!isSinglePage"
       class="bottom">
@@ -182,7 +185,19 @@ export default {
     padding-top: 10px;
     @include flex-between;
   }
-
+  .attachment {
+    padding: 12px 20px 12px 15px;
+    border-radius: 4px;
+    background-color: $--color-primary-light;
+    color: #4d4d4d;
+    .name {
+      color: $--color-primary;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   .bottom {
     margin-top: 40px;
     @include flex-between;
