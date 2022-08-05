@@ -61,6 +61,7 @@ export default {
   .right {
     width: 100%;
     height: 110px;
+    flex: 1;
     .top {
       @include flex-between;
       justify-content: flex-start;

@@ -74,6 +74,7 @@ export default {
   }
   .right {
     width: 100%;
+    flex: 1;
     // height: 0.88rem;
     height: 0.75rem;
     display: flex;
