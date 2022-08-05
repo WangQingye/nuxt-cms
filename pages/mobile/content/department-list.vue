@@ -35,15 +35,15 @@ export default {
   data() {
     return {
       departmentItems: [],
-      pageSize: 10,
+      pageSize: 12,
       total: 0,
     }
   },
   async asyncData(context) {
     let {total, list} = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
-      page: Number(context.route.query.page) || 1,
-      limit: context.pageSize,
+      page: 1,
+      limit: 12,
     })
     return {
       departmentItems: list,

@@ -44,7 +44,7 @@ export default {
     await context.app.$utils.getInitData(context)
     let {total, list} = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
-      page: context.route.query.page ? Number(context.route.query.page) : 1,
+      page: Number(context.route.query.page) || 1,
       limit: 32,
     })
     let menuList = context.store.state.config.menuList
