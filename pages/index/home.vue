@@ -422,17 +422,24 @@ export default {
             cursor: pointer;
             border-radius: 4px 4px 0 0;
             position: relative;
-            background-size: cover;
+            background-size: 100% auto;
             height: 350px;
             .desc {
               position: absolute;
-              left: 40px;
-              bottom: 40px;
+              left: 0px;
+              bottom: 0px;
+              padding: 30px 40px;
+              box-sizing: border-box;
               color: #fefefe;
               font-size: 20px;
               line-height: 30px;
-              width: 80%;
+              width: 100%;
               @include ellipsisBasic(2);
+              background-image: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.8),
+                rgba(0, 0, 0, 0)
+              );
             }
           }
           ::v-deep .el-carousel__indicators--horizontal {
