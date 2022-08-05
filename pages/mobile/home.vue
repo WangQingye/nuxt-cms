@@ -30,7 +30,7 @@
       </el-carousel>
       <div class="new-item-container">
         <div class="new-item" v-for="news in homeNewsList.slice(5)" :key="news.id" @click="clickNews('中心要闻', news.id)">
-          <el-tag type="warning" class="tag">{{news.tags[0]}}</el-tag>
+          <el-tag type="warning" class="tag">{{(item.tags && item.tags.length) ? item.tags[0] : item.category.name}}</el-tag>
           <p class="title">{{news.title}}</p>
         </div>
       </div>
