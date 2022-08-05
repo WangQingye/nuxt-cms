@@ -77,8 +77,8 @@ export default {
         limit: 4,
         key: data.personnel_tag,
       })
+      personList = personData.list
     }
-    personList = personData.list
     // }
     return { labDetail: data, newsList, personList }
   },

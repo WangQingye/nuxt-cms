@@ -82,7 +82,7 @@ export default {
     flex-direction: column;
     .top {
       width: 100%;
-      margin-bottom: 0.11rem;
+      margin-bottom: 0.15rem;
       position: relative;
       .top-left {
         @include flex-between;
