@@ -1,5 +1,7 @@
 <template>
-  <div class="main" v-show="show">
+  <div class="main"
+    ref="mainDiv"
+    v-show="show">
     <Header />
     <nuxt-child style="padding-top: 80px"></nuxt-child>
     <Footer />
@@ -37,6 +39,24 @@ export default {
     let token = localStorage.getItem(tokenName)
     if (token) {
       this.$store.dispatch('user/getUserInfo')
+    }
+    if (window.screen.width < 1400) {
+      var curWidth = window.screen.width
+      var tarWidth = 1400
+      var scalc = curWidth / tarWidth
+      //创建新的标签
+      var meta = document.createElement('meta')
+      meta.name = 'viewport'
+      meta.content =
+        'initial-scale=' +
+        scalc +
+        ',minimum-scale=' +
+        scalc +
+        ',maximum-scale=' +
+        scalc +
+        ',user-scalable=no'
+      //插入到head的子元素
+      document.head.appendChild(meta)
     }
     this.show = true
   },
