@@ -18,7 +18,7 @@
             <NuxtLink class="tab tab-link" :key="tab.id" v-if="tab.event_type == 'navigationTo'" @click="$router.push(tab.event_link)" :to="tab.event_link">
               {{tab.name}}
             </NuxtLink>
-            <el-popover v-else placement="bottom" trigger="hover" :key="tab.id">
+            <el-popover v-else placement="bottom" :ref="`popover${tab.id}`" trigger="hover" :key="tab.id">
               <div>
                 <div :class="['tab-container', tab.children.length == 1 ? 'tab-container-single' : '']" v-for="tabChild in tab.children" :key="tabChild.name">
                   <span v-show="tabChild.name" class="tab-title">
@@ -143,6 +143,7 @@ export default {
       }
     },
     handleClick(tab, child) {
+      console.log(tab)
       let c
       // 如果有下一级，那么默认跳到下一级的第一个选项
       if (child.children && child.children.length) {
@@ -171,7 +172,7 @@ export default {
     },
     async handleUlogin() {
       let callback = window.location.href
-      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })      
+      const { authorize_url } = await this.$api.user.AuthorizeCode({ callback })
       if (authorize_url) {
         localStorage.removeItem(tokenName)
         window.location.href = authorize_url
@@ -196,6 +197,10 @@ export default {
         this.isHomePage = val == 'index-home'
         this.isSearchPage = val == 'index-search'
         this.showHeaderTop = val == 'index-home'
+        this.menuList.forEach(tab => {
+          console.log(this.$refs[`popover${tab.id}`])
+          this.$refs[`popover${tab.id}`] && this.$refs[`popover${tab.id}`].length && this.$refs[`popover${tab.id}`][0].doClose()
+        });
       },
     },
   },

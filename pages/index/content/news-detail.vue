@@ -26,7 +26,7 @@
         v-if="news.content"
         v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
         <div style="margin-top: 50px;">
-          <sapn class="attachment">附件1：<span class="name">HPC培训.pdf</span></sapn>
+          <span class="attachment">附件1：<span class="name">HPC培训.pdf</span></span>
         </div>
     </div>
     <div v-show="!isSinglePage"
