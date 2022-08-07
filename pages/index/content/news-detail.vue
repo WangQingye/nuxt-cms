@@ -28,10 +28,10 @@
       <div class="attachments"
         v-show="news.attachment && news.attachment.length">
         <div
-          v-for="file in news.attachment"
+          v-for="(file,index) in news.attachment"
           :key="file.name">
-          <p  class="attachment" style="display: inline-block">
-            附件1：<span class="name" @click="$utils.goLink(file.url)">{{file.name}}</span>
+          <p class="attachment" style="display: inline-block">
+            附件{{index + 1}}：<span class="name" @click="$utils.goLink($utils.cloudImg(file.url))">{{file.name}}</span>
           </p>
         </div>
       </div>
@@ -137,6 +137,9 @@ export default {
       this.news = data
       this.isSinglePage = isSinglePage
     },
+    getFile(url) {
+      this.$utils.goLink(url)
+    }
   },
   watch: {
     '$route.query.params': {
