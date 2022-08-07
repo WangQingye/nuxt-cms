@@ -2,10 +2,10 @@
   <div :class="['header', isHomePage && !showSearch ? '':'header-hover']" v-show="!isSearchPage">
     <div :class="['header-top', showHeaderTop ? 'header-top-show':'header-top-hide']">
       <div>
-        <NuxtLink v-for="(link,index) in headerLinksLeft" class="link" :key="index" :to="link.link">{{link.title}}<span v-show="index != headerLinksLeft.length - 1" > ·</span></NuxtLink>
+        <a v-for="(link,index) in headerLinksLeft" class="link" :key="index" :href="link.link" target="_blank">{{link.title}}<span v-show="index != headerLinksLeft.length - 1" > ·</span></a>
       </div>
       <div>
-        <NuxtLink v-for="(link,index) in headerLinksRight" class="link" :key="index" :to="link.link">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></NuxtLink>
+        <a v-for="(link,index) in headerLinksRight" class="link" :key="index" :to="link.link" target="_blank">{{link.title}}<span v-show="index != headerLinksRight.length - 1"> ·</span></a>
       </div>
     </div>
     <div class="header-bottom">

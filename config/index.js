@@ -4,46 +4,32 @@ module.exports = {
   baseUrl: 'http://cms.vispp.cn/api',
   tokenName: 'AccessToken',
   // 顶部细条菜单左侧
-  headerLinksLeft: [{
-      title: 'OA入口',
-      link: 'http://www.baidu.com'
-    },
+  headerLinksLeft: [
     {
       title: '常见问题',
-      link: 'http://www.baidu.com'
-    },
-    {
-      title: '用户指南',
-      link: 'http://www.baidu.com'
+      link: 'http://202.121.181.114/content/news-list?menuIds=2,7,16&params=2&singlePage=1'
     },
     {
       title: '成绩查询',
-      link: 'http://www.baidu.com'
+      link: 'http://i.sjtu.edu.cn'
     }
   ],
   // 顶部细条菜单右侧
-  headerLinksRight: [{
-      title: '旧版网站',
-      link: 'http://www.baidu.com'
-    },
+  headerLinksRight: [
     {
       title: '内容搜索',
-      link: 'http://www.baidu.com'
+      link: '/search'
     }
   ],
   // 底部菜单右侧
   footerLinksRight: [
     {
-      title: '投诉建议',
-      link: 'http://www.baidu.com'
+      title: '常见问题',
+      link: 'http://202.121.181.114/content/news-list?menuIds=2,7,16&params=2&singlePage=1'
     },
     {
-      title: 'OA入口',
-      link: 'http://www.baidu.com'
-    },
-    {
-      title: '用户指南',
-      link: 'http://www.baidu.com'
+      title: '成绩查询',
+      link: 'http://i.sjtu.edu.cn'
     }
   ],
   // 个人用户中心
