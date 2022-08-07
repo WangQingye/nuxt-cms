@@ -136,9 +136,6 @@ export default {
       }
       this.news = data
       this.isSinglePage = isSinglePage
-    },
-    getFile(url) {
-      this.$utils.goLink(url)
     }
   },
   watch: {
