@@ -28,10 +28,10 @@
       <div class="attachments"
         v-show="news.attachment && news.attachment.length">
         <div
-          v-for="file in news.attachment"
+          v-for="(file,idx) in news.attachment"
           :key="file.name">
           <p  class="attachment" style="display: inline-block">
-            附件1：<span class="name" @click="$utils.goLink(file.url)">{{file.name}}</span>
+            附件{{idx+1}}：<a class="name" :href="$options.filters['cloudImage'](file.url)">{{file.name}}</a>
           </p>
         </div>
       </div>

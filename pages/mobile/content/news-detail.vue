@@ -11,10 +11,12 @@
       <p class="news-title">
         {{ news.title || news.name }}
       </p>
-      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>      
-      <!-- <div>
-        <sapn class="attachment">附件1：<span class="name">HPC培训.pdf</span></sapn>
-      </div> -->
+      <div class="detail" ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+       <div v-if="news.attachment && news.attachment.length >0">
+        <span v-for="(option,idx) in news.attachment" :key="idx" class="attachment">
+          附件{{idx+1}}：<a class="name" :href="$options.filters['cloudImage'](option.url)">{{ option.name }}</a>
+        </span>
+      </div>
     </div>
     <div class="bottom" v-show="!isSinglePage">
       <div class="left">
