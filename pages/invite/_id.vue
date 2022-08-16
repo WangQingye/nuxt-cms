@@ -44,10 +44,10 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="副标题1" class="top-item" required>
-                  <el-input v-model="infoForm.job_content" disabled></el-input>
-                </el-form-item>
-                <el-form-item label="副标题2" class="top-item" required>
                   <el-input v-model="infoForm.post" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="副标题2" class="top-item">
+                  <el-input v-model="infoForm.job_content" disabled></el-input>
                 </el-form-item>
               </div>
               <CropperUpload action="/file/upload" @upload-success="uploadPhotoSuccess" :fixedNumber="[140, 190]">
@@ -230,7 +230,7 @@ export default {
       return true
     },
     async submit() {
-      if (!this.testForm()) return 
+      if (!this.testForm()) return
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
