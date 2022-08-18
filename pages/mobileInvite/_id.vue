@@ -94,13 +94,13 @@
                 <el-form-item label="副标题1"
                   class="top-item"
                   required>
-                  <el-input v-model="infoForm.job_content"
+                  <el-input v-model="infoForm.post"
                     disabled></el-input>
                 </el-form-item>
                 <el-form-item label="副标题2"
                   class="top-item"
                   required>
-                  <el-input v-model="infoForm.post"
+                  <el-input v-model="infoForm.job_content"
                     disabled></el-input>
                 </el-form-item>
               </div>
@@ -240,7 +240,7 @@ export default {
       this.showInfo = true
     },
     async preview() {
-      if (!this.testForm()) return 
+      if (!this.testForm()) return
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
@@ -261,7 +261,7 @@ export default {
       return true
     },
     async submit() {
-      if (!this.testForm()) return 
+      if (!this.testForm()) return
       let res = await this.$api.department.personUpdate({
         urlcode: this.$route.params.id,
         code: this.inviteCode,
