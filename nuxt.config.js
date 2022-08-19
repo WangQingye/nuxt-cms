@@ -41,16 +41,10 @@ export default {
     '@/plugins/element-ui',
     '@/plugins/api',
     '@/plugins/filters',
-    {
-      src: '~/plugins/swiper.js',
-      ssr: false
-    },
+    {src: '~/plugins/swiper.js', ssr: false},
     '@/plugins/utils',
-    {
-      src: '~/plugins/cropper.js',
-      ssr: false
-    },
-    "@/plugins/goatcounter"
+    {src: '~/plugins/cropper.js', ssr: false},
+    {src: "@/plugins/goatcounter", ssr: false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
