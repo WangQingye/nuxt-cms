@@ -29,7 +29,7 @@
           <p class="position" v-show="personDetail.homepage">个人主页：{{personDetail.homepage }}</p>
         </div>
       </div>
-      <p class="desc">{{personDetail.intro}}
+      <p class="desc" v-html="personDetail.intro">
       </p>
       <el-collapse v-model="activeNames">
         <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">

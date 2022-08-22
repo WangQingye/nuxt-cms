@@ -27,7 +27,7 @@
       </div>
       <div class="intro">
         <p class="title">简介</p>
-        <p class="text">{{personDetail.intro}}</p>
+        <p class="text" v-html="personDetail.intro"></p>
       </div>
       <el-collapse v-model="activeNames">
         <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">

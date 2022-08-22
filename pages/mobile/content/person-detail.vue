@@ -29,7 +29,7 @@
           <p class="position" v-show="personDetail.homepage">个人主页：{{personDetail.homepage }}</p>
         </div>
       </div>
-      <p class="desc">{{personDetail.intro}}
+      <p class="desc" v-html="personDetail.intro">
       </p>
       <el-collapse v-model="activeNames">
         <el-collapse-item v-for="(info,index) in personDetail.labels" :key="index" :name="index">
@@ -95,9 +95,11 @@ export default {
     let data = await context.app.$api.department.personDetail({
       id: context.route.query.params,
     })
-    let activeNames = data.labels && data.labels.map((labal, index) => {
-      return index
-    })
+    let activeNames =
+      data.labels &&
+      data.labels.map((labal, index) => {
+        return index
+      })
     return { personDetail: data, activeNames }
   },
   mounted() {},
@@ -191,7 +193,7 @@ export default {
     height: 34px;
     line-height: 34px;
     border: none;
-    margin-bottom:0.05rem;
+    margin-bottom: 0.05rem;
 
     i {
       font-size: 15px;
