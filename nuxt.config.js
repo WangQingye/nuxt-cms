@@ -4,8 +4,8 @@ export default {
   head: {
     title: config.defaultWebSiteName,
     meta: [{
-        charset: 'utf-8'
-      },
+      charset: 'utf-8'
+    },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1'
@@ -37,13 +37,15 @@ export default {
   css: ['@/assets/scss/reset.scss', 'element-ui/lib/theme-chalk/index.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/element-ui', '@/plugins/api', '@/plugins/filters', {
-    src: '~/plugins/swiper.js',
-    ssr: false
-  }, '@/plugins/utils', {
-    src: '~/plugins/cropper.js',
-    ssr: false
-  }, ],
+  plugins: [
+    '@/plugins/element-ui',
+    '@/plugins/api',
+    '@/plugins/filters',
+    {src: '~/plugins/swiper.js', ssr: false},
+    '@/plugins/utils',
+    {src: '~/plugins/cropper.js', ssr: false},
+    {src: "@/plugins/goatcounter", ssr: false}
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
