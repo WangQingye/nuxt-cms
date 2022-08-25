@@ -14,6 +14,16 @@
         {{ news.title || news.name }}
       </p>
       <div ref="detail" v-if="news.content" v-html='news.content.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+      <div class="attachments"
+        v-show="news.attachment && news.attachment.length">
+        <div
+          v-for="(file,index) in news.attachment"
+          :key="file.name">
+          <p class="attachment" style="display: inline-block">
+            附件{{index + 1}}：<span class="name" @click="$utils.goLink($utils.cloudImg(file.url))">{{file.name}}</span>
+          </p>
+        </div>
+      </div>
     </div>
     <div v-show="!isSinglePage" class="bottom">
       <div class="left">
@@ -144,6 +154,26 @@ export default {
   .top {
     padding-top: 10px;
     @include flex-between;
+  }
+  .attachments {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    .attachment {
+      padding: 12px 20px 12px 15px;
+      border-radius: 4px;
+      background-color: $--color-primary-light;
+      color: #4d4d4d;
+      display: inline-block;
+      margin-bottom: 10px;
+      .name {
+        color: $--color-primary;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   .bottom {
