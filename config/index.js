@@ -12,6 +12,10 @@ module.exports = {
     {
       title: '成绩查询',
       link: 'http://i.sjtu.edu.cn'
+    },
+    {
+      title: 'OA入口',
+      link: '#'
     }
   ],
   // 顶部细条菜单右侧
