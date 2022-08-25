@@ -21,11 +21,10 @@
       <li @click="next">
         <NuxtLink :to="getLink(1)"
           v-if="currentPage != totalPage">
-          <i class="el-icon-arrow-right icon"
-            style="margin-right:0"></i>
+          <i class="el-icon-arrow-right icon"></i>
         </NuxtLink>
         <i class="el-icon-arrow-right icon"
-          style="margin-right:0;cursor: not-allowed"
+          style="cursor: not-allowed"
           v-else></i>
       </li>
       <li>
