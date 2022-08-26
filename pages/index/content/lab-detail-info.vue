@@ -84,7 +84,7 @@ export default {
     if (data.personnel_tag) {
       const personData = await context.app.$api.department.deparmentPerson({
         page: 1,
-        limit: 4,
+        limit: 1000,
         key: data.personnel_tag,
       })
       personList = personData.list
@@ -111,7 +111,7 @@ export default {
       if (data.personnel_tag) {
         const personData = await this.$api.department.deparmentPerson({
           page: 1,
-          limit: 4,
+          limit: 1000,
           key: data.personnel_tag,
         })
         this.personList = personData.list
