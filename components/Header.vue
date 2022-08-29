@@ -219,7 +219,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.1);
   .header-top {
     height: 39px;
-    font-size: 12px;
+    font-size: 14px;
     padding: 0 10%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -270,11 +270,11 @@ export default {
         position: relative;
         z-index: 2;
         .tab {
-          width: 80px;
+          width: 95px;
           // padding: 0 20px;
           margin: 0 16px;
           cursor: pointer;
-          font-size: 15px;
+          font-size: 18px;
           text-align: center;
           display: inline-block;
           color: white;
@@ -438,6 +438,23 @@ export default {
   opacity: 0;
   transform: translateY(-100px);
 }
+@media screen and (max-width: 1500px) {
+  .header {
+    .header-top {
+      font-size: 12px;
+    }
+    .header-bottom {
+      .header-right {
+        .header-tabs {
+          .tab {
+            width: 80px;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+  }
+}
 </style>
 <style lang="scss">
 .el-popover__reference-wrapper {
@@ -499,6 +516,7 @@ export default {
     border-bottom: 1px solid #f2f2f2;
     margin-bottom: 10px;
     line-height: 34px;
+    font-size: 16px;
   }
   .tab-link {
     height: 34px;
@@ -507,6 +525,7 @@ export default {
     display: block;
     text-decoration: none;
     color: #1a1a1a;
+    font-size: 16px;
     // background-color:
   }
   .tab-link:hover {
@@ -519,5 +538,15 @@ export default {
 }
 .tab-container:last-child {
   margin-right: 0px;
+}
+@media screen and (max-width: 1500px) {
+  .tab-container {
+    .tab-title {
+      font-size: 14px;
+    }
+    .tab-link {
+      font-size: 14px;
+    }
+  }
 }
 </style>
