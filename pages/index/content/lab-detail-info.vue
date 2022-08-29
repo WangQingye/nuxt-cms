@@ -19,8 +19,9 @@
           <p class="position" style="margin-bottom: 20px">{{labDetail.sub_name}}</p>
           <p class="position" v-show="labDetail.address">通讯地址：{{labDetail.address}}</p>
           <p class="position" v-show="labDetail.tel">办公电话：{{labDetail.tel}}</p>
-          <!-- <p class="position">负责人：{{labDetail.head }}</p> -->
+          <p class="position" v-show="labDetail.head">负责人：{{labDetail.head }}</p>
           <p class="position" v-show="labDetail.email">邮件地址：{{labDetail.email}}</p>
+          <p class="position" v-show="labDetail.homepage">官网地址：{{labDetail.homepage}}</p>
         </div>
       </div>
       <div v-html='labDetail.desc.replace(/src="media/g, `src="${imgDomain}`)' class="content-print"></div>
