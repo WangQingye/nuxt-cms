@@ -19,9 +19,10 @@ export default function (context) {
   if (context.isMoible && context.route.path.indexOf('mobile') == -1) {
     if (context.route.path.indexOf('invite') > -1 ) {
       context.redirect(context.route.fullPath.replace('/invite', '/mobileInvite'))
-      // 邀请页没有手机版，所以就不转了
     } else if (context.route.path.indexOf('preview') > -1) {
       context.redirect(context.route.fullPath.replace('/preview', '/mobilePreview'))
+    } else if (context.route.path.indexOf('update') > -1) {
+      // 升级页没有手机版，所以就不转了
     } else {
       context.redirect(`/mobile${context.route.fullPath}`)
     }
