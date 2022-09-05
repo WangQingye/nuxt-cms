@@ -143,7 +143,6 @@ export default {
       }
     },
     handleClick(tab, child) {
-      console.log(tab)
       let c
       // 如果有下一级，那么默认跳到下一级的第一个选项
       if (child.children && child.children.length) {
@@ -198,7 +197,6 @@ export default {
         this.isSearchPage = val == 'index-search'
         this.showHeaderTop = val == 'index-home'
         this.menuList.forEach(tab => {
-          console.log(this.$refs[`popover${tab.id}`])
           this.$refs[`popover${tab.id}`] && this.$refs[`popover${tab.id}`].length && this.$refs[`popover${tab.id}`][0].doClose()
         });
       },

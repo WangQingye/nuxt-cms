@@ -53,4 +53,10 @@ export default $axios => ({
       url: '/institution/detail', method: 'post', data
     })
   },
+  // 人员标签列表
+  personnelTags(data) {
+    return $axios({
+      url: '/personnel/tags', method: 'post', data
+    })
+  },
 })

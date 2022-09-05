@@ -28,7 +28,7 @@
               @click="$utils.goLink(userCenter)">
               <el-avatar :src="user.avatar|cloudImage"></el-avatar>
               <span class="name">{{user.nickname}}</span>
-              <i class="el-icon-arrow-right icon"></i>
+              <i class="el-icon-arrow-right" style="font-size: 0.14rem"></i>
             </div>
             <el-button style="width: 1.64rem"
               type="primary"

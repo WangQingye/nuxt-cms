@@ -288,6 +288,7 @@ const typeToPages = {
   'pageTo': 'news-detail',
   'institutionTo': 'lab-detail-info',
   'personnelTo': 'department-detail',
+  'personnelTagTo': 'personnel-list',
   'institutionTypeTo': 'department-list'
 }
 // Vue.prototype.$utils = {
