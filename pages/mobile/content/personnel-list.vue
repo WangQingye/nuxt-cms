@@ -24,7 +24,7 @@ export default {
   },
   async asyncData(context) {
     let list = await context.app.$api.department.personnelTags({
-      type: Number(context.route.query.params),
+      type: 'office',
     })
     return {
       departmentItems: list,
@@ -33,7 +33,7 @@ export default {
   methods: {
     async fetchData(page = 1) {
       let list = await this.$api.department.personnelTags({
-        type: Number(this.$route.query.params),
+        type: 'office',
       })
       this.departmentItems = list
     },
@@ -78,6 +78,7 @@ export default {
     .department-item {
       width: 48%;
       min-width: 1.6rem;
+      min-height: 0.9rem;
       // max-width: 330px;
       margin-right: 4%;
       margin-bottom: 0.12rem;
@@ -87,7 +88,7 @@ export default {
         width: 100%;
       }
       p {
-        line-height: 0.5rem;
+        line-height: 0.9rem;
         text-align: center;
         color: #4d4d4d;
       }

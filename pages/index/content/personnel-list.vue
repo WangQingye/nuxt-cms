@@ -29,7 +29,7 @@ export default {
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
     let list = await context.app.$api.department.personnelTags({
-      type: Number(context.route.query.params),
+      type: 'office',
     })
     let menuList = context.store.state.config.menuList
     let ids = context.route.query.menuIds.split(',')
@@ -42,7 +42,7 @@ export default {
   methods: {
     async fetchData() {
       let list = await this.$api.department.personnelTags({
-        type: Number(this.$route.query.params),
+        type: 'office',
       })
       this.departmentItems = list
       let menuList = this.$store.state.config.menuList
@@ -79,6 +79,7 @@ export default {
     @include flex-between(flex-start);
     justify-content: flex-start;
     flex-wrap: wrap;
+    align-items: center;
     a {
       text-decoration: none;
     }
@@ -88,8 +89,7 @@ export default {
 
     .department-item {
       width: 24%;
-      min-width: 150px;
-      min-height: 70px;
+      min-height: 100px;
       // max-width: 330px;
       margin-right: 1.33%;
       margin-bottom: 30px;
@@ -97,7 +97,7 @@ export default {
       transition: all 0.3s ease;
       p {
         text-decoration: none;
-        line-height: 70px;
+        line-height: 100px;
         text-align: center;
         color: #4d4d4d;
       }
