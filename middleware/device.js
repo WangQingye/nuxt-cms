@@ -1,3 +1,4 @@
+var config = require('../config')
 function isMoible(UA) {
   if (UA.indexOf('Pad') > -1 || UA.indexOf('pad') > -1) {
     return false
@@ -6,8 +7,10 @@ function isMoible(UA) {
     true :
     false;
 }
-
 export default function (context) {
+  if (config.isUpdate) {
+    context.redirect('/update')
+  }
   context.userAgent = process.server ?
     context.req.headers["user-agent"] :
     navigator.userAgent;

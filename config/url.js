@@ -5,5 +5,7 @@ module.exports = {
   baseUrl: `${url}api`,
   tokenName: 'AccessToken',
   // 个人用户中心
-  userCenter: 'http://account.u-auth.com/'
+  userCenter: 'http://account.u-auth.com/',
+  // 是否展示更新(如果为true，所有路由都将指向update)
+  isUpdate: false
 }
