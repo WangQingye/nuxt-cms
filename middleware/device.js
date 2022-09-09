@@ -16,7 +16,8 @@ export default function (context) {
     navigator.userAgent;
   context.isMoible = isMoible(context.userAgent);
   if (context.route.path === '/') {
-    context.redirect(context.isMoible ? `/mobile/home` : '/home')
+    context.redirect('/update')
+    // context.redirect(context.isMoible ? `/mobile/home` : '/home')
   }
   // PC转移动
   if (context.isMoible && context.route.path.indexOf('mobile') == -1) {
