@@ -25,7 +25,7 @@
                     <i class="el-icon-date" style="margin-right: 5px"></i>
                     {{tabChild.name}}
                   </span>
-                  <NuxtLink class="tab-link" v-for="child in tabChild.children" :key="child.url" @click="handleClick(tab, child)" :to="getLinkHref(child)" :title="child.name">{{child.name}}</NuxtLink>
+                  <NuxtLink class="tab-link" v-for="child in tabChild.children" :key="child.url"  :to="getLinkHref(child)" :title="child.name">{{child.name}}</NuxtLink>
                 </div>
               </div>
                 <span class="tab" slot="reference">{{tab.name}}<i class="el-icon-arrow-down el-icon--right"></i></span>
@@ -135,39 +135,19 @@ export default {
         this.$store.state.config.menuList,
         title
       )
+      if (c.event_type == "navigationTo") {
+        if (c.event_link.indexOf('http') > -1) {
+          return c.event_link
+        } else {
+          return `${c.event_link}?menuIds=${ids}&singlePage=1`
+        }
+      }
       let subPage = this.$utils.typeToPages[item.event_type]
       if (subPage) {
         return `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
       } else {
         return '#'
       }
-    },
-    handleClick(tab, child) {
-      let c
-      // 如果有下一级，那么默认跳到下一级的第一个选项
-      if (child.children && child.children.length) {
-        c = child.children[0]
-      } else {
-        c = child
-      }
-      let title = c.name
-      let ids = this.$utils.findMenuIdsByTitle(
-        this.$store.state.config.menuList,
-        title
-      )
-      let item = this.$utils.findMenuItemByTitle(
-        this.$store.state.config.menuList,
-        title
-      )
-      let subPage = this.$utils.typeToPages[item.event_type]
-      if (!subPage) {
-        this.$message.error('未找到菜单地址，请检查配置')
-        return
-        // throw new Error('未找到菜单地址，请检查配置')
-      }
-      this.$router.push(
-        `/content/${subPage}?menuIds=${ids}&params=${item.event_link}&singlePage=1`
-      )
     },
     async handleUlogin() {
       let callback = window.location.href

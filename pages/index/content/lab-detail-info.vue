@@ -30,8 +30,11 @@
       <el-tabs v-model="activeTab">
         <el-tab-pane label="中心教师" name="active"></el-tab-pane>
       </el-tabs>
-      <div class="items">
+      <!-- <div class="items">
         <PersonItem class="person-item" type="list" v-for="item in personList" :key="item.id" :itemData="item" />
+      </div> -->
+      <div class="persons">
+        <p v-for="person in personList" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?params=${person.id}&menuIds=${$route.query.menuIds}`)">· {{person.name}}</p>
       </div>
     </div>
     <div class="news" v-show="newsList.length">
@@ -75,13 +78,12 @@ export default {
     let newsList = []
     let personList = []
     // 业务部门需要请求动态和人员
-    // if (data.type == 1) {
-    const newsData = await context.app.$api.department.deparmentNews({
-      page: 1,
-      limit: 10,
-      id: context.route.query.params,
-    })
-    newsList = newsData
+    // const newsData = await context.app.$api.department.deparmentNews({
+    //   page: 1,
+    //   limit: 10,
+    //   id: context.route.query.params,
+    // })
+    // newsList = newsData
     if (data.personnel_tag) {
       const personData = await context.app.$api.department.deparmentPerson({
         page: 1,
@@ -103,12 +105,12 @@ export default {
       this.labDetail = data
       // 业务部门需要请求动态和人员
       // if (data.type == 1) {
-      const newsData = await this.$api.department.deparmentNews({
-        page: 1,
-        limit: 10,
-        id: this.$route.query.params,
-      })
-      this.newsList = newsData
+      // const newsData = await this.$api.department.deparmentNews({
+      //   page: 1,
+      //   limit: 10,
+      //   id: this.$route.query.params,
+      // })
+      // this.newsList = newsData
       if (data.personnel_tag) {
         const personData = await this.$api.department.deparmentPerson({
           page: 1,
@@ -129,42 +131,6 @@ export default {
   },
 }
 </script>
-<style lang='scss'>
-.content-print {
-  border-bottom: 1px solid #f2f2f2;
-  padding: 0;
-  padding-bottom: 50px;
-  line-height: 25px;
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  h1 {
-    color: #444444;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 23px;
-  }
-  h2 {
-    color: #444444;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 20px;
-  }
-  h3 {
-    color: #444444;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 18px;
-  }
-  h4 {
-    color: #444444;
-    line-height: 1;
-    letter-spacing: 0.2px;
-    font-size: 17px;
-  }
-}
-</style>
 <style scoped lang='scss'>
 .lab-detail-info {
   width: 100%;
@@ -260,6 +226,22 @@ export default {
 
       .person-item:nth-child(4n + 4) {
         margin-right: 0px;
+      }
+    }
+    .persons {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      .person-name {
+        width: 16.6%;
+        font-size: 18px;
+        color: #000000;
+        margin-bottom: 42px;
+        cursor: pointer;
+        &:hover {
+          color: $--color-primary;
+        }
       }
     }
   }

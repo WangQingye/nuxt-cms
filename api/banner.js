@@ -17,6 +17,12 @@ export default $axios => ({
       url: '/navigation/index', method: 'get', params
     })
   },
+  // 获取某个导航详情
+  getNavigationDesc(params) {
+    return $axios({
+      url: '/navigation/detail', method: 'get', params
+    })
+  },
   // 快速应用入口
   getQuickLink(params) {
     return $axios({

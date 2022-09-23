@@ -17,10 +17,10 @@
       </div>
       <div class="items" v-if="!showListWay">
         <NewsItemSkeleton class="news-item" v-for="i in 3" :key="i" v-if="isLoading" />
-        <NewsItem class="news-item" v-for="item in newsItems" :itemData="item" :key="item.id" />
+        <NewsItem class="news-item" v-for="item in newsItems" :itemData="item" :key="item.id" :showCategory="showCategory" />
       </div>
       <div class="items" v-else>
-        <NewsItemList class="list-way-item" v-for="item in newsItems" :itemData="item" :key="item.id" />
+        <NewsItemList class="list-way-item" v-for="item in newsItems" :itemData="item" :key="item.id"  :showCategory="showCategory"/>
       </div>
     </PageList>
   </div>
@@ -38,9 +38,11 @@ export default {
       newsTags: [],
       pageSize: 12,
       total: 0,
+      showCategory: false
     }
   },
   async asyncData(context) {
+    await context.app.$utils.getInitData(context)
     let tags = await context.app.$api.news.newsTag({
       category_id: context.query.params,
     })
@@ -50,10 +52,18 @@ export default {
       limit: 12,
       tag: '',
     })
+    let menuList = context.store.state.config.menuList
+    let ids = context.route.query.menuIds.split(',')
+    let title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+    let showCategory = false
+    if (title == '中心要闻' || title == '通知公告') {
+      showCategory = true
+    }
     return {
       newsTags: ['全部', ...tags],
       newsItems: list,
-      total
+      total,
+      showCategory
     }
   },
   methods: {
@@ -68,6 +78,13 @@ export default {
       this.total = total
       this.newsItems = list
       this.isLoading = false
+      let menuList = this.$store.state.config.menuList
+      let ids = this.$route.query.menuIds.split(',')
+      let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+      this.showCategory = false
+      if (title == '中心要闻' || title == '通知公告') {
+        this.showCategory = true
+      }
     },
     async fetchTags(key) {
       this.isLoading = true

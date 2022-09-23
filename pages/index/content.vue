@@ -170,6 +170,16 @@ export default {
         this.$store.state.config.menuList,
         title
       )
+      if (item.event_type == "navigationTo") {
+        if (item.event_link.indexOf('http') > -1) {
+          this.$utils.goLink(item.event_link)
+        } else {
+          this.$router.push(
+            `${item.event_link}?menuIds=${ids}&singlePage=1`
+          )
+        }
+        return
+      }
       let subPage = this.$utils.typeToPages[item.event_type]
       if (!subPage) {
         // throw new Error('未找到菜单地址，请检查配置')

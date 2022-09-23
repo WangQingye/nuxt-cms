@@ -19,8 +19,11 @@
       <el-tabs v-model="activeTab">
         <el-tab-pane label="中心教师" name="active"></el-tab-pane>
       </el-tabs>
-      <div class="items">
+      <!-- <div class="items">
         <PersonItemMobile class="person-item" type="list" v-for="item in personList" :key="item.id" :itemData="item" />
+      </div> -->
+      <div class="persons">
+        <p v-for="person in personList" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?params=${person.id}&menuIds=${$route.query.menuIds}`)">· {{person.name}}</p>
       </div>
     </div>
     <div class="news" v-show="newsList.length">
@@ -65,12 +68,12 @@ export default {
     let personList = []
     // 业务部门需要请求动态和人员
     // if (data.type == 1) {
-    const newsData = await context.app.$api.department.deparmentNews({
-      page: 1,
-      limit: 10,
-      id: context.route.query.params,
-    })
-    newsList = newsData
+    // const newsData = await context.app.$api.department.deparmentNews({
+    //   page: 1,
+    //   limit: 10,
+    //   id: context.route.query.params,
+    // })
+    // newsList = newsData
     if (data.personnel_tag) {
       const personData = await context.app.$api.department.deparmentPerson({
         page: 1,
@@ -92,12 +95,12 @@ export default {
       this.labDetail = data
       // 业务部门需要请求动态和人员
       // if (data.type == 1) {
-      const newsData = await this.$api.department.deparmentNews({
-        page: 1,
-        limit: 10,
-        id: this.$route.query.params,
-      })
-      this.newsList = newsData
+      // const newsData = await this.$api.department.deparmentNews({
+      //   page: 1,
+      //   limit: 10,
+      //   id: this.$route.query.params,
+      // })
+      // this.newsList = newsData
       if (data.personnel_tag) {
         const personData = await this.$api.department.deparmentPerson({
           page: 1,
@@ -199,6 +202,22 @@ export default {
       }
       .person-item:nth-child(2n + 2) {
         margin-right: 0px;
+      }
+    }
+    .persons {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: 0.2rem;
+      .person-name {
+        width: 33%;
+        font-size: 0.18rem;
+        color: #000000;
+        margin-bottom: 0.3rem;
+        cursor: pointer;
+        &:hover {
+          color: $--color-primary;
+        }
       }
     }
   }

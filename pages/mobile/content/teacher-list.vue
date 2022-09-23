@@ -1,15 +1,12 @@
 <template>
   <div class="news-list">
     <div class="top">
-      <el-tabs v-model="newsActiveName" @tab-click="handleClick">
-        <el-tab-pane v-for="tag in newsTags" :key="tag" :label="tag" :name="tag"></el-tab-pane>
-      </el-tabs>
-      <el-button class="button" @click="showListWay = !showListWay">
+      <!-- <el-button class="button" @click="showListWay = !showListWay">
         <div class="button-text">
           <p>{{ `${showListWay ? '首字母列表' : '返回图文列表'}` }}</p>
           <i v-show="!showListWay" class="el-icon-close" style="margin-left: 10px"></i>
         </div>
-      </el-button>
+      </el-button> -->
     </div>
     <PageListMobile v-if="showListWay" :page-size="pageSize" :total="total" @fetchData="fetchData">
       <!-- <div class="items" v-if="newsItems.length == 0 && !isLoading">
@@ -21,9 +18,9 @@
     </PageListMobile>
     <div class="letter-list" v-else>
       <div class="letter" v-for="letterPerson in letterPersons" :key="letterPerson.letter">
-        <p class="letter-title">{{letterPerson.letter}} <span class="sub-title">字母开头</span></p>
+        <p class="letter-title">{{letterPerson.label}} <span class="sub-title">字母开头</span></p>
         <div class="persons">
-          <p v-for="person in letterPerson.persons" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?id=${person.id}&menuIds=${$route.query.menuIds}`)">· {{person.name}}</p>
+          <p v-for="person in letterPerson.children" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?params=${person.id}&menuIds=${$route.query.menuIds}`)">· {{person.name}}</p>
         </div>
       </div>
     </div>
@@ -35,11 +32,11 @@
 export default {
   data() {
     return {
-      newsActiveName: '全部',
+      newsActiveName: '首字母列表',
       showListWay: false,
       isLoading: false,
       newsItems: [],
-      newsTags: ['全部', '标签2', '标签3'],
+      newsTags: ['首字母列表'],
       pageSize: 10,
       total: 0,
       letterPersons: [
@@ -112,43 +109,17 @@ export default {
       ],
     }
   },
+  async asyncData(context) {
+    let list = await context.app.$api.department.personnelList({})
+    return {
+      letterPersons: list,
+    }
+  },
   methods: {
-    async fetchData(page = 1) {
-      // const {
-      //   data: { total, list },
-      // } = await newsList({
-      //   page,
-      //   limit: this.pageSize,
-      //   category_id: this.$route.query.key,
-      //   // 查全部则tag传空字符串
-      //   tag: this.newsActiveName === '全部' ? '' : this.newsActiveName,
-      // })
-      this.total = total
-      // this.newsItems = list
-      this.isLoading = false
-    },
-    async fetchTags(key) {
-      this.isLoading = true
-      this.newsItems = []
-      const { data } = await categoryTag({ category_id: key })
-      this.newsTags = ['全部', ...data]
-      this.newsActiveName = '全部'
-      this.fetchData()
-    },
     handleClick() {
-      // this.isLoading = true
-      // this.newsItems = []
-      // this.fetchData()
-    },
-  },
-  watch: {
-    '$route.query.key': {
-      handler: function (val) {
-        if (val) this.fetchTags(val)
-      },
-      immediate: true,
-    },
-  },
+
+    }
+  }
 }
 </script>
 <style scoped lang='scss'>
@@ -210,10 +181,10 @@ export default {
       }
       .persons {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         flex-wrap: wrap;
         .person-name {
-          width: 16.6%;
+          width: 33%;
           font-size: 18px;
           color: #000000;
           margin-top: 30px;

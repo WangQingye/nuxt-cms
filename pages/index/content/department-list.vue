@@ -3,26 +3,17 @@
     <p class="title">
       {{ title }}
     </p>
-    <PageList :page-size="pageSize"
-              :total="total"
-              @fetchData="fetchData" ref="pageList">
+    <div ref="detail" class="content-print" style="border-bottom: none;padding-bottom: 20px" v-if="desc" v-html='desc.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
+    <PageList :page-size="pageSize" :total="total" @fetchData="fetchData" ref="pageList">
       <!-- <div class="items" v-if="departmentItems.length == 0 && !isLoading">
         <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
       </div> -->
       <div class="items">
         <template v-for="(department,index) in departmentItems">
-          <NuxtLink class="department-item"
-                    :key="index"
-                    :to="getLink(department)"
-                    v-if="department.type != 3">
-            <img :src="department.cover|cloudImage"
-                 :alt="department.name">
+          <NuxtLink class="department-item" :key="index" :to="getLink(department)" v-if="department.type != 3">
+            <img :src="department.cover|cloudImage" :alt="department.name">
           </NuxtLink>
-          <img v-else
-               class="department-item"
-               :key="index"
-               :src="department.cover|cloudImage"
-               :alt="department.name">
+          <img v-else class="department-item" :key="index" :src="department.cover|cloudImage" :alt="department.name">
         </template>
       </div>
     </PageList>
@@ -31,6 +22,7 @@
 <script>
 // import { newsList, categoryTag } from '@/api/news'
 
+import { imgDomain } from '@/config'
 export default {
   data() {
     return {
@@ -38,11 +30,13 @@ export default {
       pageSize: 32,
       total: 0,
       title: '部门列表',
+      desc: '',
+      imgDomain,
     }
   },
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
-    let {total, list} = await context.app.$api.department.deparmentList({
+    let { total, list } = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
       page: Number(context.route.query.page) || 1,
       limit: 32,
@@ -50,15 +44,19 @@ export default {
     let menuList = context.store.state.config.menuList
     let ids = context.route.query.menuIds.split(',')
     let title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+    let menuItem = await context.app.$api.banner.getNavigationDesc({
+      id: ids[ids.length - 1],
+    })
     return {
       departmentItems: list,
       total,
-      title
+      title,
+      desc: menuItem.desc,
     }
   },
   methods: {
     async fetchData(page = 1) {
-      let {total, list} = await this.$api.department.deparmentList({
+      let { total, list } = await this.$api.department.deparmentList({
         type: Number(this.$route.query.params),
         page: page,
         limit: this.pageSize,
@@ -78,7 +76,7 @@ export default {
     '$route.query.params': {
       handler: function (val) {
         if (val) this.$refs.pageList.reInit()
-      }
+      },
     },
   },
 }

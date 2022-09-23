@@ -176,6 +176,15 @@ export default {
         this.$router.push(topItem.event_link)
       } else {
         let subItem = this.$utils.getSubMenuItem(topItem, subMenuId)
+        if (subItem.event_type == "navigationTo") {
+          if (subItem.event_link.indexOf('http') > -1) {
+            this.$utils.goLink(subItem.event_link)
+          } else {
+            this.$router.push(`/mobile${subItem.event_link}?menuIds=${indexPath.join(',')}&singlePage=1`)
+          }
+          this.drawerVisible = false
+          return
+        }
         let subPage = this.$utils.typeToPages[subItem.event_type]
         if (!subPage) {
           this.$message.error('未找到菜单地址，请检查配置')

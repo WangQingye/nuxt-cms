@@ -1,8 +1,9 @@
 <template>
   <div class="department-list">
-    <!-- <p class="title">
-      业务部门
-    </p> -->
+    <p class="title">
+      {{ title }}
+    </p>
+    <div ref="detail" class="content-print-mobile" style="border-bottom: none;padding-bottom: 20px" v-if="desc" v-html='desc.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     <PageListMobile :page-size="pageSize"
                     :total="total"
                     @fetchData="fetchData">
@@ -31,23 +32,36 @@
 <script>
 // import { newsList, categoryTag } from '@/api/news'
 
+import { imgDomain } from '@/config'
 export default {
   data() {
     return {
       departmentItems: [],
       pageSize: 12,
       total: 0,
+      imgDomain,
+      title: '',
+      desc: ''
     }
   },
   async asyncData(context) {
+    await context.app.$utils.getInitData(context)
     let {total, list} = await context.app.$api.department.deparmentList({
       type: Number(context.route.query.params),
       page: 1,
       limit: 12,
     })
+    let menuList = context.store.state.config.menuList
+    let ids = context.route.query.menuIds.split(',')
+    let title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+    let menuItem = await context.app.$api.banner.getNavigationDesc({
+      id: ids[ids.length - 1],
+    })
     return {
       departmentItems: list,
       total,
+      title,
+      desc: menuItem.desc,
     }
   },
   methods: {
@@ -59,6 +73,14 @@ export default {
       })
       this.departmentItems = list
       this.total = total
+      let menuList = this.$store.state.config.menuList
+      let ids = this.$route.query.menuIds.split(',')
+      let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+      let menuItem = await this.$api.banner.getNavigationDesc({
+        id: ids[ids.length - 1],
+      })
+      this.title = title
+      this.desc = menuItem.desc
     },
     getLink(department) {
       return `/content/lab-detail-info?params=${department.id}&menuIds=${this.$route.query.menuIds}`
@@ -77,19 +99,20 @@ export default {
 <style scoped lang='scss'>
 .department-list {
   width: 100%;
-  // .title {
-  //   padding-top: 10px;
-  //   font-size: 18px;
-  //   font-weight: bold;
-  //   color: #4d4d4d;
-  //   margin-bottom: 30px;
-  // }
+  margin-top: -0.2rem;
+  .title {
+    padding-top: 0.22rem;
+    font-size: 0.14rem;
+    font-weight: bold;
+    color: #4d4d4d;
+    margin-bottom: 0.2rem;
+    border-top: 1px solid #F5F5FC;
+  }
   .items {
     @include flex-between(flex-start);
     justify-content: flex-start;
     flex-wrap: wrap;
     padding: 0.14rem 0;
-    border-top: 0.01rem solid #f5f5fc;
     border-bottom: 0.01rem solid #f5f5fc;
 
     .no-text {

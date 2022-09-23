@@ -6,6 +6,7 @@
         <el-tag class="tag" type="primary" v-if="itemData.isNew">新</el-tag>
         <el-tag class="tag" type="primary" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
         </el-tag>
+        <el-tag class="tag" type="warning" v-if="itemData.category.name && showCategory">{{itemData.category.name}}</el-tag>
         <p class='title'>{{ itemData.title }}</p>
       </div>
       <p class='desc'>{{ itemData.digest }}</p>
@@ -26,6 +27,10 @@ export default {
         }
       },
     },
+    showCategory: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {}
