@@ -65,4 +65,10 @@ export default $axios => ({
       url: '/personnel/list', method: 'post', data
     })
   },
+  // 获取组织架构
+  getOrganization(params) {
+    return $axios({
+      url: '/organization/index', method: 'get', params
+    })
+  },  
 })
