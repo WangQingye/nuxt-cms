@@ -70,6 +70,7 @@ module.exports = {
     bottom: [
       {
         title: '创新实践',
+        link: 'http://www.baidu.com',
         children: [
           {
             title: '信息技术（IT）实验室',
@@ -95,6 +96,7 @@ module.exports = {
       },
       {
         title: '创业教育',
+        link: 'http://www.baidu.com',
         children: [
           {
             title: '创业教学中心',
@@ -112,6 +114,7 @@ module.exports = {
       },
       {
         title: '基础实践',
+        link: 'http://www.baidu.com',
         children: [
           {
             title: '机械制造中心',
@@ -125,6 +128,7 @@ module.exports = {
       },
       {
         title: '开放服务',
+        link: 'http://www.baidu.com',
         children: [
           {
             title: '设备图书馆',
@@ -146,6 +150,7 @@ module.exports = {
       },
       {
         title: '行政管理',
+        link: 'http://www.baidu.com',
         children: [
           {
             title: '党政办公室',

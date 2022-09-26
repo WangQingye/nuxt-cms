@@ -26,8 +26,8 @@
         </div>
         <div class="bottom">
           <div v-for="(part,index) in config.orgnizationStructure.bottom" class="part" :key="index">
-            <div :class="['part-title', 'box-shadow', `part-title-${index}`]">{{part.title}}</div>
-            <div class="child hover-move" v-for="(c,i) in part.children" :key="i" @click="$utils.goLink(c.link, part.newPage)">{{c.title}}</div>
+            <div :class="['part-title', 'box-shadow', `part-title-${index}`, 'hover-move']" @click="$utils.goLink(part.link, part.newPage)">{{part.title}}</div>
+            <div class="child hover-move" v-for="(c,i) in part.children" :key="i" @click="$utils.goLink(c.link, c.newPage)">{{c.title}}</div>
           </div>
         </div>
       </div>

@@ -26,11 +26,11 @@
         </div>
         <div class="bottom">
           <div v-for="(part,index) in config.orgnizationStructure.bottom" :class="['part', `part-${index}`]" :key="index">
-            <div :class="['part-title', 'box-shadow', `part-title-${index}`]">
+            <div :class="['part-title', 'box-shadow', `part-title-${index}`]" @click="$utils.goLink(part.link, part.newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-3-m.svg" alt="logo">
               {{part.title}}
             </div>
-            <div class="child hover-move" v-for="(c,i) in part.children" :key="i" @click="$utils.goLink(c.link, part.newPage)">
+            <div class="child hover-move" v-for="(c,i) in part.children" :key="i" @click="$utils.goLink(c.link, c.newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-3-m.svg" alt="logo">{{c.title}}
             </div>
           </div>
