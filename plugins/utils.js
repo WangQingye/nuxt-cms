@@ -182,6 +182,7 @@ const typeToPages = {
 // }
 
 function goLink(link, newPage = true){
+  if (!link) return
   if (newPage) {
     window.open(link, '_blank')
   } else {

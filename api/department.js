@@ -71,4 +71,10 @@ export default $axios => ({
       url: '/organization/index', method: 'get', params
     })
   },  
+  // 机构类别详情（服务于组织架构）
+  getCateDetail(data) {
+    return $axios({
+      url: '/institution/cate-detail', method: 'post', data
+    })
+  },  
 })

@@ -46,41 +46,67 @@ export default {
   },
   async asyncData(context) {
     await context.app.$utils.getInitData(context)
-    let {total, list} = await context.app.$api.department.deparmentList({
-      type: Number(context.route.query.params),
-      page: 1,
-      limit: 12,
-    })
-    let menuList = context.store.state.config.menuList
-    let ids = context.route.query.menuIds.split(',')
-    let title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
-    let menuItem = await context.app.$api.banner.getNavigationDesc({
-      id: ids[ids.length - 1],
-    })
+    let res, title, desc, info
+    // 如果有cate，说明是组织架构过来的，这时候要请求详情去获取信息，因为这个可能没在导航菜单中
+    if (context.route.query.cate) {
+      res = await context.app.$api.department.deparmentList({
+        type: Number(context.route.query.params),
+        cate: Number(context.route.query.cate),
+        page: 1,
+        limit: 12,
+      })
+      info = await context.app.$api.department.getCateDetail({
+        id: Number(context.route.query.cate),
+      })
+      title = info.name
+      desc = info.desc
+    } else {
+      res = await context.app.$api.department.deparmentList({
+        type: Number(context.route.query.params),
+        page: 1,
+        limit: 12,
+      })
+      let menuList = context.store.state.config.menuList
+      let ids = context.route.query.menuIds.split(',')
+      title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+      let menuItem = await context.app.$api.banner.getNavigationDesc({
+        id: ids[ids.length - 1],
+      })
+      desc = menuItem.desc
+    }
     return {
-      departmentItems: list,
-      total,
+      departmentItems: res.list,
+      total: res.total,
       title,
-      desc: menuItem.desc,
+      desc,
     }
   },
   methods: {
     async fetchData(page = 1) {
       let {total, list} = await this.$api.department.deparmentList({
         type: Number(this.$route.query.params),
+        cate: this.$route.query.cate ? Number(this.$route.query.cate) : undefined,
         page: page,
         limit: this.pageSize,
       })
       this.departmentItems = list
       this.total = total
-      let menuList = this.$store.state.config.menuList
-      let ids = this.$route.query.menuIds.split(',')
-      let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
-      let menuItem = await this.$api.banner.getNavigationDesc({
-        id: ids[ids.length - 1],
-      })
-      this.title = title
-      this.desc = menuItem.desc
+      if (this.$route.query.cate) {
+        const info = await this.$api.department.getCateDetail({
+          id: Number(this.$route.query.cate),
+        })
+        this.title = info.name
+        this.desc = info.desc
+      } else {
+        let menuList = this.$store.state.config.menuList
+        let ids = this.$route.query.menuIds.split(',')
+        let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+        let menuItem = await this.$api.banner.getNavigationDesc({
+          id: ids[ids.length - 1],
+        })
+        this.title = title
+        this.desc = menuItem.desc
+      }
     },
     getLink(department) {
       return `/content/lab-detail-info?params=${department.id}&menuIds=${this.$route.query.menuIds}`
@@ -92,6 +118,11 @@ export default {
         if (val) this.fetchData()
       },
       immediate: true,
+    },
+    '$route.query.cate': {
+      handler: function (val) {
+        this.fetchData()
+      },
     },
   },
 }

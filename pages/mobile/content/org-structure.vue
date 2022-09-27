@@ -8,17 +8,17 @@
         </div>
         <div class="middle">
           <div class="left" style="margin-bottom: 37px">
-            <div class="left-button box-shadow hover-move" @click="$utils.goLink(orgnizationStructure.left[0].link, orgnizationStructure.left[0].newPage)">
+            <div class="left-button box-shadow hover-move" @click="goLink(orgnizationStructure.left[0].link, orgnizationStructure.left[0].newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-1-m.svg" alt="logo">
               {{orgnizationStructure.left[0].title}}
             </div>
-            <div class="left-button box-shadow hover-move" @click="$utils.goLink(orgnizationStructure.left[1].link, orgnizationStructure.left[1].newPage)">
+            <div class="left-button box-shadow hover-move" @click="goLink(orgnizationStructure.left[1].link, orgnizationStructure.left[1].newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-2-m.svg" alt="logo">
               {{orgnizationStructure.left[1].title}}
             </div>
           </div>
           <div class="left">
-            <div class="left-button box-shadow hover-move" v-for="(part,index) in orgnizationStructure.right" :key="index" @click="$utils.goLink(part.link, part.newPage)">
+            <div class="left-button box-shadow hover-move" v-for="(part,index) in orgnizationStructure.right" :key="index" @click="goLink(part.link, part.newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-4-m.svg" alt="logo">
               {{part.title}}
             </div>
@@ -26,11 +26,11 @@
         </div>
         <div class="bottom">
           <div v-for="(part,index) in orgnizationStructure.bottom" :class="['part', `part-${index}`]" :key="index">
-            <div :class="['part-title', 'box-shadow', `part-title-${index}`]" @click="$utils.goLink(part.link, part.newPage)">
+            <div :class="['part-title', 'box-shadow', `part-title-${index}`]" @click="goLink(part.link, part.newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-3-m.svg" alt="logo">
               {{part.title}}
             </div>
-            <div class="child hover-move" v-for="(c,i) in part.children" :key="i" @click="$utils.goLink(c.link, c.newPage)">
+            <div class="child hover-move" v-for="(c,i) in part.children" :key="i" @click="goLink(c.link, c.newPage)">
               <img class="deco" src="~/static/imgs/zuzhi/deco-3-m.svg" alt="logo">{{c.title}}
             </div>
           </div>
@@ -67,6 +67,16 @@ export default {
     }
     resize()
   },
+  methods: {
+    goLink(link, newPage = true) {
+      if (!link) return
+      if (!newPage && link.indexOf('http') == -1) {
+        this.$router.push(link)
+      } else {
+        this.$utils.goLink(link, newPage = true)
+      }
+    }
+  }
 }
 </script>
 <style scoped lang='scss'>

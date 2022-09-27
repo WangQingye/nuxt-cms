@@ -3,6 +3,7 @@
     <p class="title">
       {{ title }}
     </p>
+    <div ref="detail" class="content-print" style="border-bottom: none;padding-bottom: 20px" v-if="desc" v-html='desc.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     <div class="items">
       <template v-for="(department,index) in departmentItems">
         <NuxtLink class="department-item"
@@ -19,11 +20,14 @@
 <script>
 // import { newsList, categoryTag } from '@/api/news'
 
+import { imgDomain } from '@/config'
 export default {
   data() {
     return {
+      imgDomain,
       departmentItems: [],
       title: '部门列表',
+      desc: ''
     }
   },
   async asyncData(context) {
@@ -31,12 +35,23 @@ export default {
     let list = await context.app.$api.department.personnelTags({
       type: 'office',
     })
-    let menuList = context.store.state.config.menuList
-    let ids = context.route.query.menuIds.split(',')
-    let title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+    // 如果有cate，说明是组织架构过来的，这时候要请求详情去获取信息，因为这个可能没在导航菜单中
+    let title, desc
+    if (context.route.query.cate) {
+      const info = await context.app.$api.department.getCateDetail({
+        id: Number(context.route.query.cate),
+      })
+      title = info.name
+      desc = info.desc
+    } else {
+      let menuList = context.store.state.config.menuList
+      let ids = context.route.query.menuIds.split(',')
+      title = context.app.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+    }
     return {
       departmentItems: list,
-      title
+      title,
+      desc
     }
   },
   methods: {
@@ -45,10 +60,19 @@ export default {
         type: 'office',
       })
       this.departmentItems = list
-      let menuList = this.$store.state.config.menuList
-      let ids = this.$route.query.menuIds.split(',')
-      let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
-      this.title = title
+      if (this.$route.query.cate) {
+        const info = await this.$api.department.getCateDetail({
+          id: Number(this.$route.query.cate),
+        })
+        this.title = info.name
+        this.desc = info.desc
+      } else {
+        let menuList = this.$store.state.config.menuList
+        let ids = this.$route.query.menuIds.split(',')
+        let title = this.$utils.findMenuTitle(menuList, ids[ids.length - 1])
+        this.title = title
+        this.desc = ''
+      }
     },
     getLink(department) {
       return `/content/department-detail?params=${department.key}&menuIds=${this.$route.query.menuIds}`
@@ -57,8 +81,13 @@ export default {
   watch: {
     '$route.query.params': {
       handler: function (val) {
-        if (val) this.$refs.pageList.reInit()
+        if (val) this.fetchData()
       }
+    },
+    '$route.query.cate': {
+      handler: function (val) {
+        this.fetchData()
+      },
     },
   },
 }
