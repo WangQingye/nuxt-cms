@@ -71,7 +71,7 @@ export default {
       if (!newPage && link.indexOf('http') == -1) {
         this.$router.push(link)
       } else {
-        this.goLink(link, newPage = true)
+        this.$utils.goLink(link, newPage = true)
       }
     }
   }
