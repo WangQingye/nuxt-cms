@@ -2,7 +2,7 @@
   <div class="department-detail">
     <div class="top">
       <p class="name">{{departmentDetail.name}}</p>
-      <p class="desc">{{departmentDetail.desc}}</p>
+    <div ref="detail" class="content-print" style="border-bottom: none;padding-bottom: 20px" v-if="departmentDetail.desc" v-html='departmentDetail.desc.replace(/src="\.\.\/media/g, `src="${imgDomain}`)'></div>
     </div>
     <PageList :page-size="pageSize" :total="total" @fetchData="fetchData" ref="pageList">
       <div class="items">
@@ -13,10 +13,11 @@
 </template>
 <script>
 // import { newsList, categoryTag } from '@/api/news'
-
+import { imgDomain } from '@/config'
 export default {
   data() {
     return {
+      imgDomain,
       pageSize: 6,
       total: 0,
       departmentDetail: {
