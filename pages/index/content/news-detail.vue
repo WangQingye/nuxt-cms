@@ -154,6 +154,8 @@ export default {
   padding: 0;
   padding-bottom: 50px;
   line-height: 25px;
+  width: 100%;
+  overflow-x: hidden;
   img {
     max-width: 100%;
     height: auto;

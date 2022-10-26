@@ -74,6 +74,8 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   font-size: 0.15rem;
   border-bottom: 0.01rem #f5f5fc solid;
   padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
   img {
     max-width: 100%;
     height: auto;
