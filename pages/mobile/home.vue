@@ -398,7 +398,21 @@ export default {
     }
     .big-news-img {
       width: 100%;
+      background-size: 100% 100%;
       height: 0.54rem;
+      .link-arrow {
+        transform: scale(0.6);
+        position: absolute;
+        right: 0.04rem;
+        top: 0.04rem;
+        background: white;
+        border-radius: 50%;
+        width: 0.15rem;
+        font-size: 0.08rem;
+        height: 0.15rem;
+        line-height: 0.16rem;
+        text-align: center;
+      }
     }
     .news-part-container {
       .new-item {
@@ -419,7 +433,7 @@ export default {
           background-image: linear-gradient(
             to top,
             rgba(0, 0, 0, 0.5),
-            rgba(0, 0, 0, 0.0)
+            rgba(0, 0, 0, 0)
           );
           width: 100%;
         }
