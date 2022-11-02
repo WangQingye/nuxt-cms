@@ -40,6 +40,14 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   padding: 0;
   padding-bottom: 50px;
   line-height: 25px;
+  width: 100%;
+  overflow-x: hidden;
+  video {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+  }
   img {
     max-width: 100%;
     height: auto;
@@ -76,6 +84,12 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   padding: 0;
   max-width: 100%;
   overflow-x: hidden;
+  video {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+  }
   img {
     max-width: 100%;
     height: auto;

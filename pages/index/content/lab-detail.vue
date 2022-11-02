@@ -69,42 +69,6 @@ export default {
   },
 }
 </script>
-<style lang='scss'>
-.content-print {
-  border-bottom: 1px solid #f2f2f2;
-  padding: 0;
-  padding-bottom: 50px;
-  line-height: 25px;
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  h1 {
-    color: #444444;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 23px;
-  }
-  h2 {
-    color: #444444;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 20px;
-  }
-  h3 {
-    color: #444444;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-    font-size: 18px;
-  }
-  h4 {
-    color: #444444;
-    line-height: 1;
-    letter-spacing: 0.2px;
-    font-size: 17px;
-  }
-}
-</style>
 <style scoped lang='scss'>
 .lab-detail {
   width: 100%;

@@ -59,37 +59,6 @@ export default {
   },
 }
 </script>
-<style lang='scss'>
-.content-print {
-  line-height: 0.25rem;
-  font-size: 0.15rem;
-  padding: 0;
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  h1 {
-    color: #444444;
-    line-height: 1.5;
-    font-size: 0.23rem;
-  }
-  h2 {
-    color: #444444;
-    line-height: 1.5;
-    font-size: 0.2rem;
-  }
-  h3 {
-    color: #444444;
-    line-height: 1.5;
-    font-size: 0.18rem;
-  }
-  h4 {
-    color: #444444;
-    line-height: 1;
-    font-size: 0.17rem;
-  }
-}
-</style>
 <style scoped lang='scss'>
 .lab-detail {
   width: 100%;
