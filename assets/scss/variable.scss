@@ -75,6 +75,9 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
     letter-spacing: 0.2px;
     font-size: 17px;
   }
+  p {
+    text-align: justify;
+  }
 }
 .content-print-mobile {
   line-height: 0.25rem;
@@ -111,5 +114,8 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
     color: #444444;
     line-height: 1;
     font-size: 0.17rem;
+  }
+  p {
+    text-align: justify;
   }
 }
