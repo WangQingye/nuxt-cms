@@ -10,6 +10,7 @@
         <p class='title'>{{ itemData.title }}</p>
       </div>
       <p class='desc'>{{ itemData.digest }}</p>
+      <el-tag class="tag" style="font-weight: normal;margin-top: 12px;" type="primary" size="small">{{itemData.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
     </div>
   </div>
 </template>
@@ -22,24 +23,33 @@ export default {
         return {
           id: '87bc10c00baa42bb917908e89834ba83',
           title: '标题',
-          digest: '第七届中国国际“互联网+”大学生创新创业大赛总决赛在南昌大学举行。重庆大学的创新创业团队表现优异，7件入围总决赛答辩项目获得了5金2银的历史最好成绩。此次比赛，交大不仅金奖数量及获奖总数创历史新高，而且实现了红旅赛道历史首金的突破，并获上海市的“先进集体奖”。',
-          thumb: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.18-23IyhMHV0DyhI4Rp-hAHaEK?w=333&h=187&c=7&r=0&o=5&dpr=1.25&pid=1.7',
+          digest:
+            '第七届中国国际“互联网+”大学生创新创业大赛总决赛在南昌大学举行。重庆大学的创新创业团队表现优异，7件入围总决赛答辩项目获得了5金2银的历史最好成绩。此次比赛，交大不仅金奖数量及获奖总数创历史新高，而且实现了红旅赛道历史首金的突破，并获上海市的“先进集体奖”。',
+          thumb:
+            'https://tse2-mm.cn.bing.net/th/id/OIP-C.18-23IyhMHV0DyhI4Rp-hAHaEK?w=333&h=187&c=7&r=0&o=5&dpr=1.25&pid=1.7',
         }
       },
     },
     showCategory: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {}
   },
   methods: {
     clickNew() {
-      let menuIds = this.$utils.findMenuIdsByEventLink(this.$store.state.config.menuList, this.itemData.category_id)
-      this.$router.push(`/content/news-detail?params=${this.itemData.id}&menuIds=${menuIds.join(',')}`)
-    }
+      let menuIds = this.$utils.findMenuIdsByEventLink(
+        this.$store.state.config.menuList,
+        this.itemData.category_id
+      )
+      this.$router.push(
+        `/content/news-detail?params=${this.itemData.id}&menuIds=${menuIds.join(
+          ','
+        )}`
+      )
+    },
   },
 }
 </script>
@@ -72,19 +82,6 @@ export default {
       justify-content: flex-start;
       margin-bottom: 10px;
 
-      .tag {
-        height: 20px;
-        line-height: 18px;
-        font-weight: bold;
-        margin-right: 10px;
-
-        .icon {
-          margin-right: 5px;
-          font-weight: bold;
-          vertical-align: middle;
-        }
-      }
-
       .title {
         font-size: 15px;
         font-weight: bold;
@@ -96,6 +93,18 @@ export default {
       }
     }
 
+    .tag {
+      height: 20px;
+      line-height: 18px;
+      font-weight: bold;
+      margin-right: 10px;
+
+      .icon {
+        margin-right: 5px;
+        font-weight: bold;
+        vertical-align: middle;
+      }
+    }
     .desc {
       font-size: 14px;
       font-weight: 400;
@@ -103,8 +112,9 @@ export default {
       line-height: 21px;
       display: -webkit-box;
       overflow: hidden;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      min-height: 45px;
     }
   }
 }

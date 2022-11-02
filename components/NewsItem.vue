@@ -8,9 +8,10 @@
     </div>
     <div class="tags">
       <el-tag class="tag" type="primary" v-if="itemData.isNew">新</el-tag>
-      <el-tag class="tag" type="primary" v-if="itemData.is_top" style="float: right"><i class="el-icon-top icon"></i>置顶
+      <el-tag class="tag" type="primary" v-if="itemData.is_top"><i class="el-icon-top icon"></i>置顶
       </el-tag>
       <el-tag class="tag" type="warning" v-if="itemData.category.name && showCategory">{{itemData.category.name}}</el-tag>
+      <el-tag class="tag" style="float:right;font-weight: normal;" type="primary">{{itemData.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
     </div>
     <a class='title' :href="getLink()" :title="itemData.title">{{ itemData.title }}</a>
     <p class='desc'>{{ itemData.digest }}</p>

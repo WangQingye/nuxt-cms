@@ -75,7 +75,7 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
     letter-spacing: 0.2px;
     font-size: 17px;
   }
-  p {
+  p,td {
     text-align: justify;
   }
 }
@@ -115,7 +115,7 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
     line-height: 1;
     font-size: 0.17rem;
   }
-  p {
+  p,td {
     text-align: justify;
   }
 }
