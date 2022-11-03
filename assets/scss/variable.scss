@@ -78,6 +78,17 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   p,td {
     text-align: justify;
   }
+  blockquote {
+    background-color: #f5f2f0;
+    border-left: 8px solid #b4d5ff;
+    display: block;
+    font-size: 100%;
+    line-height: 1.5;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  ul{list-style-type:disc; list-style-position:inside;} 
+  ol{list-style-type:decimal; list-style-position:inside;}
 }
 .content-print-mobile {
   line-height: 0.25rem;
@@ -118,4 +129,15 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   p,td {
     text-align: justify;
   }
+  blockquote {
+    background-color: #f5f2f0;
+    border-left: 0.08px solid #b4d5ff;
+    display: block;
+    font-size: 100%;
+    line-height: 1.5;
+    margin: 0.1rem 0;
+    padding: 0.1rem;
+  }
+  ul{list-style-type:disc; list-style-position:inside;} 
+  ol{list-style-type:decimal; list-style-position:inside;}
 }
