@@ -2,7 +2,7 @@
   <div class="mobile-home">
     <el-carousel :interval="3000" arrow="never" height="3.8rem" indicator-position="none">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <div class="carousel-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.cover)})`}">
+        <div class="carousel-item" :style="{backgroundImage:`url(${$utils.cloudImg(item.m_cover || item.cover)})`}">
           <p class="big-text" v-html="item.title">{{ item.title }}</p>
           <p class="small-text">{{ item.sub_title }}</p>
           <p class="button" v-if="item.event_name" @click="$utils.goLink(item.event_link)">{{ item.event_name }}</p>
