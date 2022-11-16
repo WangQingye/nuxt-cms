@@ -121,14 +121,18 @@ export default {
         justify-content: flex-start;
         flex-wrap: wrap;
         .person {
-          min-width: 33%;
+          min-width: 30%;
+          margin-right: 5%;
           font-size: 18px;
           color: #000000;
           margin-top: 30px;
           .person-name {
             border: 1px solid #dddfe6;
-            padding: 0.06rem 0.14rem;
+            padding: 0.06rem 0;
             border-radius: 0.04rem;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
             cursor: pointer;
             &:hover {
               border: 1px solid $--color-primary;
@@ -136,6 +140,9 @@ export default {
               background: $--color-primary-light;
             }
           }
+        }
+        .person:nth-child(3n + 3) {
+          margin-right: 0;
         }
       }
     }

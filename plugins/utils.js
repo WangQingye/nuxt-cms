@@ -169,6 +169,7 @@ function findMenuIdsByEventLink(arr, eventLink) {
 }
 const typeToPages = {
   'newsTo': 'news-list',
+  'simpleNewsTo': 'news-list-simple',
   'pageTo': 'news-detail',
   'institutionTo': 'lab-detail-info',
   'personnelTo': 'department-detail',

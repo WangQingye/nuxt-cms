@@ -115,22 +115,32 @@ export default {
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
+        align-content: flex-end;
+        min-width: 910px;
         .person {
-          width: 16.6%;
+          min-width: 11%;
+          margin-right: 1.7%;
           font-size: 18px;
           color: #000000;
           margin-top: 30px;
           .person-name {
             border: 1px solid #dddfe6;
-            border-radius: 8px;
+            border-radius: 4px;
+            display: inline-block;
+            box-sizing: border-box;
+            text-align: center;
+            width: 100%;
             cursor: pointer;
-            padding: 8px 24px;
+            padding: 8% 0;
             &:hover {
               border: 1px solid $--color-primary;
               color: $--color-primary;
               background: $--color-primary-light;
             }
           }
+        }
+        .person:nth-child(8n + 8) {
+          margin-right: 0;
         }
       }
     }
