@@ -65,6 +65,12 @@ export default $axios => ({
       url: '/personnel/list', method: 'post', data
     })
   },
+  // 人员列表 部门索引
+  personnelListByDept(data) {
+    return $axios({
+      url: '/personnel/list2', method: 'post', data
+    })
+  },
   // 获取组织架构
   getOrganization(params) {
     return $axios({

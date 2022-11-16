@@ -1,29 +1,25 @@
 <template>
   <div class="news-list">
     <div class="top">
-      <el-tabs v-model="newsActiveName" @tab-click="handleClick">
-        <el-tab-pane v-for="tag in newsTags" :key="tag" :label="tag" :name="tag"></el-tab-pane>
-      </el-tabs>
-      <!-- <el-button class="button" @click="showListWay = !showListWay">
-        <div class="button-text">
-          <p>{{ `${showListWay ? '首字母列表' : '返回图文列表'}` }}</p>
-          <i v-show="!showListWay" class="el-icon-close" style="margin-left: 10px"></i>
-        </div>
-      </el-button> -->
+      <el-radio-group v-model="newsActiveName" size="medium" style="margin-bottom: 30px;">
+        <el-radio-button v-for="tag in newsTags" :key="tag" :label="tag">{{tag}}</el-radio-button>
+      </el-radio-group>
     </div>
-    <PageList v-if="showListWay" :page-size="pageSize" :total="total" @fetchData="fetchData">
-      <!-- <div class="items" v-if="newsItems.length == 0 && !isLoading">
-        <el-empty class="no-text" description="该栏目暂无新闻"></el-empty>
-      </div> -->
-      <div class="items">
-        <PersonItem class="person-item" type="list" v-for="i in 5" :key="i" />
-      </div>
-    </PageList>
-    <div class="letter-list" v-else>
-      <div class="letter" v-for="letterPerson in letterPersons" :key="letterPerson.letter">
+    <div class="letter-list">
+      <div class="letter" v-if="newsActiveName == '按首字母查找'" v-for="letterPerson in letterPersons" :key="letterPerson.letter">
         <p class="letter-title">{{letterPerson.label}} <span class="sub-title">字母开头</span></p>
         <div class="persons">
-          <p v-for="person in letterPerson.children" :key="person.id" class="person-name" @click="$router.push(`/content/person-detail?params=${person.id}&menuIds=${$route.query.menuIds}`)">· {{person.name}}</p>
+          <div v-for="person in letterPerson.children" :key="person.id" class="person" @click="$router.push(`/content/person-detail?params=${person.id}&menuIds=${$route.query.menuIds}`)">
+            <span class="person-name">{{person.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="letter" v-if="newsActiveName == '按部门查找'" v-for="department in departmentPersons" :key="department.key">
+        <p class="letter-title">{{department.name}}</p>
+        <div class="persons">
+          <div v-for="person in department.options" :key="person.id" class="person" @click="$router.push(`/content/person-detail?params=${person.id}&menuIds=${$route.query.menuIds}`)">
+            <span class="person-name">{{person.name}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -35,81 +31,10 @@
 export default {
   data() {
     return {
-      newsActiveName: '首字母列表',
-      showListWay: false,
-      isLoading: false,
-      newsItems: [],
-      newsTags: ['首字母列表'],
-      pageSize: 10,
-      total: 0,
-      letterPersons: [
-        {
-          letter: 'A',
-          persons: [
-            {
-              name: '某某',
-              id: '1',
-            },
-            {
-              name: '某某某',
-              id: '2',
-            },
-            {
-              name: '某某',
-              id: '3',
-            },
-            {
-              name: '某某',
-              id: '4',
-            },
-            {
-              name: '某某',
-              id: '5',
-            },
-            {
-              name: '某某',
-              id: '6',
-            },
-            {
-              name: '某某某某',
-              id: '7',
-            },
-          ],
-        },
-        {
-          letter: 'B',
-          persons: [
-            {
-              name: '某某',
-              id: '1',
-            },
-            {
-              name: '某某某',
-              id: '2',
-            },
-            {
-              name: '某某',
-              id: '3',
-            },
-            {
-              name: '某某',
-              id: '4',
-            },
-            {
-              name: '某某',
-              id: '5',
-            },
-            {
-              name: '某某',
-              id: '6',
-            },
-            {
-              name: '某某某某',
-              id: '7',
-            },
-          ],
-        },
-      ],
+      newsActiveName: '按首字母查找',
+      newsTags: ['按首字母查找', '按部门查找'],
+      letterPersons: [],
+      departmentPersons: [],
     }
   },
   async asyncData(context) {
@@ -118,21 +43,14 @@ export default {
       letterPersons: list,
     }
   },
-  methods: {
-    // async fetchData() {
-    //   this.letterPersons = await context.app.$api.department.personnelList({})
-    // },
-    handleClick() {
-
-    },
-  },
   watch: {
-    // '$route.query.params': {
-    //   handler: function (val) {
-    //     if (val) this.fetchData(val)
-    //   },
-    //   immediate: true,
-    // },
+    async newsActiveName(val) {
+      console.log(val)
+      if (val == '按部门查找' && !this.departmentPersons.length) {
+        const list = await this.$api.department.personnelListByDept({})
+        this.departmentPersons = list
+      }
+    },
   },
 }
 </script>
@@ -197,14 +115,21 @@ export default {
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
-        .person-name {
+        .person {
           width: 16.6%;
           font-size: 18px;
           color: #000000;
           margin-top: 30px;
-          cursor: pointer;
-          &:hover {
-            color: $--color-primary;
+          .person-name {
+            border: 1px solid #dddfe6;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 8px 24px;
+            &:hover {
+              border: 1px solid $--color-primary;
+              color: $--color-primary;
+              background: $--color-primary-light;
+            }
           }
         }
       }
