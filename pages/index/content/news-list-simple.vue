@@ -48,7 +48,7 @@ export default {
     let { list, total } = await context.app.$api.news.newsList({
       category_id: context.query.params,
       page: Number(context.route.query.page) || 1,
-      limit: 12,
+      limit: 17,
       tag: '',
     })
     let menuList = context.store.state.config.menuList
