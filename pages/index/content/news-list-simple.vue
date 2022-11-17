@@ -188,9 +188,9 @@ export default {
       .time {
         line-height: 24px;
         display: block;
-        min-width: 65px;
+        min-width: 100px;
+        text-align: right;
         font-size: 12px;
-        margin-left: 20px;
         flex: 0;
         color: #808080;
       }
