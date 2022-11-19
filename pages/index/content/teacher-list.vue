@@ -97,7 +97,7 @@ export default {
   }
   .letter-list {
     .letter {
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       .letter-title {
         font-size: 16px;
         font-weight: bold;
@@ -122,7 +122,7 @@ export default {
           margin-right: 1.7%;
           font-size: 18px;
           color: #000000;
-          margin-top: 30px;
+          margin-top: 10px;
           .person-name {
             border: 1px solid #dddfe6;
             border-radius: 4px;
