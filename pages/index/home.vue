@@ -40,8 +40,9 @@
           <BigTitle cn-text="通知公告" en-text="NOTIFICATION" showMoreUrl :newsId="homeNoticeId" />
           <div class="list-container" style="height: 100%">
             <div class="list-item" v-for="item in homeNoticeList" :key="item.id" @click="clickNews('通知公告', item.id)">
-              <el-tag type="primary" class="tag-primary">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
-              <p class="desc desc-1">{{item.title}}</p>
+              <!-- <el-tag type="primary" class="tag-primary">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag> -->
+              <p class="desc desc-1"><span class="dot"></span>{{item.title}}</p>
+              <span class="date">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</span>
             </div>
           </div>
         </el-col>
@@ -496,6 +497,7 @@ export default {
           }
           .desc-1 {
             @include ellipsisBasic(1);
+            margin-left: 10px;
           }
           .date {
             color: #999;
@@ -513,6 +515,15 @@ export default {
             background: #2d58c7;
             color: white;
             font-size: 14px;
+          }
+          .dot {
+            background: #2d58c7;
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
           }
         }
       }
