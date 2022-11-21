@@ -30,7 +30,7 @@
           </el-carousel>
           <div class="list-container">
             <div class="list-item" v-for="item in homeNewsList.slice(5)" :key="item.id" @click="clickNews('中心要闻', item.id)">
-              <el-tag type="warning">{{(item.tags && item.tags.length) ? item.tags[0] : item.category.name}}</el-tag>
+              <el-tag type="warning" class="tag-warning">{{(item.tags && item.tags.length) ? item.tags[0] : item.category.name}}</el-tag>
               <p class="desc">{{item.title}}</p>
               <p class="date">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</p>
             </div>
@@ -40,7 +40,7 @@
           <BigTitle cn-text="通知公告" en-text="NOTIFICATION" showMoreUrl :newsId="homeNoticeId" />
           <div class="list-container" style="height: 100%">
             <div class="list-item" v-for="item in homeNoticeList" :key="item.id" @click="clickNews('通知公告', item.id)">
-              <el-tag type="primary">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
+              <el-tag type="primary" class="tag-primary">{{item.publish_at|parseTime('{y}-{m}-{d}')}}</el-tag>
               <p class="desc desc-1">{{item.title}}</p>
             </div>
           </div>
@@ -503,6 +503,16 @@ export default {
           }
           &:hover {
             background: $--color-primary-light;
+          }
+          .tag-warning {
+            background: #dda450;
+            color: white;
+            font-size: 14px;
+          }
+          .tag-primary {
+            background: #2d58c7;
+            color: white;
+            font-size: 14px;
           }
         }
       }

@@ -156,4 +156,20 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   }
   ul{list-style-type:disc; list-style-position:inside;} 
   ol{list-style-type:decimal; list-style-position:inside;}
+  table th {
+    background-color: #f5f2f0;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #ccc;
+    line-height: 1.5;
+    min-width: 30px;
+    padding: 3px 5px;
+  }
+  table td {
+    border: 1px solid #ccc;
+    line-height: 1.5;
+    min-width: 30px;
+    padding: 3px 5px;
+    text-align: left;
+  }
 }
