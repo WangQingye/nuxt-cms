@@ -105,6 +105,12 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
     padding: 3px 5px;
     text-align: left;
   }
+  .table-hide-border td,
+  .table-hide-border th {
+    border: 0 !important;
+    background: none !important;
+    font-weight: normal !important;
+  }
 }
 .content-print-mobile {
   line-height: 0.25rem;
@@ -171,5 +177,11 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
     min-width: 30px;
     padding: 3px 5px;
     text-align: left;
+  }
+  .table-hide-border td,
+  .table-hide-border th {
+    border: 0 !important;
+    background: none !important;
+    font-weight: normal !important;
   }
 }
