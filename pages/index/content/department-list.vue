@@ -43,7 +43,7 @@ export default {
         type: Number(context.route.query.params),
         cate: Number(context.route.query.cate),
         page: 1,
-        limit: 12,
+        limit: 32,
       })
       info = await context.app.$api.department.getCateDetail({
         id: Number(context.route.query.cate),
@@ -54,7 +54,7 @@ export default {
       res = await context.app.$api.department.deparmentList({
         type: Number(context.route.query.params),
         page: 1,
-        limit: 12,
+        limit: 32,
       })
       let menuList = context.store.state.config.menuList
       let ids = context.route.query.menuIds.split(',')
