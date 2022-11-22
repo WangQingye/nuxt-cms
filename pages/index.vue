@@ -1,7 +1,5 @@
 <template>
-  <div class="main"
-    ref="mainDiv"
-    v-show="show">
+  <div class="main" ref="mainDiv" v-show="show">
     <Header />
     <nuxt-child style="padding-top: 80px"></nuxt-child>
     <Footer />
@@ -59,6 +57,14 @@ export default {
       document.head.appendChild(meta)
     }
     this.show = true
+    if (navigator.userAgent.toLowerCase().indexOf('trident')>-1) {
+      this.$confirm('<span>检测到您当前浏览器使用的是IE内核，自2015年3月起，微软已宣布弃用IE，且不再对IE提供任何更新维护，请<a href="https://www.microsoft.com/zh-cn/edge/home" target="_blank">点击此处</a>访问微软官网更新浏览器，如果您使用的是双核浏览器请您切换浏览器内核为极速模式</span>', '提示', {
+        showCancelButton: false,
+        showConfirmButton: false,
+        dangerouslyUseHTMLString: true,
+        type: 'warning',
+      })
+    }
   },
   methods: {
     ...mapActions({
