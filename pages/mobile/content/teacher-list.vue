@@ -127,7 +127,7 @@ export default {
           color: #000000;
           margin-top: 30px;
           .person-name {
-            border: 1px solid #dddfe6;
+            // border: 1px solid #dddfe6;
             padding: 0.06rem 0;
             border-radius: 0.04rem;
             display: inline-block;
@@ -135,7 +135,7 @@ export default {
             text-align: center;
             cursor: pointer;
             &:hover {
-              border: 1px solid $--color-primary;
+              // border: 1px solid $--color-primary;
               color: $--color-primary;
               background: $--color-primary-light;
             }
