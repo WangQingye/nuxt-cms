@@ -1,5 +1,6 @@
 var config = require('../config')
 function isMoible(UA) {
+  console.log(UA)
   if (UA.indexOf('Pad') > -1 || UA.indexOf('pad') > -1) {
     return false
   }
@@ -15,6 +16,7 @@ export default function (context) {
     context.req.headers["user-agent"] :
     navigator.userAgent;
   context.isMoible = isMoible(context.userAgent);
+  console.log('isMobile', context.isMoible)
   if (context.route.path === '/') {
     // context.redirect('/update')
     context.redirect(context.isMoible ? `/mobile/home` : '/home')
