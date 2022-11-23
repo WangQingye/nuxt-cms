@@ -59,10 +59,13 @@ const actions = {
     dispatch
   }) {
     const {
-      user
+      user, code
     } = await this.$api.user.userProfile()
     if (user === undefined) {
       const err = 'getUserInfo核心接口异常，请检查返回JSON格式是否正确'
+      if (code == 40014) {
+        localStorage.removeItem(tokenName)
+      }
       throw err
     } else {
       if (user) commit('setUserInfo', user)
