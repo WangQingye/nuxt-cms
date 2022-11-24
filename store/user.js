@@ -2,7 +2,7 @@
  * @description 登录、获取用户信息、退出登录、清除token逻辑，不建议修改
  */
 import {
-  tokenName
+  tokenName, tokenPastTime
 } from '@/config'
 
 const state = () => ({
@@ -35,6 +35,8 @@ const mutations = {
     state.user = data
     if (data.access_token && !process.server) {
       localStorage.setItem(tokenName, data.access_token)
+      let time = new Date().getTime()
+      localStorage.setItem(`${tokenName}_PAST_TIME`, time + (tokenPastTime * 60 * 60 * 1000))
     } 
   },
   setToken(state, token) {
@@ -58,6 +60,14 @@ const actions = {
     commit,
     dispatch
   }) {
+    let pastTime = localStorage.getItem(`${tokenName}_PAST_TIME`)
+    if (pastTime) {
+      let now = new Date().getTime()
+      if (now > pastTime) {
+        await dispatch('resetAll')
+        return
+      }
+    }
     const {
       user, code
     } = await this.$api.user.userProfile()
@@ -79,7 +89,6 @@ const actions = {
     dispatch
   }) {
     await this.$api.user.logout()
-    localStorage.removeItem(tokenName)
     await dispatch('resetAll')
   },
   /**
@@ -97,6 +106,7 @@ const actions = {
       bind_status: 0,
     })
     localStorage.removeItem(tokenName)
+    localStorage.removeItem(`${tokenName}_PAST_TIME`)
   }
 }
 export default {

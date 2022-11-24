@@ -4,6 +4,8 @@ module.exports = {
   imgDomain: `${url}media`,
   baseUrl: `${url}api`,
   tokenName: 'AccessToken',
+  // token过期时间,单位小时
+  tokenPastTime: 24,
   // 个人用户中心
   userCenter: 'http://account.u-auth.com/',
   // 是否展示更新(如果为true，所有路由都将指向update)
