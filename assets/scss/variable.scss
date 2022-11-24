@@ -126,7 +126,7 @@ $--color-primary-light: mix(#fff, $--color-primary, 96%);
   }
   img {
     max-width: 100%;
-    height: auto;
+    height: auto !important;
   }
   h1 {
     color: #444444;
